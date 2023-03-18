@@ -21,7 +21,7 @@ function Add() {
   const Insert_gallary = async () => {
     console.log("called");
     const { name, author, price, url_pic, description } = info;
-    if(name==""||author==""||price==""||url_pic==""||description==""){
+    if(name===""||author===""||price===""||url_pic===""||description===""){
         alert("all fields are Required");
         return;
     }
