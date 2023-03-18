@@ -32,7 +32,7 @@ function Add() {
         url_pic,
         description,
     }).then((msg) => {
-      if(msg.statusText=="Created"){
+      if(msg.statusText==="Created"){
         alert(msg.data.message);
           navigate("/");
       }

@@ -49,7 +49,7 @@ function Update() {
         description,
       })
       .then((msg) => {
-        if (msg.statusText == "OK") {
+        if (msg.statusText ==="OK") {
           alert(msg.data.message);
             navigate("/");
         }
