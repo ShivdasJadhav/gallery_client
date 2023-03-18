@@ -8,7 +8,7 @@ function Art(props) {
   const delete_item = async (id) => {
     await axios.delete(`http://localhost:5000/items/${id}`).then((msg) => {
       console.log(msg);
-      if (msg.statusText == "OK") {
+      if (msg.statusText === "OK") {
         alert(msg.data.message);
         window.location.reload();
       }
