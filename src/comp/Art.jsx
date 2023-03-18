@@ -8,7 +8,7 @@ function Art(props) {
   const delete_item = async (id) => {
     await axios.delete(`https://gallary-server.vercel.app/items/${id}`).then((msg) => {
       console.log(msg);
-      if (msg.statusText === "OK") {
+      if (msg.status=== 200) {
         alert(msg.data.message);
         window.location.reload();
       }

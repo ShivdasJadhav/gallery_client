@@ -6,7 +6,11 @@ function Home() {
   useEffect(() => {
     const fetch_data = async () => {
       await axios.get("https://gallary-server.vercel.app/items").then((data) => {
-        setItems(data.data.Items);
+        if(data.status===200){
+          setItems(data.data.Items);
+        }else{
+          alert(data.message);
+        }
       });
     };
     fetch_data();
@@ -14,7 +18,7 @@ function Home() {
 
   return (
     <div className="full capitalize p-6">
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items && items.map((element) => <Art data={element} />)}
       </div>
     </div>

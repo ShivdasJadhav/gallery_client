@@ -26,7 +26,7 @@ function Update() {
       });
     };
     fetch_data();
-  }, []);
+  }, [id]);
 
   const update_info = (e) => {
     setInfo((prevInfo) => ({
@@ -40,7 +40,7 @@ function Update() {
       alert("all fields are Required");
       return;
   }
-    await axios.post("https://gallary-server.vercel.app/"+id, {
+    await axios.post("https://gallary-server.vercel.app/items/"+id, {
         name,
         author,
         price,
@@ -48,7 +48,7 @@ function Update() {
         description,
       })
       .then((msg) => {
-        if (msg.statusText ==="OK") {
+        if (msg.status===200) {
           alert(msg.data.message);
             navigate("/");
         }
@@ -132,7 +132,7 @@ function Update() {
           Update Gallary
         </button>
         <p className="text-xs text-gray-500 mt-3">
-          Literally you probably haven't heard of them jean shorts.
+          Let users provide the best for their passion and choice.
         </p>
       </div>
     </div>

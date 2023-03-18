@@ -16,7 +16,6 @@ function Add() {
       ...prevInfo,
       [e.target.name]: e.target.value,
     }));
-    console.log(e.target.name,"val:",e.target.value)
   };
   const Insert_gallary = async () => {
     console.log("called");
@@ -32,7 +31,7 @@ function Add() {
         url_pic,
         description,
     }).then((msg) => {
-      if(msg.statusText==="Created"){
+      if(msg.status===201){
         alert(msg.data.message);
           navigate("/");
       }
@@ -122,7 +121,7 @@ function Add() {
           Add to Gallary
         </button>
         <p className="text-xs text-gray-500 mt-3">
-          New Items to Gallary are always in demand enhances the service.
+          New Items to Gallary are always in demand to enhance the service.
         </p>
       </div>
     </div>

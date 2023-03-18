@@ -47,7 +47,7 @@ function Navbar() {
           </nav>
           <a
             href="https://www.linkedin.com/in/shivdas-s-jadhav-7b8096210/"
-            className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-white text-semibold mt-4 md:mt-0"
+            className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-900 rounded text-white text-semibold mt-4 md:mt-0"
           >
             LinkedIn
             <svg
