@@ -25,7 +25,7 @@ function Add() {
         alert("all fields are Required");
         return;
     }
-     await axios.post("http://localhost:5000/items/save", {
+     await axios.post("https://gallary-server.vercel.app/items/save", {
         name,
         author,
         price,

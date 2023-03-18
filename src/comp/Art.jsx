@@ -6,7 +6,7 @@ function Art(props) {
   const navigate = useNavigate();
   const { _id, name, author, price, url_pic, description } = props.data;
   const delete_item = async (id) => {
-    await axios.delete(`http://localhost:5000/items/${id}`).then((msg) => {
+    await axios.delete(`https://gallary-server.vercel.app/items/${id}`).then((msg) => {
       console.log(msg);
       if (msg.statusText === "OK") {
         alert(msg.data.message);

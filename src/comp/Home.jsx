@@ -5,7 +5,7 @@ function Home() {
   const [items, setItems] = useState();
   useEffect(() => {
     const fetch_data = async () => {
-      await axios.get("http://localhost:5000/items").then((data) => {
+      await axios.get("https://gallary-server.vercel.app/items").then((data) => {
         setItems(data.data.Items);
       });
     };

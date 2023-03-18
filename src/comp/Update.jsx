@@ -5,7 +5,6 @@ import { useNavigate,useParams } from "react-router-dom";
 function Update() {
   const navigate = useNavigate();
   let {id}=useParams();
-  const url="http://localhost:5000/items/"+id;
   const [info, setInfo] = useState({
     name: "",
     author:"",
@@ -15,7 +14,7 @@ function Update() {
   });
   useEffect(() => {
     const fetch_data = async () => {
-      await axios.get(url).then((data) => {
+      await axios.get("https://gallary-server.vercel.app/items/"+id).then((data) => {
         const obj=data.data.item;
         setInfo({
           name:obj.name,
@@ -41,7 +40,7 @@ function Update() {
       alert("all fields are Required");
       return;
   }
-    await axios.post(url, {
+    await axios.post("https://gallary-server.vercel.app/"+id, {
         name,
         author,
         price,
