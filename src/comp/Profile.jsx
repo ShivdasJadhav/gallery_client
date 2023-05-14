@@ -47,7 +47,7 @@ function Profile() {
         console.log(msg);
         if (msg.status === 200) {
           alert("Your profile has been updated!");
-          window.location.reload();
+          navigate("./")
         } else {
           alert("failed to Update your Profile!");
         }

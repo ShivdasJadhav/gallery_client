@@ -10,7 +10,7 @@ function Art(props) {
     await axios.delete(`https://gallary-server.vercel.app/items/${id}`).then((msg) => {
       if (msg.status!=undefined && msg.status === 200) {
         alert(msg.data.message);
-        window.location.reload();
+        navigate("./")
       }else{
         alert(msg.message)
       }
@@ -20,7 +20,7 @@ function Art(props) {
     await axios.get(`https://gallary-server.vercel.app/items/accept/${id}`).then((msg) => {
       if (msg.status!=undefined && msg.status === 200) {
         alert(msg.data.message);
-        window.location.reload();
+        navigate("./")
       }else{
         alert(msg.message)
       }
@@ -30,7 +30,7 @@ function Art(props) {
     await axios.get(`https://gallary-server.vercel.app/items/reject/${id}`).then((msg) => {
       if (msg.status!=undefined && msg.status === 200) {
         alert(msg.data.message);
-        window.location.reload();
+        navigate("./")
       }else{
         alert(msg.message)
       }
