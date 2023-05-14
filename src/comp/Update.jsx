@@ -8,7 +8,6 @@ function Update() {
   const [info, setInfo] = useState({
     name: "",
     author:"",
-    price: "",
     url_pic:"",
     description: "",
   });
@@ -19,7 +18,6 @@ function Update() {
         setInfo({
           name:obj.name,
           author:obj.author,
-          price:obj.price,
           url_pic:obj.url_pic,
           description:obj.description
         })
@@ -35,22 +33,23 @@ function Update() {
     }));
   };
   const Insert_gallary = async () => {
-    const { name, author, price, url_pic, description } = info;
-    if(name===""||author===""||price===""||url_pic===""||description===""){
+    const { name, author,  url_pic, description } = info;
+    let status="requested";
+    if(name===""||author===""||url_pic===""||description===""){
       alert("all fields are Required");
       return;
   }
     await axios.post("https://gallary-server.vercel.app/items/"+id, {
         name,
         author,
-        price,
         url_pic,
         description,
+        status,
       })
       .then((msg) => {
         if (msg.status===200) {
           alert(msg.data.message);
-            navigate("/");
+            navigate("/user");
         }
       });
   };
@@ -109,19 +108,6 @@ function Update() {
             onChange={update_info}
             id="url_pic"
             name="url_pic"
-            className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-          />
-        </div>
-        <div className="relative text-left mb-4">
-          <label for="price" className="text-sm text-left text-gray-600">
-            Price for Sell
-          </label>
-          <input
-            type="text"
-            value={info.price}
-            onChange={update_info}
-            id="price"
-            name="price"
             className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
           />
         </div>

@@ -1,0 +1,6 @@
+.hide_controles{
+    display: none;
+}
+.no-scrollbar::-webkit-scrollbar{
+    display: none;
+}

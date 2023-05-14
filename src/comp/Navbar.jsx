@@ -1,9 +1,19 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function Navbar() {
+  let navigate = useNavigate();
+  const logout = () => {
+    localStorage.clear();
+    navigate("../");
+  };
+  let proposals = "/user/proposals";
+  if (localStorage.getItem("authentic") === "jshivdas07@gmail.com") {
+    proposals = "/user/admin_proposals";
+  }
   return (
     <div id="navbar">
-      <header className="text-gray-600 bg-gray-500 body-font">
+      <header className="text-gray-600 bg-yellow-800 body-font">
         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
             <img
@@ -20,7 +30,7 @@ function Navbar() {
                 textDecoration: isActive ? "underline" : "none",
               })}
               className="mr-5 hover:text-gray-900"
-              to="/"
+              to="/user/home"
             >
               Home
             </NavLink>{" "}
@@ -30,9 +40,9 @@ function Navbar() {
                 textDecoration: isActive ? "underline" : "none",
               })}
               className="mr-5 hover:text-gray-900"
-              to="/add"
+              to={proposals}
             >
-              New Art
+              Proposals
             </NavLink>
             <NavLink
               style={({ isActive }) => ({
@@ -40,16 +50,26 @@ function Navbar() {
                 textDecoration: isActive ? "underline" : "none",
               })}
               className="mr-5 hover:text-gray-900"
-              to="/about"
+              to="/user/profile"
+            >
+              Profile
+            </NavLink>
+            <NavLink
+              style={({ isActive }) => ({
+                color: isActive ? "white" : "#e2e8f0",
+                textDecoration: isActive ? "underline" : "none",
+              })}
+              className="mr-5 hover:text-gray-900"
+              to="/user/about"
             >
               About
             </NavLink>
           </nav>
-          <a
-            href="https://www.linkedin.com/in/shivdas-s-jadhav-7b8096210/"
-            className="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-900 rounded text-white text-semibold mt-4 md:mt-0"
+          <button
+            onClick={logout}
+            className="inline-flex items-center bg-orange-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-900 rounded text-white text-semibold mt-4 md:mt-0"
           >
-            LinkedIn
+            Log out
             <svg
               fill="none"
               stroke="currentColor"
@@ -61,7 +81,7 @@ function Navbar() {
             >
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
-          </a>
+          </button>
         </div>
       </header>
     </div>
