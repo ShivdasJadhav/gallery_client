@@ -39,7 +39,7 @@ function Admin_proposals() {
       <div className="full capitalize p-6">
         <h3 id="text_none_admin"></h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Arts && Arts.map((element) => <Art data={element} from={"admin"} />)}
+          {Arts && Arts.map((element) => <Art data={element} from="admin" />)}
         </div>
       </div>
     </>

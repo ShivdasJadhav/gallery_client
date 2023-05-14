@@ -19,7 +19,7 @@ function Home() {
   return (
     <div className="full capitalize p-6">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items && items.map((element) => <Art data={element} from={'home'}/>)}
+        {items && items.map((element) => <Art data={element} from='home'/>)}
       </div>
     </div>
   );

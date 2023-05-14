@@ -48,7 +48,7 @@ function Items_group() {
       <div className="full capitalize p-6">
       <h3 id="text_none">Choose a Type to load</h3>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Arts && Arts.map((element) => <Art data={element} from={'user'}/>)}
+        {Arts && Arts.map((element) => <Art data={element} from='user'/>)}
       </div>
     </div>
     </>
