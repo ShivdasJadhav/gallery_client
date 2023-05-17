@@ -8,7 +8,7 @@ function Art(props) {
   const { _id, name, author, url_pic, description, user, status } = props.data;
   const delete_item = async (id) => {
     await axios.delete(`https://gallary-server.vercel.app/items/${id}`).then((msg) => {
-      if (msg.status!=undefined && msg.status === 200) {
+      if (msg.status!==undefined && msg.status === 200) {
         alert(msg.data.message);
         navigate("./")
       }else{
@@ -18,7 +18,7 @@ function Art(props) {
   };
   const Accept_prop = async (id) => {
     await axios.get(`https://gallary-server.vercel.app/items/accept/${id}`).then((msg) => {
-      if (msg.status!=undefined && msg.status === 200) {
+      if (msg.status!==undefined && msg.status === 200) {
         alert(msg.data.message);
         navigate("./")
       }else{
@@ -28,7 +28,7 @@ function Art(props) {
   };
   const Reject_prop = async (id) => {
     await axios.get(`https://gallary-server.vercel.app/items/reject/${id}`).then((msg) => {
-      if (msg.status!=undefined && msg.status === 200) {
+      if (msg.status!==undefined && msg.status === 200) {
         alert(msg.data.message);
         navigate("./")
       }else{
@@ -36,15 +36,15 @@ function Art(props) {
       }
     });
   };
-  let controle_buttons="flex";
-  let controle_admin="flex";
+  let controle_buttons=document.getElementById('user_controles');
+  let controle_admin=document.getElementById('admin_controles');
   if(props.from==='home'){
-    controle_buttons="flex hide_controles";
-    controle_admin="flex hide_controles";
+    controle_buttons.classList.add('hide_controles');
+    controle_admin.classList.add('hide_controles');
   }else if(props.from==='user'){
-    controle_admin="flex hide_controles";
+    controle_admin.classList.add('hide_controles');
   }else if(props.from==='admin'){
-    controle_buttons="flex hide_controles";
+    controle_buttons.classList.add('hide_controles');
   }
   return (
     <div>
@@ -69,7 +69,7 @@ function Art(props) {
             <p className="text-justify mb-1 h-24 text-xs no-scrollbar overflow-y-scroll">
               {description}
             </p>
-            <div className={controle_buttons}>
+            <div if="user_controles" className="flex">
               <button
                 onClick={() => {
                   navigate(`./update/${_id}`);
@@ -89,7 +89,7 @@ function Art(props) {
                 Delete
               </button>
             </div>
-            <div className={controle_admin}>
+            <div id="admin_controle" className="flex">
             <button
                 onClick={()=>{Accept_prop(_id)}}
                 class="flex mx-auto mt-6 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-sm"
