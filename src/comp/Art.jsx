@@ -36,16 +36,16 @@ function Art(props) {
       }
     });
   };
-  let controle_buttons=document.getElementById('user_controles');
-  let controle_admin=document.getElementById('admin_controles');
-  if(props.from==='home'){
-    controle_buttons.classList.add('hide_controles');
-    controle_admin.classList.add('hide_controles');
-  }else if(props.from==='user'){
-    controle_admin.classList.add('hide_controles');
-  }else if(props.from==='admin'){
-    controle_buttons.classList.add('hide_controles');
-  }
+  // let controle_buttons=document.getElementById('user_controles');
+  // let controle_admin=document.getElementById('admin_controles');
+  // if(props.from==='home'){
+  //   controle_buttons.classList.add('hide_controles');
+  //   controle_admin.classList.add('hide_controles');
+  // }else if(props.from==='user'){
+  //   controle_admin.classList.add('hide_controles');
+  // }else if(props.from==='admin'){
+  //   controle_buttons.classList.add('hide_controles');
+  // }
   return (
     <div>
       <div className="p-4 md:w-full ">
