@@ -7,45 +7,41 @@ function Art(props) {
   const navigate = useNavigate();
   const { _id, name, author, url_pic, description, user, status } = props.data;
   const delete_item = async (id) => {
-    await axios.delete(`https://gallary-server.vercel.app/items/${id}`).then((msg) => {
-      if (msg.status!==undefined && msg.status === 200) {
-        alert(msg.data.message);
-        navigate("./")
-      }else{
-        alert(msg.message)
-      }
-    });
+    await axios
+      .delete(`https://gallary-server.vercel.app/items/${id}`)
+      .then((msg) => {
+        if (msg.status !== undefined && msg.status === 200) {
+          alert(msg.data.message);
+          navigate("./");
+        } else {
+          alert(msg.message);
+        }
+      });
   };
   const Accept_prop = async (id) => {
-    await axios.get(`https://gallary-server.vercel.app/items/accept/${id}`).then((msg) => {
-      if (msg.status!==undefined && msg.status === 200) {
-        alert(msg.data.message);
-        navigate("./")
-      }else{
-        alert(msg.message)
-      }
-    });
+    await axios
+      .get(`https://gallary-server.vercel.app/items/accept/${id}`)
+      .then((msg) => {
+        if (msg.status !== undefined && msg.status === 200) {
+          alert(msg.data.message);
+          navigate("./");
+        } else {
+          alert(msg.message);
+        }
+      });
   };
   const Reject_prop = async (id) => {
-    await axios.get(`https://gallary-server.vercel.app/items/reject/${id}`).then((msg) => {
-      if (msg.status!==undefined && msg.status === 200) {
-        alert(msg.data.message);
-        navigate("./")
-      }else{
-        alert(msg.message)
-      }
-    });
+    await axios
+      .get(`https://gallary-server.vercel.app/items/reject/${id}`)
+      .then((msg) => {
+        if (msg.status !== undefined && msg.status === 200) {
+          alert(msg.data.message);
+          navigate("./");
+        } else {
+          alert(msg.message);
+        }
+      });
   };
-  // let controle_buttons=document.getElementById('user_controles');
-  // let controle_admin=document.getElementById('admin_controles');
-  // if(props.from==='home'){
-  //   controle_buttons.classList.add('hide_controles');
-  //   controle_admin.classList.add('hide_controles');
-  // }else if(props.from==='user'){
-  //   controle_admin.classList.add('hide_controles');
-  // }else if(props.from==='admin'){
-  //   controle_buttons.classList.add('hide_controles');
-  // }
   return (
     <div>
       <div className="p-4 md:w-full ">
@@ -69,42 +65,55 @@ function Art(props) {
             <p className="text-justify mb-1 h-24 text-xs no-scrollbar overflow-y-scroll">
               {description}
             </p>
-            <div if="user_controles" className="flex">
-              <button
-                onClick={() => {
-                  navigate(`./update/${_id}`);
-                }}
-                class="flex mx-auto mt-6 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-sm"
-              >
-                Update
-              </button>
-              <button
-                onClick={() => {
-                  if (window.confirm("Are you sure to delete!")) {
-                    delete_item(_id);
-                  }
-                }}
-                class="flex mx-auto mt-6 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-sm"
-              >
-                Delete
-              </button>
-            </div>
-            <div id="admin_controle" className="flex">
-            <button
-                onClick={()=>{Accept_prop(_id)}}
-                class="flex mx-auto mt-6 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-sm"
-              >
-                Accept
-              </button>
-              <button
-                onClick={()=>{Reject_prop(_id)}}
-                class="flex mx-auto mt-6 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-sm"
-              >
-                Reject
-              </button>
-            </div>
+            {props.from === "user" && (
+              <div if="user_controles" className="flex">
+                <button
+                  onClick={() => {
+                    navigate(`./update/${_id}`);
+                  }}
+                  class="flex mx-auto mt-6 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => {
+                    if (window.confirm("Are you sure to delete!")) {
+                      delete_item(_id);
+                    }
+                  }}
+                  class="flex mx-auto mt-6 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-sm"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+            {props.from === "admin" && (
+              <div id="admin_controle" className="flex">
+                <button
+                  onClick={() => {
+                    Accept_prop(_id);
+                  }}
+                  class="flex mx-auto mt-6 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={() => {
+                    Reject_prop(_id);
+                  }}
+                  class="flex mx-auto mt-6 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-sm"
+                >
+                  Reject
+                </button>
+              </div>
+            )}
           </div>
-          <h2 onClick={()=>{navigate(`/user/Profile_view/${user}`)}} className="tracking-widest text-orange-700 text-xs title-font mr-4 hover:cursor-pointer hover:underline text-right font-medium text-gray-700 mb-1">
+          <h2
+            onClick={() => {
+              navigate(`/user/Profile_view/${user}`);
+            }}
+            className="tracking-widest text-orange-700 text-xs title-font mr-4 hover:cursor-pointer hover:underline text-right font-medium text-gray-700 mb-1"
+          >
             by - {author}
           </h2>
         </div>
