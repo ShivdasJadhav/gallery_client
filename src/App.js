@@ -21,7 +21,7 @@ function App() {
       navigate("/");
     } else {
     axios
-      .post("http://localhost:5000/auth/getUser", { email: localStorage.getItem('authentic') })
+      .post("https://gallary-server.vercel.app/auth/getUser", { email: localStorage.getItem('authentic') })
       .then((data) => {
         setUser(data.data.user);
         localStorage.removeItem('authentic');
