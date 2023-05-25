@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Art from "./Art";
 import { Route, useNavigate } from "react-router-dom";
-function Admin_proposals() {
+function Admin_proposals(props) {
   const navigate = useNavigate();
   let [Arts, setArts] = useState();
   const load_data = () => {
@@ -24,8 +24,7 @@ function Admin_proposals() {
       });
   };
   useEffect(() => {
-    let email = localStorage.getItem("authentic");
-    if (email === "jshivdas07@gmail.com") {
+    if (props.user.email === "jshivdas07@gmail.com") {
       load_data();
     } else {
       navigate("/user");
@@ -39,7 +38,7 @@ function Admin_proposals() {
       <div className="full capitalize p-6">
         <h3 id="text_none_admin"></h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Arts && Arts.map((element) => <Art data={element} from="admin" />)}
+          {Arts && Arts.map((element) => <Art data={element} fetch_new={load_data} from="admin" />)}
         </div>
       </div>
     </>

@@ -14,9 +14,10 @@ function Profile_view() {
 
   const fetch_data = async () => {
     await axios
-      .get("https://gallary-server.vercel.app/auth/getUser/" + email_id)
+      .post("https://gallary-server.vercel.app/auth/getUser/",{email:email_id})
       .then((data) => {
-        let obj = data.data.user[0];
+        console.log(data);
+        let obj = data.data.user;
         setname(obj.name);
         setemail(obj.email);
         setcontact(obj.contact);

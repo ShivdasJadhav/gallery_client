@@ -7,40 +7,34 @@ function Art(props) {
   const navigate = useNavigate();
   const { _id, name, author, url_pic, description, user, status } = props.data;
   const delete_item = async (id) => {
-    await axios
-      .delete(`https://gallary-server.vercel.app/items/${id}`)
-      .then((msg) => {
-        if (msg.status !== undefined && msg.status === 200) {
-          alert(msg.data.message);
-          navigate("./");
-        } else {
-          alert(msg.message);
-        }
-      });
+    await axios.delete(`https://gallary-server.vercel.app/items/${id}`).then((msg) => {
+      if (msg.status !== undefined && msg.status === 200) {
+        alert(msg.data.message);
+        props.fetch_new();
+      } else {
+        alert(msg.message);
+      }
+    });
   };
   const Accept_prop = async (id) => {
-    await axios
-      .get(`https://gallary-server.vercel.app/items/accept/${id}`)
-      .then((msg) => {
-        if (msg.status !== undefined && msg.status === 200) {
-          alert(msg.data.message);
-          navigate("./");
-        } else {
-          alert(msg.message);
-        }
-      });
+    await axios.get(`https://gallary-server.vercel.app/items/accept/${id}`).then((msg) => {
+      if (msg.status !== undefined && msg.status === 200) {
+        alert(msg.data.message);
+        props.fetch_new();
+      } else {
+        alert(msg.message);
+      }
+    });
   };
   const Reject_prop = async (id) => {
-    await axios
-      .get(`https://gallary-server.vercel.app/items/reject/${id}`)
-      .then((msg) => {
-        if (msg.status !== undefined && msg.status === 200) {
-          alert(msg.data.message);
-          navigate("./");
-        } else {
-          alert(msg.message);
-        }
-      });
+    await axios.get(`https://gallary-server.vercel.app/items/reject/${id}`).then((msg) => {
+      if (msg.status !== undefined && msg.status === 200) {
+        alert(msg.data.message);
+        props.fetch_new();
+      } else {
+        alert(msg.message);
+      }
+    });
   };
   return (
     <div>

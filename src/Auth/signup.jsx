@@ -3,17 +3,23 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../assets/css/signup.css";
 function Signup() {
-  let [data, setData] = useState({ name: "", email: "", password: "" });
+  let [data, setData] = useState({ name: "", email: "", password: "" ,use_type:""});
   let navigate = useNavigate();
   const handlechange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const add_user = async () => {
+    let pass_confirm=prompt("Verify your Password!");
+    if(pass_confirm!==data.password){
+      alert("Password not Matched!")
+      return;
+    }
     await axios
       .post("https://gallary-server.vercel.app/auth/signup", {
         name: data.name,
         email: data.email,
         password: data.password,
+        use_type:data.use_type,
       })
       .then((msg) => {
         if (msg.data.status === 1) {
@@ -29,7 +35,7 @@ function Signup() {
   };
   return (
     <div id="signup" className="">
-      <div className="w-9/12 md:w-3/12 mx-auto text-left mt-48 border-2 text-white p-8 h-hit rounded-lg">
+      <div className="w-9/12 md:w-3/12 mx-auto text-left mt-10 border-2 text-white p-8 h-hit rounded-lg">
         <label htmlFor="name" className="text-xl font-semibold my-2 block">
           Name
         </label>
@@ -41,6 +47,21 @@ function Signup() {
           onChange={handlechange}
           className="text-gray-800 bg-white focus:outeline-red-400 w-full block px-3 rounded-md h-10"
         />
+        <label htmlFor="email" className="text-xl font-semibold my-2 block">
+          Preference
+        </label>
+        <select
+          id="use_type"
+          name="use_type"
+          value={data.use_type}
+          onChange={handlechange}
+          className="text-gray-800 bg-white focus:outeline-red-400 w-full block px-3 rounded-md h-10"
+        >
+          <option className="hidden" value="">-- User Type --</option>
+          <option value="artist">Artist</option>
+          <option value="art_lover">Art Lover</option>
+          <option value="org">Orgaisation</option>
+        </select>
         <label htmlFor="email" className="text-xl font-semibold my-2 block">
           Email
         </label>

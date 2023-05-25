@@ -2,9 +2,9 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-function Add() {
+function Add(props) {
   const navigate = useNavigate();
-  if (!localStorage.getItem("authentic")) {
+  if (props.user===''||props.user===null) {
     navigate("/");
   }
   const [info, setInfo] = useState({
@@ -12,7 +12,7 @@ function Add() {
     author: "",
     url_pic: "",
     description: "",
-    user: localStorage.getItem("authentic"),
+    user: props.user.email,
     status: "requested",
   });
 

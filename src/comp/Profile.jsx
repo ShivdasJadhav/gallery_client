@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-function Profile() {
+function Profile(props) {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({
     name: "",
@@ -12,19 +12,18 @@ function Profile() {
     about: "",
     img: "",
   });
-  const fetch_data = async () => {
-    let email = localStorage.getItem("authentic");
-    await axios
-      .get("https://gallary-server.vercel.app/auth/getUser/" + email)
+  const fetch_data = () => {
+    axios
+      .post("https://gallary-server.vercel.app/auth/getUser", { email: props.user.email })
       .then((data) => {
-        let obj = data.data.user[0];
+        let obj = data.data.user;
         setProfile({
           name: obj.name,
           email: obj.email,
           contact: obj.contact,
           address: obj.address,
           about: obj.about,
-          img:obj.img,
+          img: obj.img,
         });
       });
   };
@@ -40,14 +39,13 @@ function Profile() {
   };
 
   function Update_profile() {
-    let email = localStorage.getItem("authentic");
+    alert("are you sure about the update;");
     axios
       .post("https://gallary-server.vercel.app/auth/setUser", { profile })
       .then((msg) => {
-        console.log(msg);
         if (msg.status === 200) {
           alert("Your profile has been updated!");
-          navigate("./")
+          fetch_data();
         } else {
           alert("failed to Update your Profile!");
         }
@@ -113,6 +111,7 @@ function Profile() {
                   class="text-base text-justify text-xs p-1 md:mr-1  w-full border-2 border-gray-600 rounded-md"
                   id="email"
                   name="email"
+                  readOnly
                   value={profile.email}
                   onChange={update_info}
                   placeholder="jondoy@cfs.com"
