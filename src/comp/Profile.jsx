@@ -54,6 +54,9 @@ function Profile(props) {
   const saveLogo = () => {
     let input = document.getElementById("profile_pic");
     if (input.files && input.files[0]) {
+      if(input.files[0].size>1000000){
+        alert("your file size is too Big!");
+      }
       let reader = new FileReader();
       reader.onload = (e) => {
         setProfile({ img: e.target.result });
