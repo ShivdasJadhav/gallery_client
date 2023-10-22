@@ -9,7 +9,7 @@ root.render(
   <React.StrictMode>
    {/* <Controller/> */}
    <div id="notice_app" className="w-40 text-pink-500 h-40 mx-auto my-40 pt-5 text-xl font-bold">
-    Art Gallery is in a Update<br/>
+    Art Gallery will be Art Exhibits Sooon...<br/>
     <progress value={5} max={100} className="w-40"/>
    </div>
   </React.StrictMode>
