@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { AuthStatus } from "../Controller";
 function Navbar(props) {
-  let navigate = useNavigate();
+  const configureAuth = useContext(AuthStatus);
   const logout = () => {
-    localStorage.clear();
-    navigate("../");
+    configureAuth();
   };
   let proposals = "/user/proposals";
   if (props.user.email === "jshivdas07@gmail.com") {
@@ -15,7 +14,9 @@ function Navbar(props) {
     <div id="navbar">
       <header className="text-gray-600 bg_transperant_black body-font bg-yellow-800">
         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <a onClick={()=>navigate("./dashboard")} className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          <a
+            className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
+          >
             <img
               src="https://th.bing.com/th/id/OIP.bSan1CulbaOhZCrhySoiBgHaEu?w=257&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
               className="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full"

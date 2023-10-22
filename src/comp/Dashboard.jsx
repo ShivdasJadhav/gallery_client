@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 import { useNavigate } from "react-router-dom";
+import { db_connect } from "../Constants";
 
 // pie chart
 
@@ -14,10 +15,10 @@ function Dashboard(props) {
   });
   let navigate = useNavigate();
   useEffect(() => {
-    if (props.user.user_type != "admin") {
-      navigate("/user");
-    }
-    axios.get("https://gallary-server.vercel.app/auth/getUserData").then((data) => {
+    // if (props.user.user_type != "admin") {
+    //   navigate("/user");
+    // }
+    axios.get(`${db_connect}/auth/getUserData`).then((data) => {
       setUserData({
         artist: data.data.artist,
         art_lover: data.data.art_lover,

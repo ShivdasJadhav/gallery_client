@@ -2,6 +2,7 @@ import React, { useEffect} from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate,useParams } from "react-router-dom";
+import { db_connect } from "../Constants";
 function Update() {
   const navigate = useNavigate();
   let {id}=useParams();
@@ -13,7 +14,7 @@ function Update() {
   });
   useEffect(() => {
     const fetch_data = async () => {
-      await axios.get("https://gallary-server.vercel.app/items/"+id).then((data) => {
+      await axios.get(`${db_connect}/items/`+id).then((data) => {
         const obj=data.data.item;
         setInfo({
           name:obj.name,
@@ -39,7 +40,7 @@ function Update() {
       alert("all fields are Required");
       return;
   }
-    await axios.post("https://gallary-server.vercel.app/items/"+id, {
+    await axios.post(`${db_connect}/items/`+id, {
         name,
         author,
         url_pic,

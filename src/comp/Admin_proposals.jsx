@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Art from "./Art";
 import { Route, useNavigate } from "react-router-dom";
+import { db_connect } from "../Constants";
 function Admin_proposals(props) {
   const navigate = useNavigate();
   let [Arts, setArts] = useState();
   const load_data = () => {
     axios
-      .get("https://gallary-server.vercel.app/items/admin_/proposals/requested")
+      .get(`${db_connect}/items/admin_/proposals/requested`)
       .then((data) => {
         if (data.status === 200) {
           if (Object.keys(data.data.item).length <= 0) {

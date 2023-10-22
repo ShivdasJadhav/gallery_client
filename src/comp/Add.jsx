@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { db_connect } from "../Constants";
 function Add(props) {
   const navigate = useNavigate();
   if (props.user===''||props.user===null) {
@@ -34,7 +35,7 @@ function Add(props) {
       return;
     }
     await axios
-      .post("https://gallary-server.vercel.app/items/save", {
+      .post(`${db_connect}/items/save`, {
         name,
         author,
         url_pic,

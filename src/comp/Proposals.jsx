@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import Art from "./Art";
 import { useNavigate } from "react-router-dom";
+import { db_connect } from "../Constants";
 function Items_group(props) {
     const navigate=useNavigate();
     let [Arts,setArts]=useState();
   const load_data = () => {
     let get_by=document.getElementById('load_by').value;
-    axios.get('https://gallary-server.vercel.app/items/status/'+props.user.email+"/"+get_by).then((data)=>{
+    axios.get(`${db_connect}/items/status/`+props.user.email+`/`+get_by).then((data)=>{
         if(data.status===200){
             if(Object.keys(data.data.item).length<=0){
               document.getElementById('text_none').innerText="Sorry you dont have Proposals!";

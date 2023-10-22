@@ -1,0 +1,199 @@
+#main {
+  width: 90vw;
+  height: fit-content;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+#description {
+  padding: 0;
+  margin: 1rem 0;
+  line-height: 1.5rem;
+  font-size: 1rem;
+}
+#title {
+  display: inline-block;
+  font-size: 4rem;
+  font-weight: 800;
+  color: darkcyan;
+  background: -webkit-linear-gradient(purple, darkcyan);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px #333);
+  font-family: cursive;
+}
+#btn_demo {
+  text-decoration: none;
+  width: fit-content;
+  padding: 0.6rem 2rem;
+  background-color: darkcyan;
+  color: white;
+  border-radius: 0.2rem;
+}
+.btn {
+  display: inline-block;
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  background-color: darkcyan;
+  border-radius: 0.3rem;
+  color: white;
+  margin: 1rem 1.2rem;
+}
+.lable_ {
+  margin: auto;
+  width: fit-content;
+  font-weight: 500;
+  color: darkcyan;
+  background-color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  position: absolute;
+  top: -1.2rem;
+  padding: 0 1rem;
+  border: 2px solid purple;
+  border-radius: 0.4rem;
+  border-top: none;
+  border-bottom: none;
+  font-family: cursive;
+}
+.toggleText {
+  font-size: 12px;
+  color: darkcyan;
+  margin: 0.4rem 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.forgot {
+  text-align: right;
+  margin-right: 0;
+  padding: 0;
+}
+i {
+  color: purple;
+}
+.auth_hr {
+  width: 100%;
+  border-image: linear-gradient(to left, darkcyan, purple);
+  border-image-slice: 1;
+  margin: 0 1.2rem;
+}
+.auth_container {
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  padding: 2rem 6rem 2rem 4rem;
+  border: 2px solid darkcyan;
+  border-radius: 1rem;
+  box-shadow: 2px 4px 5px purple;
+  position: relative;
+}
+.label {
+  display: block;
+  font-size: 1rem;
+  color: purple;
+  padding: 0.3rem 1rem;
+}
+.input,
+.select {
+  border: 2px solid darkcyan;
+  padding: 0.3rem 0.2rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  margin: 0.5rem 1rem;
+  width: 100%;
+  color: black !important;
+}
+.select {
+  margin: 0.5rem 1rem;
+  padding: 0.3rem 0.2rem;
+  background-color: white;
+}
+#phone_no {
+  border: 2px solid darkcyan;
+  padding: 0.3rem 0.2rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  margin: 0.5rem 1rem;
+  width: 100%;
+  display: flex;
+  color: black !important;
+}
+#phone_country{
+  flex-grow: 4;
+  border: none;
+  outline: none;
+  position: relative;
+  text-align: right;
+  cursor: pointer;
+}
+#search_country,#country_options{
+  display: absolute;
+  width: 10rem;
+  border: 2px solid purple;
+  padding: 0.2rem 1rem;
+}
+#search_input{
+  border: none;
+  outline: none;
+}
+#phone{
+  border:none;
+  flex-grow:5;
+  outline: none;
+}
+.input:focus,
+.select:focus,
+#phone_no:hover{
+  border: none;
+  outline: 2px solid purple;
+}
+.option:hover {
+  cursor: pointer;
+  color: white;
+  background-color: darkcyan;
+}
+
+/* forgot css */
+#shift_comp {
+  display: flex;
+  width: 19rem;
+  overflow: hidden;
+  align-items: flex-start;
+}
+.container_shift {
+  min-width: 16rem;
+  margin: auto 1rem;
+  transition: all ease-in-out 0.4s;
+}
+#container_email {
+}
+#container_otp {
+}
+#container_reset {
+}
+
+@media (max-width: 800px) {
+  #main {
+    flex-direction: column;
+    justify-content: center;
+    width: 95vw;
+    height: fit-content;
+  }
+  #main > div {
+    margin: 3rem auto;
+    width: 95vw;
+  }
+  .auth_container {
+    padding: 2rem 6rem 2rem 4rem;
+  }
+}
+@media (min-width: 801px) {
+  #title {
+    font-size: 6rem;
+  }
+  #main > div {
+    width: 50vw;
+    margin: 2rem auto;
+  }
+}

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { db_connect } from "../Constants";
+import { useParams } from "react-router-dom";
 function Profile_view() {
-  const navigate = useNavigate();
   let [name, setname] = useState("");
   let [email, setemail] = useState("");
   let [contact, setcontact] = useState("");
@@ -14,9 +14,8 @@ function Profile_view() {
 
   const fetch_data = async () => {
     await axios
-      .post("https://gallary-server.vercel.app/auth/getUser/",{email:email_id})
+      .post(`${db_connect}/auth/getUser/`,{email:email_id})
       .then((data) => {
-        console.log(data);
         let obj = data.data.user;
         setname(obj.name);
         setemail(obj.email);
@@ -31,7 +30,7 @@ function Profile_view() {
   }, []);
   return (
     <section class="text-gray-600 body-font">
-      <div class="container px-5 py-24 mx-auto flex flex-col">
+      <div clzass="container px-5 py-24 mx-auto flex flex-col">
         <div class="w-10/12 lg:w-4/6 mx-auto  border-2 p-4 rounded-lg border-orange-300 shadow-lg">
           <div class="flex flex-col sm:flex-row mt-10">
             <div class="sm:w-1/3 text-center sm:pr-8 sm:py-8 border-orange-300 md:border-r">

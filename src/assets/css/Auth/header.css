@@ -1,0 +1,80 @@
+#header {
+  width: 90vw;
+  height: 10vh;
+  margin: auto;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+}
+#logo {
+  width: 8vh;
+  height: 8vh;
+  align-self: center;
+  border: 2px solid transparent;
+  border-image: linear-gradient(to left, darkcyan, purple);
+  border-image-slice: 1;
+  box-shadow: 2px 2px 3px;
+}
+#close_link {
+  font-weight: 700;
+  color: purple;
+  background-color: white;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 0 30%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  #close_link {
+    display: block;
+  }
+  #link {
+    background-color: darkcyan;
+    padding: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50vw;
+    border-radius: 0.3rem;
+    list-style-type: none;
+  }
+  #link > li {
+    margin: 1rem 0;
+  }
+  .applinks {
+    color: white;
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 601px) {
+  #link {
+    list-style-type: none;
+    display: flex;
+    margin-top: 2rem;
+  }
+  .applinks {
+    margin: auto 1.4rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: purple;
+  }
+
+  .applinks:hover {
+    cursor: pointer;
+    background-color: purple;
+    color: white;
+    border-radius: 0.3rem;
+  }
+  #close_link {
+    display: none;
+  }
+}

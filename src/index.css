@@ -6,3 +6,9 @@ body {
 code {
   font-family: 'solway, source-code-pro';
 }
+#notice_app{
+  background-image: url("./assets/img/bg_logo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

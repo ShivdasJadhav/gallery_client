@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Main from "./Main";
+import ArtDemo from "./ArtDemo";
+import About from "./About";
+import Footer from "./Footer";
+import "../assets/css/Auth/auth.css";
 axios.defaults.withCredentials = true;
-function Auth(props) {
-  const [user, setUser] = useState();
-  let navigate = useNavigate();
-  let authenticated = false;
-  useEffect(() => {
-    if (!localStorage.getItem("authentic")) {
-      navigate("/");
-    }else{
-      authenticated=true;
-    }
-  }, []);
-  return <div>Auth</div> ;
+function Auth() {
+  return (
+    <>
+    <Main/>
+    <ArtDemo/>
+    <About/>
+    <Footer/>
+    </>
+  ) ;
 }
 
 export default Auth;

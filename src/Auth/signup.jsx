@@ -1,30 +1,47 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../assets/css/signup.css";
-function Signup() {
-  let [data, setData] = useState({ name: "", email: "", password: "" ,use_type:""});
-  let navigate = useNavigate();
+import "../assets/css/Auth/signup.css";
+import { db_connect } from "../Constants";
+import { countries } from "./country";
+function Signup(props) {
+  let [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    c_pass: "",
+    use_type: "",
+    phone: null,
+  });
   const handlechange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const add_user = async () => {
-    let pass_confirm=prompt("Verify your Password!");
-    if(pass_confirm!==data.password){
-      alert("Password not Matched!")
+    const { name, email, password, c_pass, use_type, phone } = data;
+    if (
+      name === "" ||
+      email === "" ||
+      c_pass === "" ||
+      phone === null ||
+      password === "" ||
+      use_type === ""
+    ) {
+      return;
+    }
+    if (password !== c_pass) {
+      alert("Password not Matched!");
       return;
     }
     await axios
-      .post("https://gallary-server.vercel.app/auth/signup", {
+      .post(`${db_connect}/auth/signup`, {
         name: data.name,
         email: data.email,
         password: data.password,
-        use_type:data.use_type,
+        use_type: data.use_type,
+        phone: data.phone,
       })
       .then((msg) => {
         if (msg.data.status === 1) {
           alert("signup successfully! kindly login.");
-          navigate("/");
           return;
         } else if (msg.data.status === 2) {
           alert("user already Registered with this Email!");
@@ -33,73 +50,115 @@ function Signup() {
         }
       });
   };
+  const filterCountry = () => {};
   return (
-    <div id="signup" className="">
-      <div className="w-9/12 md:w-3/12 mx-auto text-left mt-10 border-2 text-white p-8 h-hit rounded-lg">
-        <label htmlFor="name" className="text-xl font-semibold my-2 block">
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={data.name}
-          onChange={handlechange}
-          className="text-gray-800 bg-white focus:outeline-red-400 w-full block px-3 rounded-md h-10"
-        />
-        <label htmlFor="email" className="text-xl font-semibold my-2 block">
-          Preference
-        </label>
-        <select
-          id="use_type"
-          name="use_type"
-          value={data.use_type}
-          onChange={handlechange}
-          className="text-gray-800 bg-white focus:outeline-red-400 w-full block px-3 rounded-md h-10"
-        >
-          <option className="hidden" value="">-- User Type --</option>
-          <option value="artist">Artist</option>
-          <option value="art_lover">Art Lover</option>
-          <option value="org">Orgaisation</option>
+    <div className="auth_container" id="signup">
+      <h3 className="lable_">Register</h3>
+      <label className="label" htmlFor="name">
+        Name
+      </label>
+      <input
+        className="input"
+        type="text"
+        id="name"
+        name="name"
+        value={data.name}
+        onChange={handlechange}
+      />
+      <label className="label" htmlFor="email">
+        Preference
+      </label>
+      <select
+        className="select"
+        id="use_type"
+        name="use_type"
+        value={data.use_type}
+        onChange={handlechange}
+      >
+        <option style={{ display: "none" }}>User Type</option>
+        <option className="option" value="artist">
+          Artist
+        </option>
+        <option className="option" value="art_lover">
+          Art Lover
+        </option>
+        <option className="option" value="org">
+          Organisation
+        </option>
+      </select>
+      <label className="label" htmlFor="email">
+        Email
+      </label>
+      <input
+        className="input"
+        type="email"
+        id="email"
+        name="email"
+        value={data.email}
+        onChange={handlechange}
+      />
+      <label className="label" htmlFor="phone">
+        Ph. No.
+      </label>
+      <div id="phone_no">
+        <select name="country" id="phone_country">
+          <div id="search_country">
+            <span>🔍</span>
+            <input
+              onChange={filterCountry}
+              id="search_input"
+              className="input"
+              type="text"
+            />
+          </div>
+        <option value={"+91"}>+91</option>
+          <div id="country_options">{
+          
+          /* countries will be here */}</div>
         </select>
-        <label htmlFor="email" className="text-xl font-semibold my-2 block">
-          Email
-        </label>
         <input
-          type="email"
-          id="email"
-          name="email"
-          value={data.email}
+          type="tel"
+          id="phone"
+          name="phone"
+          value={data.phone}
           onChange={handlechange}
-          className="text-gray-800 bg-white focus:outeline-red-400 w-full block px-3 rounded-md h-10"
         />
-
-        <label htmlFor="password" className="text-xl font-semibold my-2 block">
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={data.password}
-          onChange={handlechange}
-          className="text-gray-800 bg-white focus:outeline-red-400 w-full block px-3 rounded-md h-10"
-        />
-        <button
-          onClick={add_user}
-          className="text-center w-fit my-4 px-8 py-2 rounded-md mx-auto bg-red-500 hover:bg-red-600 text-white font-semibold"
-        >
-          signup
-        </button>
-        <p
-          onClick={() => {
-            navigate("/");
-          }}
-          className="hover:cursor-pointer underline underline-offset-4 text-right"
-        >
-          Alredy have an account? <i className="text-red-300">login</i>
-        </p>
       </div>
+
+      <label className="label" htmlFor="password">
+        Password
+      </label>
+      <input
+        className="input"
+        type="password"
+        id="password"
+        name="password"
+        value={data.password}
+        onChange={handlechange}
+      />
+      <label className="label" htmlFor="password">
+        Confirm Password
+      </label>
+      <input
+        className="input"
+        type="password"
+        id="c_pass"
+        name="c_pass"
+        value={data.c_pass}
+        onChange={handlechange}
+      />
+      <hr className="auth_hr" />
+      <button className="btn" onClick={add_user}>
+        signup
+      </button>
+      <p
+        className="toggleText"
+        onClick={() => {
+          props.changeComp("login");
+        }}
+      >
+        Alredy have an account? <i className="text-red-300">login</i>
+      </p>
     </div>
   );
 }

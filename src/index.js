@@ -1,18 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import "./assets/css/output.css";
-import reportWebVitals from "./reportWebVitals";
-import Auther from "./Auther";
-
+// import "./assets/css/output.css";
+import Controller from "./Controller";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
-    <Auther />
+   {/* <Controller/> */}
+   <div id="notice_app" className="w-40 text-pink-500 h-40 mx-auto my-40 pt-5 text-xl font-bold">
+    Art Gallery is in a Update<br/>
+    <progress value={5} max={100} className="w-40"/>
+   </div>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

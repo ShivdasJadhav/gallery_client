@@ -4,34 +4,20 @@ import Navbar from "./comp/Navbar";
 import Update from "./comp/Update";
 import Home from "./comp/Home";
 import About from "./comp/About";
-import { useNavigate } from "react-router-dom";
 import Profile from "./comp/Profile";
 import Proposals from "./comp/Proposals";
 import Add from "./comp/Add";
 import Profile_view from "./comp/Profile_view.jsx";
 import Admin_proposals from "./comp/Admin_proposals";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import Dashboard from "./comp/Dashboard";
-function App() {
-  const [user, setUser] = useState();
-  let navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("authentic")) {
-      navigate("/");
-    } else {
-    axios
-      .post("https://gallary-server.vercel.app/auth/getUser", { email: localStorage.getItem('authentic') })
-      .then((data) => {
-        setUser(data.data.user);
-        localStorage.removeItem('authentic');
-      });}
-  }, []);
-  
-    return (
-      user && (
-        <div className="App">
-          <Navbar user={user}/>
+function App(props) {
+  const [user, setUser] = useState(props.user);
+  return (
+    user && (
+      <div className="App">
+        <Navbar user={user} />
+        <BrowserRouter>
           <Routes>
             <Route exact path="/*" element={<Home user={user} />} />
             <Route
@@ -63,9 +49,10 @@ function App() {
               element={<Dashboard user={user} />}
             />
           </Routes>
-        </div>
-      )
-    );
+        </BrowserRouter>
+      </div>
+    )
+  );
 }
 
 export default App;
