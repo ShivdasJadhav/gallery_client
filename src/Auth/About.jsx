@@ -1,24 +1,26 @@
 import React from "react";
-import "../assets/css/Auth/about.css";
-
+import bg_logo from "../assets/img/bg_logo.png";
 function About() {
   return (
     <div id="about">
-      <div id="container_about">
-        <p className="about_txt">
-          {" "}
-          A web application designed and developed to provide a community
-          plateform for the artists and the Art enthosiasts. here they can
-          publish there arts publicly for free so their Artworks will get
-          appreciated.
+      <h2 className="text-center text-2xl text-medium text-allura text-fuchsia-900 my-4">
+        About Us
+      </h2>
+      <div className="relative w-10/12 text-fjord_one text-sm text-justify mx-auto">
+        <img src={bg_logo} alt="" className="absolute w-10/12 h-auto top-10 left-6" />
+        <p className="my-5">
+          “Art Exhibits”, where creativity and innovation collide in the digital
+          realm. We are passionate about art and the immense talent that exists
+          within the artistic community. Our platform was born out of the desire
+          to create a space where artists can flourish, and organizations can
+          discover the brilliance that lies within the world of art.
         </p>
-        <p className="about_txt">
-          Artists here are able to publish there arts with the title, as well
-          defined description for the art along with the a Art_Pic.
-        </p>
-        <p className="about_txt">
-          An organization up here can find the required art skills by getting
-          through the Bio and the Arts published by an artist.
+        <p className="my-5">
+          here, our mission is to provide artists with a platform to showcase
+          their artistic prowess, connect with fellow creatives, and receive
+          valuable feedback on their work. We also aim to empower organizations,
+          art enthusiasts, and talent seekers to find the perfect artistic
+          expressions that resonate with their vision.
         </p>
       </div>
     </div>

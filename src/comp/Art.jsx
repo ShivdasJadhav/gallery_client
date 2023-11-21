@@ -1,7 +1,6 @@
 import React from "react";
 // import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../assets/css/Art.css";
 import { db_connect } from "../Constants";
 
 function Art(props) {

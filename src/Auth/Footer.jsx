@@ -1,58 +1,32 @@
 import React from "react";
-import "../assets/css/Auth/footer.css";
 function Footer() {
   return (
     <>
-      <div id="footer">
-        <div id="contact">
-          <h3 className="foot_heads">Contact Us</h3>
-          <label className="c_lable" htmlFor="c_email">Email</label>
-          <input className="c_input" type="email" id="c_email" required />
-          <label className="c_lable" htmlFor="message">Meassage</label>
-          <textarea className="c_input" name="message" id="message" cols="30" rows="5"></textarea>
-          <button id="c_btn">Submit</button>
+      <div id="footer" className="bg-black text-fjord_one py-8">
+        <div className="w-11/12 mx-auto">
+          <h2 className="text-white text-xl">
+            Do not miss any update
+            <br /> Subscribe to the Newsletter
+          </h2>
+          <div className="w-full bg-white flex justify-between h-8 rounded-md my-4 mx-auto">
+            <input className="text-fuchsia-600 px-2 text-xs flex-1 border-none outline-none rounded-md placeholder-fuchsia-400" type="email" placeholder="your@email.com |"  />
+            <button className="px-4 border border-white rounded-md bg-sky-500 text-white text-xs hover:bg-sky-600">Subscribe</button>
+          </div>
         </div>
-        <div id="sitemap">
-          <h3 className="foot_heads">Sitemap</h3>
-          <ul>
-            <li key="header" className="site_links">
-              <a href="#header">Home</a>
-            </li>
-            <li key="art_demo" className="site_links">
-              <a href="#art_demo">Art</a>
-            </li>
-            <li key="about" className="site_links">
-              <a href="#about">About</a>
-            </li>
-            <li key="contact" className="site_links">
-              <a href="#contact">Contact</a>
-            </li>
+        <div className="w-11/12 text-white mx-auto pt-8">
+          <h4 className="text-xl mb-4 text-white">Sitemap</h4>
+          <ul className="ml-2">
+            <li key="login"><a className="text-sm text-white" href="#login">Login</a></li>
+            <li key="register"><a className="text-sm text-white" href="#register">Register</a></li>
+            <li key="exhibits"><a className="text-sm text-white" href="#exhibits">Exhibits</a></li>
+            <li key="community"><a className="text-sm text-white" href="#community">Community</a></li>
+            <li key="review"><a className="text-sm text-white" href="#review">Review</a></li>
+            <li key="about"><a className="text-sm text-white" href="#about">About us</a></li>
           </ul>
         </div>
-        <div id="about_c">
-          <div id="foot_insights">
-            <img
-            id="foot_logo"
-              src={
-                "https://th.bing.com/th/id/OIP.PiVAroIzyKIHonjV-PItRQHaHa?pid=ImgDet&w=184&h=184&c=7&dpr=1.4"
-              }
-              alt="App logo"
-            />
-            <h3 className="foot_heads">Gallery insights</h3>
-          </div>
-          <p id="about_c_p">
-            The ultimate art app. Browse, collect and sell artworks with ease
-            and convenience. Art is everywhere. Capture it with  The app
-            that lets you create and share your own artworks Art is in the eye
-            of the beholder. Find your perfect match on  Where art
-            lovers meet. Discover, share and buy amazing artworks on the go. The
-            world is your gallery. Explore thousands of artworks from around the
-            globe. 
-          </p>
-        </div>
       </div>
-      <div id="copyright">
-        <p>adnfk al ds@copyright 2023</p>
+      <div id="cp_rights" className="bg-neutral-700 h-10 flex items-center">
+        <p className="text-xs text-white w-fit mx-auto italic text-fjord_one">All copyrights reserved by @2024 exhibits.art</p>
       </div>
     </>
   );
