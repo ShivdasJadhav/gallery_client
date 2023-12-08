@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Hero() {
   // functions
 
@@ -28,9 +30,9 @@ function Hero() {
             networking, and customer relations associated with the sale of an
             artwork
           </p>
-          <button autoFocus className="w-fit px-4 py-1 text-base text-fjord_one text-white bg-sky-500 hover:bg-sky-600 rounded-md outline focus:outline-sky-800">
+          <Link to={"./login"} className="w-fit px-4 py-1 text-base text-fjord_one text-white bg-sky-500 hover:bg-sky-600 rounded-md">
             Login
-          </button>
+          </Link>
         </div>
       </div>
     </>

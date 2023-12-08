@@ -1,91 +1,62 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthStatus } from "../Controller";
+import logo from "../assets/img/logo.png";
+import openMenu from "../assets/img/open_menu.png";
+import closeMenu from "../assets/img/close_menu.png";
 function Navbar(props) {
-  const configureAuth = useContext(AuthStatus);
+  // const configureAuth = useContext(AuthStatus);
   const logout = () => {
-    configureAuth();
+    // configureAuth();
   };
-  let proposals = "/user/proposals";
-  if (props.user.email === "jshivdas07@gmail.com") {
-    proposals = "/user/admin_proposals";
+  let menu=useRef();
+  // let proposals = "/user/proposals";
+  // if (props.user.email === "jshivdas07@gmail.com") {
+  //   proposals = "/user/admin_proposals";
+  // }
+  const open_menu=()=>{
+    menu.current.style.display="block";
+  } 
+  const close_menu=()=>{
+    menu.current.style.display="none";
   }
   return (
-    <div id="navbar">
-      <header className="text-gray-600 bg_transperant_black body-font bg-yellow-800">
-        <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <a
-            className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
-          >
+    <header className="flex m-4 w-11/12 md:w-8/12 mx-auto">
+      <div className="w-fit ">
+        <img src={logo} alt="application logo" className="w-12 h-auto" />
+        <p className="h-0.5 mt-1 w-6 bg-fuchsia-300 mx-auto rounded-lg"></p>
+      </div>
+      <div className="relative flex flex-col items-center flex-1">
+        <button className="w-fit absolute top-1 right-0 ml-auto" onClick={open_menu}><img
+          src={openMenu}
+          alt="open menu"
+          className="w-8 h-auto mt-3 md:hidden"
+        /></button>
+        <div ref={menu} className="absolute flex flex-col top-1 right-0 w-6/12 border border-fuchsia-600 rounded-lg text-fjord bg-white md:border-none hidden md:block">
+          <button onClick={close_menu} className="w-fit absolute top-2 right-2">
             <img
-              src="https://th.bing.com/th/id/OIP.bSan1CulbaOhZCrhySoiBgHaEu?w=257&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-              className="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full"
+              src={closeMenu}
+              alt="close menu"
+              className="w-6 h-auto md:hidden"
             />
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            <span className="ml-3 text-xl">Art Gallary</span>
-          </a>
-          <nav className="md:ml-auto  flex flex-wrap items-center underline-offset-4 text-base justify-right">
-            <NavLink
-              style={({ isActive }) => ({
-                color: isActive ? "white" : "#e2e8f0",
-                textDecoration: isActive ? "underline" : "none",
-              })}
-              className="mr-5 hover:text-gray-900"
-              to="/user/home"
-            >
+          </button>
+          <div className="flex flex-col w-full md:flex-row justify-end">
+            <NavLink to="/contact" className="my-1 mx-4">
               Home
-            </NavLink>{" "}
-            <NavLink
-              style={({ isActive }) => ({
-                color: isActive ? "white" : "#e2e8f0",
-                textDecoration: isActive ? "underline" : "none",
-              })}
-              className="mr-5 hover:text-gray-900"
-              to={proposals}
-            >
-              Proposals
             </NavLink>
-            <NavLink
-              style={({ isActive }) => ({
-                color: isActive ? "white" : "#e2e8f0",
-                textDecoration: isActive ? "underline" : "none",
-              })}
-              className="mr-5 hover:text-gray-900"
-              to="/user/profile"
-            >
+            <NavLink to="/contact" className="my-1 mx-4">
+              Art's
+            </NavLink>
+            <NavLink to="/contact" className="my-1 mx-4">
               Profile
             </NavLink>
-            <NavLink
-              style={({ isActive }) => ({
-                color: isActive ? "white" : "#e2e8f0",
-                textDecoration: isActive ? "underline" : "none",
-              })}
-              className="mr-5 hover:text-gray-900"
-              to="/user/about"
-            >
-              About
-            </NavLink>
-          </nav>
-          <button
-            onClick={logout}
-            className="inline-flex items-center bg-orange-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-900 rounded text-white text-semibold mt-4 md:mt-0"
-          >
-            Log out
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              className="w-4 h-4 ml-1"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </button>
+            <button className="w-fit my-1 mx-2 px-4 text-left bg-sky-500 hover:bg-sky-600 text-white rounded-md">
+              logout
+            </button>
+          </div>
         </div>
-      </header>
-    </div>
+      </div>
+    </header>
   );
 }
 

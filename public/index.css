@@ -10,3 +10,14 @@
 .bg-auth_cover{
     background: linear-gradient(180deg,#f6bcff,#f6bcff,#ffffff);
 }
+.bg-cover{
+  background: linear-gradient(180deg,rgb(255, 255, 255),#f6bcff,#ffffff);
+}
+.bg-blue-cover{
+  /* background: linear-gradient(180deg,rgb(255, 255, 255),#349DFF,#ffffff); */
+  background: linear-gradient(180deg, #FFF 0%, rgba(43, 153, 255, 0.635) 100%);
+}
+.alert{
+  color: #D0342c;
+  font-size: 0.7rem;
+}

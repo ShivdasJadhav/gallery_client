@@ -11,47 +11,20 @@ import Profile_view from "./comp/Profile_view.jsx";
 import Admin_proposals from "./comp/Admin_proposals";
 import { useState } from "react";
 import Dashboard from "./comp/Dashboard";
+import Art_pice from "./comp/Art_pice.jsx";
 function App(props) {
-  const [user, setUser] = useState(props.user);
   return (
-    user && (
-      <div className="App">
-        <Navbar user={user} />
-        <BrowserRouter>
-          <Routes>
-            <Route exact path="/*" element={<Home user={user} />} />
-            <Route
-              exact
-              path="/proposals"
-              element={<Proposals user={user} />}
-            />
-            <Route exact path="/proposals/add" element={<Add user={user} />} />
-            <Route
-              exact
-              path="/proposals/update/:id"
-              element={<Update user={user} />}
-            />
-            <Route exact path="/about" element={<About user={user} />} />
-            <Route exact path="/profile" element={<Profile user={user} />} />
-            <Route
-              exact
-              path="/Profile_view/:email_id"
-              element={<Profile_view user={user} />}
-            />
-            <Route
-              exact
-              path="/admin_proposals"
-              element={<Admin_proposals user={user} />}
-            />
-            <Route
-              exact
-              path="/dashboard"
-              element={<Dashboard user={user} />}
-            />
-          </Routes>
-        </BrowserRouter>
+    <>
+      <BrowserRouter>
+      <div className="h-screen w-full overflow-y-scroll">
+        <Navbar />
+        <Home/>
+        <Proposals/>
+        <Art_pice/>
+        <Profile />
       </div>
-    )
+      </BrowserRouter>
+    </>
   );
 }
 

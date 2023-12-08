@@ -6,43 +6,48 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 // Take a look
-import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
+import {
+  EffectCoverflow,
+  Pagination,
+  Navigation,
+} from "swiper/modules";
 import view_more from "../assets/img/view_more.png";
 import bg_logo from "../assets/img/bg_logo.png";
+import { Link } from "react-router-dom";
 function TopArts() {
+  let slide_as_screen="auto";
+  if(window.innerWidth>=600){
+    slide_as_screen=2
+  }
   return (
-    <div id="topArts" className="p-2 my-2 mx-auto md:w-8/12">
-      <h2 className="text-center text-2xl text-medium text-allura text-fuchsia-900">
+    <div id="top_arts" className="p-2 my-2 mx-auto md:w-10/12">
+      <h2 className="text-center text-2xl text-medium text-allura text-fuchsia-900 md:text-4xl">
         Top Exhibits
       </h2>
       <Swiper
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        loop={true}
-        slidesPerView={2}
+        slidesPerView={slide_as_screen}
         coverflowEffect={{
-          rotate: 0,
+          rotate: 10,
           stretch: 0,
           depth: 100,
-          modifier: 2.5,
+          modifier: 1,
+          slideShadows: true,
         }}
-        pagination={{ el: ".swiper-pagination", clickable: true }}
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-          clickable: true,
-        }}
+        loop={true}
+        pagination={true}
         modules={[EffectCoverflow, Pagination, Navigation]}
-        className="swiper_container my-8"
+        className="my-8 swiper md:rounded-2xl"
       >
-        <SwiperSlide style={{ width: "20rem" }}>
-          <div className="h-72 mx-1 relative border border-sky-600 rounded-md bg-[url('https://th.bing.com/th/id/OIP.LlPvc6ko9I9s8lUdIUOFaQHaF4?pid=ImgDet&w=206&h=163&c=7&dpr=1.3')] bg-no-repeat bg-center bg-cover">
+        <SwiperSlide className="swiper-slide m-2 ">
+          <div className="h-72 relative border border-sky-600 rounded-md bg-[url('https://th.bing.com/th/id/OIP.LlPvc6ko9I9s8lUdIUOFaQHaF4?pid=ImgDet&w=206&h=163&c=7&dpr=1.3')] bg-no-repeat bg-center bg-cover md:h-96">
             <div className="mt-auto bg-white absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">
-              <h3 className="text-fuchsia-900 text-allura text-base text-center my-1 capitalize">
+              <h3 className="text-fuchsia-900 text-allura text-base text-center my-1 capitalize ">
                 Misty mood
               </h3>
-              <p className="h-3/6 text-xs leading-1 text-fjord_one px-4 text-justify overflow-hidden">
+              <p className="h-3/6 text-xs leading-1 text-fjord_one px-4 text-justify overflow-hidden ">
                 He stood on the bridge, watching the mist rise from the river.
                 He felt a chill in his bones, and a heaviness in his heart. He
                 remembered the last time he saw her, how they had kissed
@@ -55,8 +60,8 @@ function TopArts() {
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide style={{ width: "20rem" }}>
-          <div className="h-72 mx-1 relative border border-sky-600 rounded-md bg-[url('https://th.bing.com/th/id/R.e9d7a95eae6ab376438d5da27d80a450?rik=hhpoiCbrGNibEg&riu=http%3a%2f%2ffeedinspiration.com%2fwp-content%2fuploads%2f2015%2f04%2fsurrealism-painting-568.jpg&ehk=Zf20hHtQLdKq12sNAvjicweBd8TdART3ed%2fsiTx2ypI%3d&risl=&pid=ImgRaw&r=0')] bg-no-repeat bg-center bg-cover">
+        <SwiperSlide className="swiper-slide m-2 ">
+          <div className="h-72 relative border border-sky-600 rounded-md bg-[url('https://th.bing.com/th/id/R.e9d7a95eae6ab376438d5da27d80a450?rik=hhpoiCbrGNibEg&riu=http%3a%2f%2ffeedinspiration.com%2fwp-content%2fuploads%2f2015%2f04%2fsurrealism-painting-568.jpg&ehk=Zf20hHtQLdKq12sNAvjicweBd8TdART3ed%2fsiTx2ypI%3d&risl=&pid=ImgRaw&r=0')] bg-no-repeat bg-center bg-cover md:h-96">
             <div className="mt-auto bg-white absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">
               <h3 className="text-fuchsia-900 text-allura text-base text-center my-1 capitalize">
                 beauty of an angel
@@ -72,17 +77,21 @@ function TopArts() {
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide style={{ width: "20rem" }}>
-          <a href="#hero">
-          <div className="h-72 mx-1 relative flex flex-col text-fjord_one cursor-pointer text-xs justify-center items-center border border-fuchsia-600 rounded-md bg-white">
-            <img src={bg_logo} alt="app logo" className="absolute h-full w-auto"/>
-            <img src={view_more} alt="view more" className="w-10 h-10"/>
-            <p className="my-2 text-fuchsia-900">&nbsp;&nbsp;View More...</p>
-          </div>
-          </a>
+        <SwiperSlide className="swiper-slide m-2 ">
+          <Link to="./login">
+            <div className="h-72 relative flex flex-col text-fjord_one cursor-pointer text-xs justify-center items-center border border-fuchsia-600 rounded-md bg-white md:h-96">
+              <img
+                src={bg_logo}
+                alt="app logo"
+                className="absolute h-full w-auto"
+              />
+              <img src={view_more} alt="view more" className="w-10 h-10" />
+              <p className="my-2 text-fuchsia-900">&nbsp;&nbsp;View More...</p>
+            </div>
+          </Link>
         </SwiperSlide>
-        <SwiperSlide style={{ width: "20rem" }}>
-          <div className="h-72 mx-1 relative border border-sky-600 rounded-md bg-[url('https://images.fineartamerica.com/images-medium-large-5/aspirations-of-greatness-joe-misrasi.jpg')] bg-no-repeat bg-center bg-cover">
+        <SwiperSlide className="swiper-slide m-2 ">
+          <div className="h-72 relative border border-sky-600 rounded-md bg-[url('https://images.fineartamerica.com/images-medium-large-5/aspirations-of-greatness-joe-misrasi.jpg')] bg-no-repeat bg-center bg-cover md:h-96">
             <div className="mt-auto bg-white absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">
               <h3 className="text-fuchsia-900 text-allura text-base text-center my-1 capitalize">
                 what's there inside you?
@@ -101,8 +110,8 @@ function TopArts() {
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide style={{ width: "20rem" }}>
-          <div className="h-72 mx-1 relative border border-sky-600 rounded-md bg-[url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/hope-ken-day.jpg')] bg-no-repeat bg-center bg-cover">
+        <SwiperSlide className="swiper-slide m-2 ">
+          <div className="h-72 relative border border-sky-600 rounded-md bg-[url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/hope-ken-day.jpg')] bg-no-repeat bg-center bg-cover md:h-96">
             <div className="mt-auto bg-white absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">
               <h3 className="text-fuchsia-900 text-allura text-base text-center my-1 capitalize">
                 our hope
@@ -118,22 +127,6 @@ function TopArts() {
             </div>
           </div>
         </SwiperSlide>
-
-        <div className="slider-controler hidden md:block">
-          <div
-            style={{ fontWeight: 900 }}
-            className="swiper-button-prev slider-arrow"
-          >
-            <ion-icon name="arrow-back-outline"></ion-icon>
-          </div>
-          <div
-            style={{ fontWeight: 900 }}
-            className="swiper-button-next slider-arrow"
-          >
-            <ion-icon name="arrow-forward-outline"></ion-icon>
-          </div>
-        </div>
-          <div className="swiper-pagination"></div>
       </Swiper>
     </div>
   );

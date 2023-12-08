@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Hero from "./Hero";
 import TopArts from "./TopArts";
@@ -7,35 +8,43 @@ import Review from "./Review";
 import About from "./About";
 import Footer from "./Footer";
 import Signin from "./Signin";
-import Signup from "./signup";
+import Signup from "./Signup";
 import Forgot from "./Forgot";
+import { Toaster } from "react-hot-toast";
 axios.defaults.withCredentials = true;
 function Auth() {
-  useEffect(() => {
-    window.alert(
-      "We are in the development phase the application is Buggy for now, hope you be will patient about the app.\nThank you"
-    );
-  });
   return (
-    <>
-      {/* <Hero />
-      <TopArts />
-      <Community />
-      <Review />
-      <About />
-      <Footer /> */}
-      {/* <Signin />
-      <Signup/>
-      <Forgot /> */}
-      <div
+    <BrowserRouter>
+      <div className="h-screen w-full overflow-y-scroll">
+        <Toaster/>
+        <Routes>
+          <Route
+            path="/*"
+            element={
+              <div>
+                <Hero />
+                <TopArts />
+                <Community />
+                <Review />
+                <About />
+                <Footer />
+              </div>
+            }
+          ></Route>
+          <Route path="/login" element={<Signin/>}></Route>
+          <Route path="/register" element={<Signup/>}></Route>
+          <Route path="/forgot" element={<Forgot/>}></Route>
+        </Routes>
+        {/* <div
         id="notice_app"
         className="w-40 text-pink-500 h-40 mx-auto my-40 pt-5 text-xl font-bold"
       >
         Art Gallery will be Art Exhibits Sooon...
         <br />
         <progress value={5} max={100} className="w-40" />
+      </div> */}
       </div>
-    </>
+    </BrowserRouter>
   );
 }
 

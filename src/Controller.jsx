@@ -15,7 +15,7 @@ function Controller() {
     }
   };
   return (
-    <AuthStatus.Provider value={configureAuth}>
+    <AuthStatus.Provider value={configureAuth} >
       {statusAuth ? <App user={user} /> : <Auth />}
     </AuthStatus.Provider>
   );
