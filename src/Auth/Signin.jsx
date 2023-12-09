@@ -3,7 +3,7 @@ import axios from "axios";
 import { custom_toast, db_connect } from "../Constants";
 import { AuthStatus } from "../Controller";
 import logo from "../assets/img/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -14,6 +14,7 @@ const login_schema = yup.object().shape({
 function Signin() {
   let [email, setEmail] = useState("");
   let [password, setPass] = useState("");
+  const navigate = useNavigate();
   const configureAuth = useContext(AuthStatus);
   const login_user = async () => {
     await axios
@@ -24,6 +25,9 @@ function Signin() {
       .then((res) => {
         if (res.status === 200) {
           custom_toast("Welcome to our Exhibits", "success", "📚");
+          window.localStorage.setItem("user", JSON.stringify(res.data));
+          configureAuth(true);
+          navigate("/");
         } else if (res.status === 203) {
           custom_toast("Credentials not Match!", "warning", "👨🏽‍💻");
         } else if (res.status === 204) {

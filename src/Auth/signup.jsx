@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { custom_toast } from "../Constants";
+import { custom_toast, db_connect } from "../Constants";
 import { useNavigate } from "react-router-dom";
 
 const registerSchema = yup.object().shape({
@@ -42,8 +42,9 @@ function Signup() {
   async function submitData() {
     const { First_Name, Last_Name, email, contact, pass, user_type } = user;
     await axios
-      .post("http://localhost:5000/auth/register", {
-        name: First_Name + " " + Last_Name,
+      .post(`${db_connect}/auth/register`, {
+        firstName: First_Name,
+        lastName: Last_Name,
         email,
         pass,
         contact: parseInt(contact),

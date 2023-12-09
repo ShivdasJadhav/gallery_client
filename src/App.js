@@ -12,17 +12,21 @@ import Admin_proposals from "./comp/Admin_proposals";
 import { useState } from "react";
 import Dashboard from "./comp/Dashboard";
 import Art_pice from "./comp/Art_pice.jsx";
+import { Toaster } from "react-hot-toast";
 function App(props) {
   return (
     <>
       <BrowserRouter>
-      <div className="h-screen w-full overflow-y-scroll">
-        <Navbar />
-        <Home/>
-        <Proposals/>
-        <Art_pice/>
-        <Profile />
-      </div>
+        <div className="h-screen w-full overflow-y-scroll">
+          <Toaster />
+          <Navbar />
+          <Routes>
+            <Route path="/*" element={<Home />} />
+            <Route path="/proposal" element={<Proposals />} />
+            <Route path="/art" element={<Art_pice />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );

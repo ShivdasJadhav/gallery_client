@@ -1,22 +1,25 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import App from "./App";
 import Auth from "./Auth/Auth";
 export const AuthStatus = createContext(null);
 function Controller() {
   const [statusAuth, setStatusAuth] = useState(false);
-  const [user, setUser] = useState(null);
-  const configureAuth = (data = null) => {
-    if (data === null) {
-      setUser(null);
-      setStatusAuth(false);
-    } else {
-      setUser(data);
+  useEffect(() => {
+    let user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
       setStatusAuth(true);
+    }
+  });
+  const configureAuth = (isLogin) => {
+    if (isLogin) {
+      setStatusAuth(true);
+    } else {
+      setStatusAuth(false);
     }
   };
   return (
-    <AuthStatus.Provider value={configureAuth} >
-      {statusAuth ? <App user={user} /> : <Auth />}
+    <AuthStatus.Provider value={configureAuth}>
+      {statusAuth ? <App /> : <Auth />}
     </AuthStatus.Provider>
   );
 }

@@ -1,78 +1,94 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { db_connect } from "../Constants";
-import user from "../assets/img/user.png";
+import { custom_toast, db_connect } from "../Constants";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import published from "../assets/img/published.png";
 import review from "../assets/img/review.png";
 import rejected from "../assets/img/rejected.png";
 import close_popup from "../assets/img/close_menu.png";
-function Profile(props) {
-  // const [profile, setProfile] = useState({
-  //   name: "sshivdas s jadhav",
-  //   email: "jshivdas07@gmail.com",
-  //   contact: "8767835325",
-  //   address: "anup shivdas arange ment jssdif ksdfosdkeje bflsdfigskkfs",
-  //   about: "this is mu lsdkfslkdf ksdlfk lskjfs sldff s  hdf  a s kj dfowe uq wore upw oeruwpw",
-  //   img: "user",
-  // });
-  // const fetch_data = () => {
-  //   axios
-  //     .post(`${db_connect}/auth/getUser`, {
-  //       email: props.user.email,
-  //     })
-  //     .then((data) => {
-  //       let obj = data.data.user;
-  //       setProfile({
-  //         name: obj.name,
-  //         email: obj.email,
-  //         contact: obj.contact,
-  //         address: obj.address,
-  //         about: obj.about,
-  //         img: obj.img,
-  //       });
-  //     });
-  // };
-  // useEffect(() => {
-  //   console.log("me")
-  //   fetch_data();
-  // }, []);
+import logo from "../assets/img/logo.png";
+import edit_icon from "../assets/img/edit.png";
+const user_schema = yup.object().shape({
+  First_Name: yup.string().required(),
+  Last_Name: yup.string().required(),
+  email: yup.string().email().required(),
+  contact: yup.number().min(10).required(),
+  bio: yup.string().max(600),
+  img: yup.string(),
+});
 
-  // const update_info = (e) => {
-  //   setProfile((prevInfo) => ({
-  //     ...prevInfo,
-  //     [e.target.name]: e.target.value,
-  //   }));
-  // };
+function Profile() {
+  const [isEdit, setEdit] = useState(true);
+  const [user, setUser] = useState({
+    First_Name: "",
+    Last_Name: "",
+    email: "",
+    contact: "",
+    bio: "",
+    img: logo,
+  });
+  let in_img = useRef();
+  let out_img = useRef();
+  const fetch_data = () => {
+    let id = JSON.parse(localStorage.getItem("user")).id;
+    let token = JSON.parse(localStorage.getItem("user")).token;
+    axios
+      .get(`${db_connect}/auth/getUser`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        // setUser({
+        //   First_Name: obj.first_Name,
+        //   Last_Name: obj.lastName,
+        //   email: obj.email,
+        //   contact: obj.contact,
+        //   bio: obj.bio,
+        //   img: obj.img,
+        // });
+      });
+  };
+  useEffect(() => {
+    fetch_data();
+  }, []);
 
-  // function Update_profile() {
-  //   let choice = window.confirm("Are you sure about these Updates!");
-  //   if (choice) {
-  //     axios.post(`${db_connect}/auth/setUser`, { profile }).then((msg) => {
-  //       if (msg.status === 200) {
-  //         alert("Your profile has been updated!");
-  //         fetch_data();
-  //       } else {
-  //         alert("failed to Update your Profile!");
-  //       }
-  //     });
-  //   }
-  // }
-  // const saveLogo = () => {
-  //   let input = document.getElementById("profile_pic");
-  //   if (input.files[0].size > 100000) {
-  //     alert("your file size is too Big!");
-  //     return;
-  //   } else {
-  //     let reader = new FileReader();
-  //     reader.onload = (e) => {
-  //       setProfile({ ...profile, img: e.target.result });
-  //       document.getElementById("img_pic").setAttribute("src", e.target.result);
-  //     };
-  //     reader.readAsDataURL(input.files[0]);
-  //   }
-  // };
-  let popup_otp=useRef();
+  function updateUser() {
+    axios.post(`${db_connect}/auth/setUser`, { user }).then((msg) => {
+      if (msg.status === 200) {
+        alert("Your profile has been updated!");
+        // fetch_data();
+      } else {
+        alert("failed to Update your Profile!");
+      }
+    });
+  }
+  const save_img = () => {
+    if (in_img.current.files[0].size > 100000) {
+      custom_toast("your image size is too Big!", "warning", "⚠️");
+      return;
+    } else {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setUser({ ...user, img: e.target.result });
+        out_img.current.setAttribute("src", e.target.result);
+      };
+      reader.readAsDataURL(in_img.current.files[0]);
+    }
+  };
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(user_schema),
+  });
+  let popup_otp = useRef();
   let otp_d1 = useRef();
   let otp_d2 = useRef();
   let otp_d3 = useRef();
@@ -121,8 +137,8 @@ function Profile(props) {
       inputFocus(d);
     }
   }
-  const popup_close = (from) => {
-    popup_otp.current.style.display="none";
+  const popup_close = () => {
+    popup_otp.current.style.display = "none";
   };
   return (
     <>
@@ -172,20 +188,49 @@ function Profile(props) {
             </div>
           </div>
         </div>
-        <div className="mx-auto w-full flex flex-col md:flex-row items-center mb-8 mt-14 md:mt-8 border border-fuchsia-400 border-2 rounded-xl py-8 md:py-12 md:w-10/12 bg-white">
+        <form
+          onSubmit={handleSubmit(updateUser)}
+          className="mx-auto w-full flex flex-col md:flex-row items-center mb-8 mt-14 md:mt-8 border border-fuchsia-400 border-2 rounded-xl py-8 md:py-12 md:w-10/12 bg-white"
+        >
           <div className="md:flex md:flex-col w-10/12 pl-4">
             {" "}
-            <div className="border border-fuchsia-400 mx-auto rounded-full w-32 h-32 flex items-center justify-center">
-              <img src={user} alt="user picture" className="w-11/12 h-auto" />
-            </div>
+            <label htmlFor="img" className="relative w-fit mx-auto">
+              {!isEdit && (
+                <button className="absolute flex top-1 right-1 block">
+                  <img src={edit_icon} alt="edit artwork" className="mx-1" />
+                </button>
+              )}
+              <div className="border overflow-hidden hover:cursor-pointer border-fuchsia-400 mx-auto rounded-full w-32 h-32 flex items-center justify-center">
+                <img
+                  ref={out_img}
+                  src={user.img}
+                  alt="user picture"
+                  className="w-full h-auto"
+                />
+              </div>
+              {!isEdit && (
+                <input
+                  onChange={save_img}
+                  ref={in_img}
+                  type="file"
+                  name="img"
+                  id="img"
+                  className="hidden"
+                />
+              )}
+            </label>
             <div className="flex-1 md:px-8">
               <label className="block w-full text-fjord_one text-md">Bio</label>
               <textarea
                 rows={3}
                 cols={33}
+                readOnly={isEdit}
                 className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="f_nm"
-                name="f_nm"
+                type="text"
+                name="bio"
+                value={user.bio}
+                onChange={handleChange}
+                placeholder="I'm a Artist with the passion for explore..."
               />
             </div>
             <div className="flex-1 md:px-8">
@@ -193,9 +238,14 @@ function Profile(props) {
                 First Name
               </label>
               <input
+                {...register("First_Name")}
+                readOnly={isEdit}
                 className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="l_nm"
-                name="l_nm"
+                type="text"
+                name="First_Name"
+                value={user.First_Name}
+                onChange={handleChange}
+                placeholder="John"
               />
             </div>
           </div>
@@ -205,9 +255,14 @@ function Profile(props) {
                 Last Name
               </label>
               <input
+                {...register("Last_Name")}
+                readOnly={isEdit}
                 className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="l_nm"
-                name="l_nm"
+                type="text"
+                name="Last_Name"
+                value={user.Last_Name}
+                onChange={handleChange}
+                placeholder="Doe"
               />
             </div>
             <div className="md:flex-1 md:px-8">
@@ -215,9 +270,14 @@ function Profile(props) {
                 Email
               </label>
               <input
+                {...register("email")}
+                readOnly
                 className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="pref"
-                name="pref"
+                type="email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
+                placeholder="john@doe.jan"
               />
             </div>
             <div className="md:flex-1 md:px-8">
@@ -225,22 +285,53 @@ function Profile(props) {
                 Phone No.
               </label>
               <input
+                {...register("contact")}
+                readOnly={isEdit}
                 className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="ph_no"
-                name="ph_no"
+                type="tel"
+                name="contact"
+                value={user.contact}
+                onChange={handleChange}
+                placeholder="83*****34"
               />
             </div>
             <div className="md:flex-1 md:px-8">
               <div className="w-1/4 mx-auto h-1 bg-fuchsia-400 my-4 rounded-md"></div>
-              <button className="w-11/12 text-white bg-sky-600 p-2 rounded-md text-fjord_one text-sm">
-                Edit
-              </button>
+              {isEdit ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEdit(false);
+                  }}
+                  className="w-11/12 text-white bg-sky-600 p-2 rounded-md text-fjord_one text-sm"
+                >
+                  Edit
+                </button>
+              ) : (
+                <div className="flex flex-col md:flex-row">
+                  <button
+                    type="submit"
+                    className="w-11/12 mb-2 md:mb-0 md:mr-2 text-white bg-fuchsia-600 p-2 rounded-md text-fjord_one text-sm"
+                  >
+                    Update
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEdit(true);
+                    }}
+                    className="w-11/12 mt-2 md:mt-0 md:ml-2 text-white bg-sky-600 p-2 rounded-md text-fjord_one text-sm"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        </form>
       </div>
       <div
-      ref={popup_otp}
+        ref={popup_otp}
         id="otp_popup"
         className="absolute top-0 bg-blue-cover hidden flex items-center justify-center h-screen w-screen"
       >
