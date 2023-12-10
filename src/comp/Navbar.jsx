@@ -1,19 +1,18 @@
 import React, { useContext, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthStatus } from "../Controller";
 import logo from "../assets/img/logo.png";
 import openMenu from "../assets/img/open_menu.png";
 import closeMenu from "../assets/img/close_menu.png";
 function Navbar(props) {
-  // const configureAuth = useContext(AuthStatus);
+  const configureAuth = useContext(AuthStatus);
   const logout = () => {
-    // configureAuth();
+    configureAuth(false);
+    console.log("logout");
+    localStorage.clear();
   };
   let menu = useRef();
-  // let proposals = "/user/proposals";
-  // if (props.user.email === "jshivdas07@gmail.com") {
-  //   proposals = "/user/admin_proposals";
-  // }
+  
   const open_menu = () => {
     menu.current.style.display = "block";
   };
@@ -88,7 +87,11 @@ function Navbar(props) {
             >
               Profile
             </NavLink>
-            <button className="w-fit my-1 mx-2 px-4 text-left bg-sky-500 hover:bg-sky-600 text-white rounded-md">
+            <button
+              type="button"
+              onClick={logout}
+              className="w-fit my-1 mx-2 px-4 text-left bg-sky-500 hover:bg-sky-600 text-white rounded-md"
+            >
               logout
             </button>
           </div>

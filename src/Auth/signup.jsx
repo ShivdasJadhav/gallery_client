@@ -47,7 +47,7 @@ function Signup() {
         lastName: Last_Name,
         email,
         pass,
-        contact: parseInt(contact),
+        contact,
         user_type,
       })
       .then((res) => {

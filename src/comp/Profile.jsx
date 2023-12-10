@@ -41,14 +41,15 @@ function Profile() {
       })
       .then((res) => {
         console.log(res);
-        // setUser({
-        //   First_Name: obj.first_Name,
-        //   Last_Name: obj.lastName,
-        //   email: obj.email,
-        //   contact: obj.contact,
-        //   bio: obj.bio,
-        //   img: obj.img,
-        // });
+        let obj=res
+        setUser({
+          First_Name: obj.first_Name,
+          Last_Name: obj.lastName,
+          email: obj.email,
+          contact: obj.contact,
+          bio: obj.bio,
+          img: obj.img,
+        });
       });
   };
   useEffect(() => {

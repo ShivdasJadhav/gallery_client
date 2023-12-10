@@ -14,6 +14,7 @@ import Dashboard from "./comp/Dashboard";
 import Art_pice from "./comp/Art_pice.jsx";
 import { Toaster } from "react-hot-toast";
 function App(props) {
+  let user=JSON.parse(localStorage.getItem("user"))
   return (
     <>
       <BrowserRouter>
@@ -21,10 +22,10 @@ function App(props) {
           <Toaster />
           <Navbar />
           <Routes>
-            <Route path="/*" element={<Home />} />
-            <Route path="/proposal" element={<Proposals />} />
-            <Route path="/art" element={<Art_pice />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/*" element={<Home user={user}/>} />
+            <Route path="/proposal" element={<Proposals user={user}/>} />
+            <Route path="/art" element={<Art_pice user={user}/>} />
+            <Route path="/profile" element={<Profile user={user}/>} />
           </Routes>
         </div>
       </BrowserRouter>

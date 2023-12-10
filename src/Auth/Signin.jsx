@@ -14,8 +14,8 @@ const login_schema = yup.object().shape({
 function Signin() {
   let [email, setEmail] = useState("");
   let [password, setPass] = useState("");
-  const navigate = useNavigate();
   const configureAuth = useContext(AuthStatus);
+  const navigate = useNavigate();
   const login_user = async () => {
     await axios
       .post(`${db_connect}/auth/login`, {
@@ -24,8 +24,8 @@ function Signin() {
       })
       .then((res) => {
         if (res.status === 200) {
-          custom_toast("Welcome to our Exhibits", "success", "📚");
-          window.localStorage.setItem("user", JSON.stringify(res.data));
+          let data = res.data;
+          window.localStorage.setItem("user", JSON.stringify(data));
           configureAuth(true);
           navigate("/");
         } else if (res.status === 203) {

@@ -2,24 +2,27 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Art from "./Art";
 import { db_connect } from "../Constants";
+import { custom_toast } from "../Constants";
 import Q from "../assets/img/Q.png";
-function Home() {
+function Home(props) {
   // const [items, setItems] = useState();
-  // useEffect(() => {
-  //   const controller = new AbortController();
-  //   axios
-  //     .get(`${db_connect}/items`, { signal: controller.signal })
-  //     .then((data) => {
-  //       if (data.status === 200) {
-  //         setItems(data.data.Items);
-  //       } else {
-  //         alert(data.message);
-  //       }
-  //     });
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, []);
+  useEffect(() => {
+    console.log(props)
+    // const controller = new AbortController();
+    // axios
+    //   .get(`${db_connect}/items`, { signal: controller.signal })
+    //   .then((data) => {
+    //     if (data.status === 200) {
+    //       setItems(data.data.Items);
+    //     } else {
+    //       alert(data.message);
+    //     }
+    //   });
+    // return () => {
+    //   controller.abort();
+    // };
+    custom_toast(`Welcome Back ${props.user.firstName}`, "success", "📚");
+  }, []);
   let slide_as_screen = "auto";
   if (window.innerWidth > 600) {
     slide_as_screen = 3;
@@ -56,21 +59,27 @@ function Home() {
         </div>
       </div>
       <div className="my-6 md:grid md:grid-cols-4 md:gap-4">
-        <Art/>
-        <Art/>
-        <Art/>
-        <Art/>
-        <Art/>
-        <Art/>
+        <Art />
+        <Art />
+        <Art />
+        <Art />
+        <Art />
+        <Art />
       </div>
       <div className="flex items-center justify-between">
-        <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"> &#8617; Prev</button>
+        <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
+          {" "}
+          &#8617; Prev
+        </button>
         <div className="flex">
           <p className="h-2 w-2 mx-1 bg-fuchsia-500 rounded-full"></p>
           <p className="h-2 w-2 mx-1 bg-fuchsia-400 rounded-full"></p>
           <p className="h-2 w-2 mx-1 bg-fuchsia-300 rounded-full"></p>
         </div>
-        <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">  Next &#8618;</button>
+        <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
+          {" "}
+          Next &#8618;
+        </button>
       </div>
     </div>
   );
