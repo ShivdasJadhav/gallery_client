@@ -9,8 +9,9 @@ import published from "../assets/img/published.png";
 import review from "../assets/img/review.png";
 import rejected from "../assets/img/rejected.png";
 import close_popup from "../assets/img/close_menu.png";
-import logo from "../assets/img/logo.png";
+import logo from "../assets/img/bg_logo.png";
 import edit_icon from "../assets/img/edit.png";
+import del_icon from "../assets/img/delete.png";
 const user_schema = yup.object().shape({
   First_Name: yup.string().required(),
   Last_Name: yup.string().required(),
@@ -20,7 +21,7 @@ const user_schema = yup.object().shape({
   img: yup.string(),
 });
 
-function Profile() {
+function Profile(props) {
   const [isEdit, setEdit] = useState(true);
   const [user, setUser] = useState({
     First_Name: "",
@@ -33,38 +34,37 @@ function Profile() {
   let in_img = useRef();
   let out_img = useRef();
   const fetch_data = () => {
-    let id = JSON.parse(localStorage.getItem("user")).id;
-    let token = JSON.parse(localStorage.getItem("user")).token;
     axios
       .get(`${db_connect}/auth/getUser`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${props.user.token}` },
       })
       .then((res) => {
-        console.log(res);
-        let obj=res
+        let obj = res.data;
         setUser({
-          First_Name: obj.first_Name,
+          First_Name: obj.firstName,
           Last_Name: obj.lastName,
           email: obj.email,
           contact: obj.contact,
           bio: obj.bio,
-          img: obj.img,
+          img: obj.img === "" ? logo : obj.img,
         });
       });
   };
   useEffect(() => {
     fetch_data();
   }, []);
-
+  const resetImg = async () => {
+    await setUser({ ...user, img: "" });
+    out_img.current.setAttribute("src", logo);
+  };
   function updateUser() {
-    axios.post(`${db_connect}/auth/setUser`, { user }).then((msg) => {
-      if (msg.status === 200) {
-        alert("Your profile has been updated!");
-        // fetch_data();
-      } else {
-        alert("failed to Update your Profile!");
-      }
-    });
+    axios
+      .post(`${db_connect}/app/update_profile`, user, {
+        headers: { Authorization: `Bearer ${props.user.token}` },
+      })
+      .then((res) => {
+        console.log(res);
+      });
   }
   const save_img = () => {
     if (in_img.current.files[0].size > 100000) {
@@ -194,32 +194,49 @@ function Profile() {
           className="mx-auto w-full flex flex-col md:flex-row items-center mb-8 mt-14 md:mt-8 border border-fuchsia-400 border-2 rounded-xl py-8 md:py-12 md:w-10/12 bg-white"
         >
           <div className="md:flex md:flex-col w-10/12 pl-4">
-            {" "}
-            <label htmlFor="img" className="relative w-fit mx-auto">
+            <div className="relative w-fit mx-auto">
               {!isEdit && (
-                <button className="absolute flex top-1 right-1 block">
-                  <img src={edit_icon} alt="edit artwork" className="mx-1" />
+                <button
+                  onClick={resetImg}
+                  type="button"
+                  className="absolute flex top-5 right-[-6px] hidden"
+                >
+                  <img src={del_icon} alt="edit artwork" className="mx-1" />
                 </button>
               )}
-              <div className="border overflow-hidden hover:cursor-pointer border-fuchsia-400 mx-auto rounded-full w-32 h-32 flex items-center justify-center">
-                <img
-                  ref={out_img}
-                  src={user.img}
-                  alt="user picture"
-                  className="w-full h-auto"
-                />
-              </div>
-              {!isEdit && (
-                <input
-                  onChange={save_img}
-                  ref={in_img}
-                  type="file"
-                  name="img"
-                  id="img"
-                  className="hidden"
-                />
-              )}
-            </label>
+              <label htmlFor="img">
+                {" "}
+                {!isEdit && (
+                  <button
+                    onClick={() => {
+                      in_img.current.click();
+                    }}
+                    type="button"
+                    className="absolute flex top-0 right-3 block"
+                  >
+                    <img src={edit_icon} alt="edit artwork" className="mx-1" />
+                  </button>
+                )}
+                <div className="border overflow-hidden hover:cursor-pointer border-fuchsia-400 mx-auto rounded-full w-32 h-32 flex items-center justify-center">
+                  <img
+                    ref={out_img}
+                    src={user.img}
+                    alt="user picture"
+                    className="w-full h-auto"
+                  />
+                </div>
+                {!isEdit && (
+                  <input
+                    onChange={save_img}
+                    ref={in_img}
+                    type="file"
+                    name="img"
+                    id="img"
+                    className="hidden"
+                  />
+                )}
+              </label>
+            </div>
             <div className="flex-1 md:px-8">
               <label className="block w-full text-fjord_one text-md">Bio</label>
               <textarea
@@ -312,6 +329,7 @@ function Profile() {
                 <div className="flex flex-col md:flex-row">
                   <button
                     type="submit"
+                    onClick={updateUser}
                     className="w-11/12 mb-2 md:mb-0 md:mr-2 text-white bg-fuchsia-600 p-2 rounded-md text-fjord_one text-sm"
                   >
                     Update
