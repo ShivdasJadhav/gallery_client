@@ -3,10 +3,12 @@ import axios from "axios";
 import Art from "./Art";
 import { useNavigate } from "react-router-dom";
 import { db_connect } from "../Constants";
-import Q from "../assets/img/Q.png";
-import up_image from "../assets/img/up_image.png";
-import bg_logo from "../assets/img/bg_logo.png";
-import close_popup from "../assets/img/close_menu.png";
+import {
+  icon_search,
+  icon_upload,
+  bg_logo,
+  close_menu,
+} from "../assets/img";
 
 function Items_group(props) {
   //   const navigate=useNavigate();
@@ -48,7 +50,7 @@ function Items_group(props) {
                 className="w-36 text-md text-fuchsia-600 text-fjord placeholder-fuchsia-400 pl-2 px-4 outline-none border-none md:w-52"
               />
               <img
-                src={Q}
+                src={icon_search}
                 alt="search symbol for search field"
                 className="w-4 h-auto mr-2"
               />
@@ -109,8 +111,11 @@ function Items_group(props) {
         className="absolute top-0 bg-blue-cover hidden flex items-center justify-center h-screen w-full"
       >
         <div className="relative mx-auto w-11/12 flex flex-col items-center border border-fuchsia-400 border-2 rounded-xl py-4 bg-white md:w-6/12">
-          <button onClick={()=>popup_close("art")} className="ml-auto w-fit mx-4">
-            <img src={close_popup} alt="close popup" className="w-4 h-4" />
+          <button
+            onClick={() => popup_close("art")}
+            className="ml-auto w-fit mx-4"
+          >
+            <img src={close_menu} alt="close popup" className="w-4 h-4" />
           </button>
           <div className="absolute w-10/12 md:w-3/6 mx-auto my-4 z-0">
             <img src={bg_logo} alt="background logo" />
@@ -146,7 +151,7 @@ function Items_group(props) {
           <div className="md:flex w-10/12 pl-4 z-10">
             <div className="border border-fuchsia-400 bg-white rounded-md w-11/12 md:w-6/12 h-40 flex items-center justify-center">
               <img
-                src={up_image}
+                src={icon_upload}
                 alt="user picture"
                 className="w-4/12 md:w-2/12 h-auto"
               />
@@ -170,10 +175,10 @@ function Items_group(props) {
       >
         <div className="relative mx-auto w-11/12 flex flex-col items-center border border-fuchsia-400 border-2 rounded-xl py-4 bg-white md:w-6/12">
           <button
-            onClick={()=>popup_close("update")}
+            onClick={() => popup_close("update")}
             className="ml-auto w-fit mx-4"
           >
-            <img src={close_popup} alt="close popup" className="w-4 h-4" />
+            <img src={close_menu} alt="close popup" className="w-4 h-4" />
           </button>
           <div className="absolute w-10/12 md:w-3/6 mx-auto my-4 z-0">
             <img src={bg_logo} alt="background logo" />
@@ -212,7 +217,7 @@ function Items_group(props) {
           <div className="md:flex w-10/12 pl-4 z-10">
             <div className="border border-fuchsia-400 bg-white rounded-md w-11/12 h-40 flex items-center justify-center md:w-6/12">
               <img
-                src={up_image}
+                src={icon_upload}
                 alt="user picture"
                 className="w-4/12 md:w-2/12 h-auto"
               />

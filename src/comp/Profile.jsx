@@ -5,13 +5,7 @@ import { custom_toast, db_connect } from "../Constants";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import published from "../assets/img/published.png";
-import review from "../assets/img/review.png";
-import rejected from "../assets/img/rejected.png";
-import close_popup from "../assets/img/close_menu.png";
-import logo from "../assets/img/bg_logo.png";
-import edit_icon from "../assets/img/edit.png";
-import del_icon from "../assets/img/delete.png";
+import {published,reviewed,rejected,close_menu,logo,icon_edit,icon_del} from "../assets/img";
 const user_schema = yup.object().shape({
   First_Name: yup.string().required(),
   Last_Name: yup.string().required(),
@@ -163,7 +157,7 @@ function Profile(props) {
           <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
             <div>
               <img
-                src={review}
+                src={reviewed}
                 alt="symbol published"
                 className="w-16 h-auto"
               />
@@ -201,7 +195,7 @@ function Profile(props) {
                   type="button"
                   className="absolute flex top-5 right-[-6px] hidden"
                 >
-                  <img src={del_icon} alt="edit artwork" className="mx-1" />
+                  <img src={icon_del} alt="edit artwork" className="mx-1" />
                 </button>
               )}
               <label htmlFor="img">
@@ -214,7 +208,7 @@ function Profile(props) {
                     type="button"
                     className="absolute flex top-0 right-3 block"
                   >
-                    <img src={edit_icon} alt="edit artwork" className="mx-1" />
+                    <img src={icon_edit} alt="edit artwork" className="mx-1" />
                   </button>
                 )}
                 <div className="border overflow-hidden hover:cursor-pointer border-fuchsia-400 mx-auto rounded-full w-32 h-32 flex items-center justify-center">
@@ -362,7 +356,7 @@ function Profile(props) {
             onClick={() => popup_close("otp")}
             className="ml-auto w-fit mx-2"
           >
-            <img src={close_popup} alt="close popup" className="w-4 h-4" />
+            <img src={close_menu} alt="close popup" className="w-4 h-4" />
           </button>
           <label className="text-fjord_one text-lg my-2" htmlFor="otp">
             Enter OTP

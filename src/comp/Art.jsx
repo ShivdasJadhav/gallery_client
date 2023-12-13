@@ -2,8 +2,7 @@ import React from "react";
 // import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { db_connect } from "../Constants";
-import edit_art from "../assets/img/edit.png";
-import del_art from "../assets/img/delete.png";
+import {icon_edit, icon_del} from "../assets/img";
 function Art(props) {
   let editor="hidden";
   if(props.from==="editor"){
@@ -45,10 +44,10 @@ function Art(props) {
     <div className="h-64 my-2 md:m-0 relative border border-sky-600 rounded-xl bg-[url('https://th.bing.com/th/id/OIP.LlPvc6ko9I9s8lUdIUOFaQHaF4?pid=ImgDet&w=206&h=163&c=7&dpr=1.3')] bg-no-repeat bg-center bg-cover hover:cursor-pointer">
       <div className={editor}>
         <button>
-          <img src={edit_art} alt="edit artwork" className="mx-1" />
+          <img src={icon_edit} alt="edit artwork" className="mx-1" />
         </button>
         <button>
-          <img src={del_art} alt="delete artwork" className="mx-1" />
+          <img src={icon_del} alt="delete artwork" className="mx-1" />
         </button>
       </div>
       <div className="mt-auto bg-white absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">

@@ -1,6 +1,6 @@
 import bg_logo from "./bg_logo.png";
 import close_menu from "./close_menu.png";
-import icon_del from "./delete.png";
+import icon_del from "./icon_delete.png";
 import icon_edit from "./icon_edit.png";
 import forgot from "./forgot.png";
 import icon_like from "./like.png";

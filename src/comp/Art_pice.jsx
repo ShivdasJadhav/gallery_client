@@ -1,9 +1,5 @@
 import React from "react";
-import order from "../assets/img/order.png";
-import like from "../assets/img/like.png";
-import view from "../assets/img/view.png";
-import user from "../assets/img/user.png";
-import logo from "../assets/img/logo.png";
+import {icon_order,icon_like,icon_user,icon_view,logo} from "../assets/img";
 function Art_pice() {
   return (
     <div id="art_pice" className="w-11/12 md:w-8/12 mx-auto">
@@ -36,7 +32,7 @@ function Art_pice() {
           <div className="flex justify-between md:flex-col md:justify-start my-4">
             <div className="flex md:my-2">
               <div className="p-1 mr-2 rounded-full border-fuchsia-500 border w-fit">
-                <img src={user} alt="artists image" className="w-10 h-auto" />
+                <img src={icon_user} alt="artists image" className="w-10 h-auto" />
               </div>
               <div className="w-fit mt-1">
                 <p className="text-md text-fjord leading-3 text-sky-600">
@@ -47,11 +43,11 @@ function Art_pice() {
             </div>
             <div className="flex md:my-2">
               <div className="flex h-fit px-2 mr-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around">
-                <img className="w-4 mx-1 h-fit" src={like} alt="like thumb" />
+                <img className="w-4 mx-1 h-fit" src={icon_like} alt="like thumb" />
                 <p className="text-fjord text-sm">80K</p>
               </div>
               <div className="flex h-fit px-2 ml-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around">
-                <img className="w-4 mx-1 h-fit" src={view} alt="eye view" />
+                <img className="w-4 mx-1 h-fit" src={icon_view} alt="eye view" />
                 <p className="text-fjord text-sm">80K</p>
               </div>
             </div>
@@ -63,7 +59,7 @@ function Art_pice() {
         <p className="text-fjord text-md w-fit">116 comments</p>
         <div className="flex bg-fuchsia-400 rounded-md px-4 py-2 mx-2 items-center">
           <img
-            src={order}
+            src={icon_order}
             alt="image button to order the comment list"
             className="w-6 h-fit"
           />
@@ -83,7 +79,7 @@ function Art_pice() {
       <div>
         <div className="flex mt-8">
           <div className="p-1 h-fit mx-2 rounded-full border-fuchsia-500 border w-fit">
-            <img src={user} alt="artists image" className="w-10 h-auto" />
+            <img src={icon_user} alt="artists image" className="w-10 h-auto" />
           </div>
           <div className="ml-4 flex-1 ">
             <textarea
@@ -105,7 +101,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">
@@ -123,7 +119,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">
@@ -141,7 +137,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">
@@ -159,7 +155,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">
@@ -177,7 +173,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">
@@ -195,7 +191,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">
@@ -213,7 +209,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">
@@ -231,7 +227,7 @@ function Art_pice() {
         <div className="flex my-2">
           <div className="flex">
             <div className="p-1 w-12 h-12 md:w-16 md:h-16 mx-2 rounded-full border-fuchsia-500 border flex items-center justify-center">
-              <img src={user} alt="artists image" className="w-12 h-auto" />
+              <img src={icon_user} alt="artists image" className="w-12 h-auto" />
             </div>
           </div>
           <div className="">

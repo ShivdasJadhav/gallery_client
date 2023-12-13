@@ -3,7 +3,7 @@ import axios from "axios";
 import Art from "./Art";
 import { db_connect } from "../Constants";
 import { custom_toast } from "../Constants";
-import Q from "../assets/img/Q.png";
+import {icon_search} from "../assets/img";
 function Home(props) {
   // const [items, setItems] = useState();
   useEffect(() => {
@@ -52,7 +52,7 @@ function Home(props) {
             className="w-36 text-fuchsia-600 text-fjord placeholder-fuchsia-400 pl-2 outline-none border-none md:w-40"
           />
           <img
-            src={Q}
+            src={icon_search}
             alt="search symbol for search field"
             className="w-4 h-auto mr-2"
           />
