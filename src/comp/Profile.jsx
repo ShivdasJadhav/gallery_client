@@ -5,7 +5,16 @@ import { custom_toast, db_connect } from "../Constants";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {published,reviewed,rejected,close_menu,logo,icon_edit,icon_del} from "../assets/img";
+import {
+  published,
+  reviewed,
+  rejected,
+  close_menu,
+  logo,
+  icon_edit,
+  icon_del,
+} from "../assets/img";
+
 const user_schema = yup.object().shape({
   First_Name: yup.string().required(),
   Last_Name: yup.string().required(),
@@ -17,19 +26,20 @@ const user_schema = yup.object().shape({
 
 function Profile(props) {
   const [isEdit, setEdit] = useState(true);
+  const [imgCache, setImgCache] = useState(null);
   const [user, setUser] = useState({
     First_Name: "",
     Last_Name: "",
     email: "",
     contact: "",
     bio: "",
-    img: logo,
+    img: "",
   });
   let in_img = useRef();
   let out_img = useRef();
   const fetch_data = () => {
     axios
-      .get(`${db_connect}/auth/getUser`, {
+      .get(`${db_connect}/user/getUser`, {
         headers: { Authorization: `Bearer ${props.user.token}` },
       })
       .then((res) => {
@@ -51,13 +61,21 @@ function Profile(props) {
     await setUser({ ...user, img: "" });
     out_img.current.setAttribute("src", logo);
   };
-  function updateUser() {
-    axios
-      .post(`${db_connect}/app/update_profile`, user, {
+  async function updateUser() {
+    if (imgCache !== null) {
+      await setUser({ ...user, img: imgCache });
+      console.log("cache updated");
+    }
+    await axios
+      .post(`${db_connect}/user/updateProfile`, user, {
         headers: { Authorization: `Bearer ${props.user.token}` },
       })
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          custom_toast("Profile Updated Successfully!", "success", "✅");
+          fetch_data();
+          setEdit(true);
+        }
       });
   }
   const save_img = () => {
@@ -67,7 +85,8 @@ function Profile(props) {
     } else {
       let reader = new FileReader();
       reader.onload = (e) => {
-        setUser({ ...user, img: e.target.result });
+        // setUser({ ...user, img: e.target.result });
+        setImgCache(e.target.result);
         out_img.current.setAttribute("src", e.target.result);
       };
       reader.readAsDataURL(in_img.current.files[0]);
@@ -322,7 +341,7 @@ function Profile(props) {
               ) : (
                 <div className="flex flex-col md:flex-row">
                   <button
-                    type="submit"
+                    type="button"
                     onClick={updateUser}
                     className="w-11/12 mb-2 md:mb-0 md:mr-2 text-white bg-fuchsia-600 p-2 rounded-md text-fjord_one text-sm"
                   >
@@ -332,6 +351,7 @@ function Profile(props) {
                     type="button"
                     onClick={() => {
                       setEdit(true);
+                      out_img.current.setAttribute("src", user.img);
                     }}
                     className="w-11/12 mt-2 md:mt-0 md:ml-2 text-white bg-sky-600 p-2 rounded-md text-fjord_one text-sm"
                   >
