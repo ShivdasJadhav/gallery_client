@@ -24,6 +24,7 @@ function Signin() {
       })
       .then((res) => {
         if (res.status === 200) {
+          custom_toast(`Welcome Back ${res.data.firstName}`, "success", "📚");
           let data = res.data;
           window.localStorage.setItem("user", JSON.stringify(data));
           configureAuth(true);

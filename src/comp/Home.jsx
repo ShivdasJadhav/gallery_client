@@ -21,7 +21,6 @@ function Home(props) {
     // return () => {
     //   controller.abort();
     // };
-    custom_toast(`Welcome Back ${props.user.firstName}`, "success", "📚");
   }, []);
   let slide_as_screen = "auto";
   if (window.innerWidth > 600) {
