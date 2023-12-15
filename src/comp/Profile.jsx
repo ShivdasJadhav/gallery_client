@@ -43,31 +43,35 @@ function Profile(props) {
         headers: { Authorization: `Bearer ${props.user.token}` },
       })
       .then((res) => {
-        let obj = res.data;
-        setUser({
-          First_Name: obj.firstName,
-          Last_Name: obj.lastName,
-          email: obj.email,
-          contact: obj.contact,
-          bio: obj.bio,
-          img: obj.img === "" ? logo : obj.img,
-        });
+        if (res.status === 200) {
+          let obj = res.data;
+          setUser({
+            First_Name: obj.firstName,
+            Last_Name: obj.lastName,
+            email: obj.email,
+            contact: obj.contact,
+            bio: obj.bio,
+            img: obj.img === "" ? logo : obj.img,
+          });
+        }
       });
   };
   useEffect(() => {
     fetch_data();
   }, []);
   const resetImg = async () => {
-    await setUser({ ...user, img: "" });
+    setImgCache("");
     out_img.current.setAttribute("src", logo);
   };
   async function updateUser() {
+    let payload = null;
     if (imgCache !== null) {
-      await setUser({ ...user, img: imgCache });
-      console.log("cache updated");
+      payload = { ...user, img: imgCache };
+    } else {
+      payload = user;
     }
     await axios
-      .post(`${db_connect}/user/updateProfile`, user, {
+      .post(`${db_connect}/user/updateProfile`, payload, {
         headers: { Authorization: `Bearer ${props.user.token}` },
       })
       .then((res) => {
@@ -212,7 +216,7 @@ function Profile(props) {
                 <button
                   onClick={resetImg}
                   type="button"
-                  className="absolute flex top-5 right-[-6px] hidden"
+                  className="absolute flex top-5 right-[-6px]"
                 >
                   <img src={icon_del} alt="edit artwork" className="mx-1" />
                 </button>
