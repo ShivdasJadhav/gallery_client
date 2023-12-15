@@ -35,6 +35,11 @@ function Profile(props) {
     bio: "",
     img: "",
   });
+  const [counts, setCounts] = useState({
+    published: 0,
+    review: 0,
+    rejected: 0,
+  });
   let in_img = useRef();
   let out_img = useRef();
   const fetch_data = () => {
@@ -57,6 +62,21 @@ function Profile(props) {
       });
   };
   useEffect(() => {
+    axios
+      .get(`${db_connect}/app/getCount`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setCounts({
+            published: res.data.published,
+            review: res.data.review,
+            rejected: res.data.rejected,
+          });
+        }
+      });
     fetch_data();
   }, []);
   const resetImg = async () => {
@@ -89,7 +109,6 @@ function Profile(props) {
     } else {
       let reader = new FileReader();
       reader.onload = (e) => {
-        // setUser({ ...user, img: e.target.result });
         setImgCache(e.target.result);
         out_img.current.setAttribute("src", e.target.result);
       };
@@ -174,7 +193,9 @@ function Profile(props) {
               <h2 className="text-fjord text-lg text-white">
                 Accepted Requests
               </h2>
-              <p className="text-fjord text-sm text-white">30</p>
+              <p className="text-fjord text-sm text-white">
+                {counts.published}
+              </p>
             </div>
           </div>
           <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
@@ -189,7 +210,7 @@ function Profile(props) {
               <h2 className="text-fjord text-lg text-white">
                 Requests In Review
               </h2>
-              <p className="text-fjord text-sm text-white">30</p>
+              <p className="text-fjord text-sm text-white">{counts.review}</p>
             </div>
           </div>
           <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
@@ -202,7 +223,7 @@ function Profile(props) {
             </div>
             <div className="ml-4">
               <h2 className="text-fjord text-lg text-white">Denied Requests</h2>
-              <p className="text-fjord text-sm text-white">30</p>
+              <p className="text-fjord text-sm text-white">{counts.rejected}</p>
             </div>
           </div>
         </div>
