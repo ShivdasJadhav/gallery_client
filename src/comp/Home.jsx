@@ -5,9 +5,8 @@ import { db_connect } from "../Constants";
 import { custom_toast } from "../Constants";
 import {icon_search} from "../assets/img";
 function Home(props) {
-  // const [items, setItems] = useState();
+  const [artData, setArtData] = useState(null);
   useEffect(() => {
-    console.log(props)
     // const controller = new AbortController();
     // axios
     //   .get(`${db_connect}/items`, { signal: controller.signal })
@@ -21,6 +20,17 @@ function Home(props) {
     // return () => {
     //   controller.abort();
     // };
+    axios
+    .get(`${db_connect}/app/getByStatus/published`, {
+      headers: {
+        Authorization: `Bearer ${props.user.token}`,
+      },
+    })
+    .then((res) => {
+      if (res.status === 200) {
+        setArtData(res.data);
+      }
+    });
   }, []);
   let slide_as_screen = "auto";
   if (window.innerWidth > 600) {
@@ -58,12 +68,15 @@ function Home(props) {
         </div>
       </div>
       <div className="my-6 md:grid md:grid-cols-4 md:gap-4">
-        <Art />
-        <Art />
-        <Art />
-        <Art />
-        <Art />
-        <Art />
+      {artData &&
+            Object.entries(artData).map(([key, value]) => {
+              return (
+                <Art
+                  key={value._id}
+                  data={value}
+                />
+              );
+            })}
       </div>
       <div className="flex items-center justify-between">
         <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">

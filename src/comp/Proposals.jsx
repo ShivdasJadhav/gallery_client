@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Art from "./Art";
 import { useNavigate } from "react-router-dom";
@@ -8,33 +8,168 @@ import {
   icon_upload,
   bg_logo,
   close_menu,
+  published,
+  icon_del,
 } from "../assets/img";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { custom_toast } from "../Constants";
 
-function Items_group(props) {
-  //   const navigate=useNavigate();
-  //   let [Arts,setArts]=useState();
-  // const load_data = () => {
-  //   let get_by=document.getElementById('load_by').value;
-  //   axios.get(`${db_connect}/items/status/`+props.user.email+`/`+get_by).then((data)=>{
-  //       if(data.status===200){
-  //           if(Object.keys(data.data.item).length<=0){
-  //             document.getElementById('text_none').innerText="Sorry you dont have Proposals!";
-  //               document.getElementById('text_none').style.display="block";
-  //           }else{
-  //             document.getElementById('text_none').style.display="none";
-  //           }
-  //           setArts(data.data.item);
-  //       }else{
-  //           alert("some error occured");
-  //       }
-  //   })
-  // };
-  let popup_add = useRef();
-  let popup_update = useRef();
-  const popup_close = (from) => {
-    from === "art"
-      ? (popup_add.current.style.display = "none")
-      : (popup_update.current.style.display = "none");
+const artSchema = yup.object().shape({
+  title: yup.string().max(30).required(),
+  description: yup.string().max(700).required(),
+  img: yup.string(),
+});
+function Proposals(props) {
+  const [art, setArt] = useState({
+    title: "",
+    description: "",
+    img: "",
+  });
+  const [artData, setArtData] = useState(null);
+  const [workOn, setWorkOn] = useState(false); //workOn false="addArt" true="updateArt"
+  const [delArt, setDelArt] = useState({
+    titleDel: "",
+    info: null,
+  });
+  const [statusType, setStatusType] = useState("published");
+  const fetchArt = () => {
+    axios
+      .get(`${db_connect}/app/getByStatus/${statusType}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setArtData(res.data);
+        }
+      });
+  };
+  useEffect(() => {
+    fetchArt();
+  }, [statusType]);
+  let popup_del = useRef();
+  let inp_img = useRef();
+  let out_img = useRef();
+  const handleChange = (e) => {
+    setArt({ ...art, [e.target.name]: e.target.value });
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(artSchema),
+  });
+  const saveFile = () => {
+    if (inp_img.current.files[0].size > 100000) {
+      custom_toast("your image size is too Big!", "warning", "⚠️");
+      return;
+    } else {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setArt({ ...art, img: e.target.result });
+        out_img.current.setAttribute("src", e.target.result);
+      };
+      reader.readAsDataURL(inp_img.current.files[0]);
+    }
+  };
+  const artWork = async () => {
+    let url = `${db_connect}/app/newArt`;
+    if (workOn) {
+      url = `${db_connect}/app/updateArt`;
+    }
+    await axios
+      .post(url, art, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          custom_toast(
+            "You'r Art piece has been Requested to publish!",
+            "success",
+            "🔍"
+          );
+          handlePopup("art", "none");
+          resetWork();
+          fetchArt();
+        } else if (res.status === 200) {
+          custom_toast(
+            "You'r Art piece has been Updated to publish!",
+            "success",
+            "📚"
+          );
+          handlePopup("update", "none");
+          resetWork();
+          fetchArt();
+        } else {
+          custom_toast(res.data.msg, "alert", "❌");
+        }
+      });
+  };
+  const resetWork = () => {
+    setArt({ title: "", description: "", img: "" });
+    out_img.current.setAttribute("src", icon_upload);
+  };
+  let popup_artWork = useRef();
+  const handlePopup = (from, todo, data) => {
+    if (todo === "none" && from !== "delete") {
+      resetWork();
+      popup_artWork.current.style.display = todo;
+      return;
+    }
+    switch (from) {
+      case "delete":
+        {
+          setDelArt({ titleDel: "", info: null });
+          if (data) {
+            popup_del.current.style.display = todo;
+            setDelArt({ ...delArt, info: data });
+          } else {
+            popup_del.current.style.display = todo;
+          }
+        }
+        break;
+      case "art":
+        {
+          setWorkOn(false);
+          popup_artWork.current.style.display = todo;
+        }
+        break;
+      case "update":
+        {
+          setWorkOn(true);
+          setArt(data);
+          out_img.current.setAttribute("src", data.img);
+          popup_artWork.current.style.display = todo;
+        }
+        break;
+      default:
+        return;
+    }
+  };
+  const deleteArt = () => {
+    if (delArt.titleDel === delArt.info.title) {
+      axios
+        .delete(`${db_connect}/app/deleteArt/${delArt.info.id}`, {
+          headers: { Authorization: `Bearer ${props.user.token}` },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            custom_toast("Art Piece deleted Successfully", "success", "✅");
+            handlePopup("delete", "none");
+            fetchArt();
+          } else {
+            custom_toast("Failed To Delete the Art Piece", "alert", "❌");
+          }
+        });
+    } else {
+      custom_toast("Titles Not Match!", "warning", "⚠️");
+    }
   };
   return (
     <>
@@ -61,33 +196,41 @@ function Items_group(props) {
               <select
                 name="search_by"
                 id="search_by"
+                value={statusType}
+                onChange={(e) => setStatusType(e.target.value)}
                 className=" w-28 bg-fuchsia-500 text-white text-fjord relative w-20 outline-none border-none"
               >
                 <option value="published" className="bg-white">
                   Published
                 </option>
-                <option value="requested" className="bg-white">
+                <option value="review" className="bg-white">
                   Requested
                 </option>
-                <option value="denied" className="bg-white">
+                <option value="rejected" className="bg-white">
                   Denied
                 </option>
               </select>
             </div>
-            <button className="px-4 py-1 h-fit mx-2 w-fit bg-sky-500 hover:bg-sky-600 rounded-md text-white text-fjord">
+            <button
+              onClick={() => handlePopup("art", "block")}
+              className="px-4 py-1 h-fit mx-2 w-fit bg-sky-500 hover:bg-sky-600 rounded-md text-white text-fjord"
+            >
               New <b className="text-white font-bold">+</b>
             </button>
           </div>
         </div>
         <div className="my-6 md:grid md:grid-cols-4 md:gap-4">
-          <Art from="editor" />
-          <Art from="editor" />
-          <Art from="editor" />
-          <Art from="editor" />
-          <Art from="editor" />
-          <Art from="editor" />
-          <Art from="editor" />
-          <Art from="editor" />
+          {artData &&
+            Object.entries(artData).map(([key, value]) => {
+              return (
+                <Art
+                  key={value._id}
+                  isProfile
+                  data={value}
+                  handlePopup={handlePopup}
+                />
+              );
+            })}
         </div>
         <div className="flex items-center justify-between">
           <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
@@ -105,23 +248,26 @@ function Items_group(props) {
           </button>
         </div>
       </div>
-      <div
-        ref={popup_add}
+      <form
+        method="POST"
+        onSubmit={handleSubmit(artWork)}
+        ref={popup_artWork}
         id="new_art"
         className="absolute top-0 bg-blue-cover hidden flex items-center justify-center h-screen w-full"
       >
-        <div className="relative mx-auto w-11/12 flex flex-col items-center border border-fuchsia-400 border-2 rounded-xl py-4 bg-white md:w-6/12">
+        <div className="relative mx-auto w-11/12 flex flex-col mt-4 md:mt-14 items-center border border-fuchsia-400 border-2 rounded-xl py-4 bg-white md:w-6/12">
           <button
-            onClick={() => popup_close("art")}
-            className="ml-auto w-fit mx-4"
+            type="button"
+            onClick={() => handlePopup("art", "none")}
+            className="ml-auto w-fit my-4 mx-4"
           >
             <img src={close_menu} alt="close popup" className="w-4 h-4" />
           </button>
           <div className="absolute w-10/12 md:w-3/6 mx-auto my-4 z-0">
             <img src={bg_logo} alt="background logo" />
           </div>
-          <h1 className="text-fuchsia-500 text-2xl text-allura my-4 w-fit mx-auto">
-            Request an Art to Publish
+          <h1 className="text-fuchsia-500 text-2xl text-allura my-2 w-fit mx-auto">
+            {workOn ? " Update your Art piece" : "Request an Art to Publish"}
           </h1>
           <div className="w-10/12 pl-4 z-10">
             {" "}
@@ -129,113 +275,106 @@ function Items_group(props) {
               <label className="block w-11/12 text-fjord_one text-md">
                 Title
               </label>
-              <input
-                className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="text"
-                name="title"
-              />
+              <div className=" my-2">
+                <input
+                  {...register("title")}
+                  className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 py-2 rounded-lg focus:border-2 outline-none"
+                  type="text"
+                  name="title"
+                  value={art.title}
+                  onChange={handleChange}
+                />
+                <p className="alert">{errors.title?.message}</p>
+              </div>
             </div>
             <div className="flex-1">
               <label className="block w-full text-fjord_one text-md">
                 Description
               </label>
-              <textarea
-                rows={3}
-                cols={33}
-                className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="text"
-                name="desc"
-              />
+              <div className="my-2">
+                <textarea
+                  {...register("description")}
+                  rows={3}
+                  cols={33}
+                  className="w-11/12 px-2 text-fjord_one text-xs border border-fuchsia-400 py-2 rounded-lg focus:border-2 outline-none"
+                  type="text"
+                  name="description"
+                  value={art.description}
+                  onChange={handleChange}
+                />
+                <p className="alert">{errors.description?.message}</p>
+              </div>
             </div>
           </div>
-          <div className="md:flex w-10/12 pl-4 z-10">
+          <div className="md:flex items-center w-10/12 pl-4 z-10">
             <div className="border border-fuchsia-400 bg-white rounded-md w-11/12 md:w-6/12 h-40 flex items-center justify-center">
               <img
                 src={icon_upload}
+                ref={out_img}
                 alt="user picture"
-                className="w-4/12 md:w-2/12 h-auto"
+                className="w-auto h-full"
               />
             </div>
             <div className="md:px-8 md:w-6/12">
-              <button className="w-11/12 my-2 text-white bg-fuchsia-400 p-2 rounded-md text-fjord_one text-sm">
+              <label
+                htmlFor="inp_img"
+                className="w-11/12 my-2 block text-center text-white bg-fuchsia-400 p-2 rounded-md text-fjord_one text-sm hover:cursor-pointer"
+              >
                 Upload Art
-              </button>
-              <div className="w-1/4 mx-auto h-1 bg-fuchsia-400 my-2 rounded-md"></div>
-              <button className="w-11/12 my-2 text-white bg-fuchsia-400 p-2 rounded-md text-fjord_one text-sm">
-                Send Request
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        ref={popup_update}
-        id="update_art"
-        className="absolute top-0 bg-blue-cover hidden flex items-center justify-center h-screen w-full"
-      >
-        <div className="relative mx-auto w-11/12 flex flex-col items-center border border-fuchsia-400 border-2 rounded-xl py-4 bg-white md:w-6/12">
-          <button
-            onClick={() => popup_close("update")}
-            className="ml-auto w-fit mx-4"
-          >
-            <img src={close_menu} alt="close popup" className="w-4 h-4" />
-          </button>
-          <div className="absolute w-10/12 md:w-3/6 mx-auto my-4 z-0">
-            <img src={bg_logo} alt="background logo" />
-          </div>
-          <div className="absolute w-10/12 mx-auto my-4 z-0 md:w-3/6">
-            <img src={bg_logo} alt="" />
-          </div>
-          <h1 className="text-fuchsia-500 text-2xl text-allura my-4 w-fit mx-auto">
-            Update your Art piece
-          </h1>
-          <div className="w-10/12 pl-4 z-10">
-            {" "}
-            <div className="flex-1">
-              <label className="block w-11/12 text-fjord_one text-md">
-                Title
               </label>
               <input
-                className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="text"
-                name="title"
+                id="inp_img"
+                type="file"
+                className="hidden"
+                name="inp_img"
+                ref={inp_img}
+                onChange={saveFile}
               />
-            </div>
-            <div className="flex-1">
-              <label className="block w-full text-fjord_one text-md">
-                Description
-              </label>
-              <textarea
-                rows={3}
-                cols={33}
-                className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="text"
-                name="desc"
-              />
-            </div>
-          </div>
-          <div className="md:flex w-10/12 pl-4 z-10">
-            <div className="border border-fuchsia-400 bg-white rounded-md w-11/12 h-40 flex items-center justify-center md:w-6/12">
-              <img
-                src={icon_upload}
-                alt="user picture"
-                className="w-4/12 md:w-2/12 h-auto"
-              />
-            </div>
-            <div className="md:flex-1 md:px-8 md:w-3/6">
-              <button className="w-11/12 my-2 text-white bg-fuchsia-400 p-2 rounded-md text-fjord_one text-sm">
-                Upload Art
-              </button>
               <div className="w-1/4 mx-auto h-1 bg-fuchsia-400 my-2 rounded-md"></div>
-              <button className="w-11/12 my-2 text-white bg-fuchsia-400 p-2 rounded-md text-fjord_one text-sm">
-                Update
+              <button
+                type="submit"
+                className="w-11/12 my-2 text-white bg-sky-400 p-2 rounded-md text-fjord_one text-sm"
+              >
+                {workOn ? "Update" : "Send Request"}
               </button>
             </div>
           </div>
         </div>
+      </form>
+      {/* Popup delete art */}
+      <div
+        id="popup_del"
+        ref={popup_del}
+        className="absolute hidden top-4 w-fit mx-auto right-0 left-0 border bg-white border-rose-500 rounded-md p-4"
+      >
+        <button
+          onClick={() => handlePopup("delete", "none")}
+          className="w-fit absolute right-4"
+        >
+          <img src={close_menu} alt="close Popup" />
+        </button>
+        <p className="text-fjord mt-6 text-sm my-1 ">
+          Confirm the Art piece to <span className="text-red-600">Delete</span>{" "}
+          by typing the Title.
+        </p>
+        <input
+          type="text"
+          name="titleDel"
+          value={delArt.titleDel}
+          className="text-fjord w-full text-sm px-3 my-1 text-rose-500 border block focus:outline-red-300"
+          onChange={(e) =>
+            setDelArt({ ...delArt, [e.target.name]: e.target.value })
+          }
+        />
+        <button
+          onClick={deleteArt}
+          className="text-white text-xs px-3 py-1 my-1 bg-rose-500 rounded-md hover:bg-rose-600"
+        >
+          Delete
+        </button>
       </div>
     </>
   );
 }
 
-export default Items_group;
+export default Proposals;
