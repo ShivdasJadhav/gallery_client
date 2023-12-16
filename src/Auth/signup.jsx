@@ -138,7 +138,7 @@ function Signup() {
             >
               <option value="artist">Artist</option>
               <option value="enthusiast">Enthusiast</option>
-              <option value="organization">Organization</option>
+              <option value="org">Organization</option>
             </select>
             <p className="alert">{errors.user_type?.message}</p>
           </div>

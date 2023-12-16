@@ -4,6 +4,7 @@ import axios from "axios";
 import { db_connect } from "../Constants";
 import { icon_edit, icon_del } from "../assets/img";
 function Art(props) {
+  let navigate = useNavigate();
   // const navigate = useNavigate();
   // const { _id, name, author, url_pic, description, user, status } = props.data;
   // const delete_item = async (id) => {
@@ -38,7 +39,7 @@ function Art(props) {
   // };
   return (
     <div
-      className={`h-64 my-2 md:m-0 relative border border-sky-600 rounded-xl bg-[url('${props.data.img}')] bg-no-repeat bg-center bg-cover hover:cursor-pointer`}
+      className={`h-64 my-2 md:m-0 relative border border-sky-600 rounded-xl bg-[url('${props.data.img}')] bg-no-repeat bg-center bg-cover `}
     >
       {props.isProfile && (
         <div className="absolute flex right-1 top-[-12px] block">
@@ -58,8 +59,9 @@ function Art(props) {
             <img src={icon_del} alt="delete artwork" className="mx-1" />
           </button>
         </div>
-      )}
-      <div className="mt-auto bg-white absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">
+      )}<div 
+      onClick={() => navigate(`/art/${props.data._id}`)}
+       className="mt-auto bg-white hover:cursor-pointer absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">
         <h3 className="text-fuchsia-900 text-allura text-base text-center my-1">
           {props.data.title}
         </h3>
