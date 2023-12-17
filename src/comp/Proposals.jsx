@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Art from "./Art";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { db_connect } from "../Constants";
 import {
   icon_search,
@@ -22,6 +22,10 @@ const artSchema = yup.object().shape({
   img: yup.string(),
 });
 function Proposals(props) {
+  var { paramStatus } = useParams();
+  if (!paramStatus) {
+    paramStatus = "published";
+  }
   const [art, setArt] = useState({
     title: "",
     description: "",
@@ -33,7 +37,7 @@ function Proposals(props) {
     titleDel: "",
     info: null,
   });
-  const [statusType, setStatusType] = useState("published");
+  const [statusType, setStatusType] = useState(paramStatus);
   const fetchArt = () => {
     axios
       .get(`${db_connect}/app/getByStatus/${statusType}`, {

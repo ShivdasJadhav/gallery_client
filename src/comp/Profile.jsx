@@ -14,7 +14,7 @@ import {
   icon_edit,
   icon_del,
 } from "../assets/img";
-
+import { NavLink } from "react-router-dom";
 const user_schema = yup.object().shape({
   First_Name: yup.string().required(),
   Last_Name: yup.string().required(),
@@ -181,51 +181,64 @@ function Profile(props) {
     <>
       <div id="profile" className="w-11/12 mx-auto py-4 md:w-8/12">
         <div className="flex flex-col md:flex-row">
-          <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
-            <div>
-              <img
-                src={published}
-                alt="symbol published"
-                className="w-16 h-auto"
-              />
+          <NavLink to={"/proposal/published"}>
+            {" "}
+            <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
+              <div>
+                <img
+                  src={published}
+                  alt="symbol published"
+                  className="w-16 h-auto"
+                />
+              </div>
+              <div className="ml-4">
+                <h2 className="text-fjord text-lg text-white">
+                  Accepted Requests
+                </h2>
+                <p className="text-fjord text-sm text-white">
+                  {counts.published}
+                </p>
+              </div>
             </div>
-            <div className="ml-4">
-              <h2 className="text-fjord text-lg text-white">
-                Accepted Requests
-              </h2>
-              <p className="text-fjord text-sm text-white">
-                {counts.published}
-              </p>
+          </NavLink>
+
+          <NavLink to={"/proposal/review"}>
+            <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
+              <div>
+                <img
+                  src={reviewed}
+                  alt="symbol published"
+                  className="w-16 h-auto"
+                />
+              </div>
+              <div className="ml-4">
+                <h2 className="text-fjord text-lg text-white">
+                  Requests In Review
+                </h2>
+                <p className="text-fjord text-sm text-white">{counts.review}</p>
+              </div>
             </div>
-          </div>
-          <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
-            <div>
-              <img
-                src={reviewed}
-                alt="symbol published"
-                className="w-16 h-auto"
-              />
+          </NavLink>
+
+          <NavLink to={"/proposal/rejected"}>
+            <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
+              <div>
+                <img
+                  src={rejected}
+                  alt="symbol published"
+                  className="w-16 h-auto"
+                />
+              </div>
+              <div className="ml-4">
+                <h2 className="text-fjord text-lg text-white">
+                  Denied Requests
+                </h2>
+                <p className="text-fjord text-sm text-white">
+                  {counts.rejected}
+                </p>
+              </div>
             </div>
-            <div className="ml-4">
-              <h2 className="text-fjord text-lg text-white">
-                Requests In Review
-              </h2>
-              <p className="text-fjord text-sm text-white">{counts.review}</p>
-            </div>
-          </div>
-          <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
-            <div>
-              <img
-                src={rejected}
-                alt="symbol published"
-                className="w-16 h-auto"
-              />
-            </div>
-            <div className="ml-4">
-              <h2 className="text-fjord text-lg text-white">Denied Requests</h2>
-              <p className="text-fjord text-sm text-white">{counts.rejected}</p>
-            </div>
-          </div>
+          </NavLink>
         </div>
         <form
           onSubmit={handleSubmit(updateUser)}
