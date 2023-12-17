@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthStatus } from "../Controller";
 import logo from "../assets/img/logo.png";
 import openMenu from "../assets/img/open_menu.png";
@@ -12,7 +12,7 @@ function Navbar(props) {
     localStorage.clear();
   };
   let menu = useRef();
-  
+
   const open_menu = () => {
     menu.current.style.display = "block";
   };
@@ -22,7 +22,13 @@ function Navbar(props) {
   return (
     <header className="flex m-4 w-11/12 md:w-8/12 mx-auto">
       <div className="w-fit ">
-        <img src={logo} alt="application logo" className="w-12 h-auto" />
+        {props.user.isAdmin ? (
+          <NavLink to={"/dashboard"}>
+            <img src={logo} alt="application logo" className="w-12 h-auto" />
+          </NavLink>
+        ) : (
+          <img src={logo} alt="application logo" className="w-12 h-auto" />
+        )}
         <p className="h-0.5 mt-1 w-6 bg-fuchsia-300 mx-auto rounded-lg"></p>
       </div>
       <div className="relative flex flex-col items-center flex-1">

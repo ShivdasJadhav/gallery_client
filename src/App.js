@@ -14,10 +14,11 @@ function App(props) {
       <BrowserRouter>
         <div className="h-screen w-full overflow-y-scroll">
           <Toaster />
-          <Navbar />
+          <Navbar user={user} />
           <Routes>
             <Route path="/*" element={<Home user={user} />} />
             <Route path="/proposal" element={<Proposals user={user} />} />
+            <Route path="/proposal/:paramStatus" element={<Proposals user={user} />} />
             <Route path="/art/:id" element={<Art_pice user={user} />} />
             <Route path="/profile" element={<Profile user={user} />} />
             {user.isAdmin && (
