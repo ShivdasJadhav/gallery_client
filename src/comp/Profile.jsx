@@ -5,6 +5,8 @@ import { custom_toast, db_connect } from "../Constants";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import {
   published,
   reviewed,
@@ -19,7 +21,6 @@ const user_schema = yup.object().shape({
   First_Name: yup.string().required(),
   Last_Name: yup.string().required(),
   email: yup.string().email().required(),
-  contact: yup.number().min(10).required(),
   bio: yup.string().max(600),
   img: yup.string(),
 });
@@ -181,70 +182,69 @@ function Profile(props) {
     <>
       <div id="profile" className="w-11/12 mx-auto py-4 md:w-8/12">
         <div className="flex flex-col md:flex-row">
-          <NavLink to={"/proposal/published"}>
+          <NavLink
+            className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1"
+            to={"/proposal/published"}
+          >
             {" "}
-            <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
-              <div>
-                <img
-                  src={published}
-                  alt="symbol published"
-                  className="w-16 h-auto"
-                />
-              </div>
-              <div className="ml-4">
-                <h2 className="text-fjord text-lg text-white">
-                  Accepted Requests
-                </h2>
-                <p className="text-fjord text-sm text-white">
-                  {counts.published}
-                </p>
-              </div>
+            <div>
+              <img
+                src={published}
+                alt="symbol published"
+                className="w-16 h-auto"
+              />
+            </div>
+            <div className="ml-4">
+              <h2 className="text-fjord text-lg text-white">
+                Accepted Requests
+              </h2>
+              <p className="text-fjord text-sm text-white">
+                {counts.published}
+              </p>
             </div>
           </NavLink>
 
-          <NavLink to={"/proposal/review"}>
-            <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
-              <div>
-                <img
-                  src={reviewed}
-                  alt="symbol published"
-                  className="w-16 h-auto"
-                />
-              </div>
-              <div className="ml-4">
-                <h2 className="text-fjord text-lg text-white">
-                  Requests In Review
-                </h2>
-                <p className="text-fjord text-sm text-white">{counts.review}</p>
-              </div>
+          <NavLink
+            className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1"
+            to={"/proposal/review"}
+          >
+            <div>
+              <img
+                src={reviewed}
+                alt="symbol published"
+                className="w-16 h-auto"
+              />
+            </div>
+            <div className="ml-4">
+              <h2 className="text-fjord text-lg text-white">
+                Requests In Review
+              </h2>
+              <p className="text-fjord text-sm text-white">{counts.review}</p>
             </div>
           </NavLink>
 
-          <NavLink to={"/proposal/rejected"}>
-            <div className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1">
-              <div>
-                <img
-                  src={rejected}
-                  alt="symbol published"
-                  className="w-16 h-auto"
-                />
-              </div>
-              <div className="ml-4">
-                <h2 className="text-fjord text-lg text-white">
-                  Denied Requests
-                </h2>
-                <p className="text-fjord text-sm text-white">
-                  {counts.rejected}
-                </p>
-              </div>
+          <NavLink
+            className="flex bg-sky-500 px-4 py-2 rounded-md w-full my-2 md:mx-1"
+            to={"/proposal/rejected"}
+          >
+            <div>
+              <img
+                src={rejected}
+                alt="symbol published"
+                className="w-16 h-auto"
+              />
+            </div>
+            <div className="ml-4">
+              <h2 className="text-fjord text-lg text-white">Denied Requests</h2>
+              <p className="text-fjord text-sm text-white">{counts.rejected}</p>
             </div>
           </NavLink>
         </div>
         <form
           onSubmit={handleSubmit(updateUser)}
-          className="mx-auto w-full flex flex-col md:flex-row items-center mb-8 mt-14 md:mt-8 border border-fuchsia-400 border-2 rounded-xl py-8 md:py-12 md:w-10/12 bg-white"
+          className="mx-auto w-full flex flex-col md:flex-row items-center mb-8 mt-14 md:mt-8 border border-fuchsia-400 border-2 rounded-xl py-8 lg:w-10/12 md:py-12 bg-white"
         >
-          <div className="md:flex md:flex-col w-10/12 pl-4">
+          <div className="md:flex md:flex-col w-10/12 sm:w-full pl-4">
             <div className="relative w-fit mx-auto">
               {!isEdit && (
                 <button
@@ -318,7 +318,7 @@ function Profile(props) {
               />
             </div>
           </div>
-          <div className="md:flex md:flex-col w-10/12 pl-4">
+          <div className="md:flex md:flex-col w-10/12 sm:w-full pl-4">
             <div className="flex-1 md:px-8">
               <label className="block w-11/12 text-fjord_one text-md">
                 Last Name
@@ -353,15 +353,28 @@ function Profile(props) {
               <label className="block w-11/12 text-fjord_one text-md">
                 Phone No.
               </label>
-              <input
-                {...register("contact")}
-                readOnly={isEdit}
-                className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-                type="tel"
-                name="contact"
+              <PhoneInput
+                disabled={isEdit}
+                inputStyle={{
+                  width: "90%",
+                  padding: "0.4rem 0 0.4rem 3rem",
+                  margin: "2rem 0",
+                  fontSize: "13px",
+                  border: "1px solid #e879f9",
+                  borderRadius: "0.5rem",
+                  outline: "none",
+                }}
+                dropdownStyle={{
+                  border: "2px solid #e879f9",
+                  borderRadius: "0.8rem",
+                }}
+                buttonStyle={{
+                  border: "1px solid #e879f9",
+                  borderRadius: "0.4rem 0 0 0.4rem",
+                }}
+                country={"in"}
                 value={user.contact}
-                onChange={handleChange}
-                placeholder="83*****34"
+                onChange={(phone) => setUser({ ...user, contact: "+" + phone })}
               />
             </div>
             <div className="md:flex-1 md:px-8">

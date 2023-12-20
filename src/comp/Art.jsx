@@ -1,45 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { db_connect } from "../Constants";
+import { custom_toast, db_connect } from "../Constants";
 import { icon_edit, icon_del } from "../assets/img";
 function Art(props) {
   let navigate = useNavigate();
-  // const navigate = useNavigate();
-  // const { _id, name, author, url_pic, description, user, status } = props.data;
-  // const delete_item = async (id) => {
-  //   await axios.delete(`${db_connect}/items/${id}`).then((msg) => {
-  //     if (msg.status !== undefined && msg.status === 200) {
-  //       alert(msg.data.message);
-  //       props.fetch_new();
-  //     } else {
-  //       alert(msg.message);
-  //     }
-  //   });
-  // };
-  // const Accept_prop = async (id) => {
-  //   await axios.get(`${db_connect}/items/accept/${id}`).then((msg) => {
-  //     if (msg.status !== undefined && msg.status === 200) {
-  //       alert(msg.data.message);
-  //       props.fetch_new();
-  //     } else {
-  //       alert(msg.message);
-  //     }
-  //   });
-  // };
-  // const Reject_prop = async (id) => {
-  //   await axios.get(`${db_connect}/items/reject/${id}`).then((msg) => {
-  //     if (msg.status !== undefined && msg.status === 200) {
-  //       alert(msg.data.message);
-  //       props.fetch_new();
-  //     } else {
-  //       alert(msg.message);
-  //     }
-  //   });
-  // };
+  const setView = async () => {
+    await axios
+      .put(
+        `${db_connect}/app/setView/${props.data._id}`,
+        {},
+        { headers: { Authorization: `Bearer ${props.token}` } }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          navigate(`/art/${props.data._id}`);
+        } else {
+          custom_toast("failed to ser user view", "warning", "⚠️");
+        }
+      });
+  };
   return (
     <div
-      className={`h-64 my-2 md:m-0 relative border border-sky-600 rounded-xl bg-[url('${props.data.img}')] bg-no-repeat bg-center bg-cover `}
+      className={`h-64 my-4 md:my-2 md:m-0 relative border border-sky-600 rounded-xl bg-[url('${props.data.img}')] bg-no-repeat bg-center bg-cover `}
     >
       {props.isProfile && (
         <div className="absolute flex right-1 top-[-12px] block">
@@ -59,18 +42,30 @@ function Art(props) {
             <img src={icon_del} alt="delete artwork" className="mx-1" />
           </button>
         </div>
-      )}<div 
-      onClick={() => navigate(`/art/${props.data._id}`)}
-       className="mt-auto bg-white hover:cursor-pointer absolute bottom-0 border border-0 border-t border-fuchsia-500 h-24 w-full">
+      )}
+      <div
+        onClick={async () => {
+          if (props.isHome) {
+            await setView();
+          } else {
+            navigate(`/art/${props.data._id}`);
+          }
+        }}
+        className="mt-auto rounded-xl border border-fuchsia-600 border-x-0 border-b-0  bg-white hover:cursor-pointer absolute bottom-0 h-32 w-full"
+      >
         <h3 className="text-fuchsia-900 text-allura text-base text-center my-1">
           {props.data.title}
         </h3>
         <p className="h-3/6 text-xs leading-1 text-fjord_one px-4 text-justify overflow-hidden ">
           {props.data.description}
         </p>
+        <p className="text-allura pr-4 text-xs pt-2 text-right">- {props.data.author}</p>
       </div>
     </div>
   );
 }
+
+// pedpalliwar
+// kamble
 
 export default Art;

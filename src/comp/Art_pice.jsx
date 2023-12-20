@@ -231,13 +231,13 @@ function Art_pice(props) {
                     <p className="text-fjord text-sm">{art.likes.length}</p>
                   </button>
                 )}
-                <button className="flex h-fit px-2 ml-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around">
+                <button className="flex h-fit bg-fuchsia-500 px-2 ml-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around">
                   <img
                     className="w-4 mx-1 h-fit"
                     src={icon_view}
                     alt="eye view"
                   />
-                  <p className="text-fjord text-sm">{art.views.lenght}</p>
+                  <p className="text-fjord text-white text-sm">{art.views.length}</p>
                 </button>
               </div>
             </div>

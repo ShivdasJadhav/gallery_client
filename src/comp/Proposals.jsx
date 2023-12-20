@@ -31,7 +31,9 @@ function Proposals(props) {
     description: "",
     img: "",
   });
+  const [inpSearch, setInpSearch] = useState("");
   const [artData, setArtData] = useState(null);
+  const [pageCount, setPageCount] = useState(1);
   const [workOn, setWorkOn] = useState(false); //workOn false="addArt" true="updateArt"
   const [delArt, setDelArt] = useState({
     titleDel: "",
@@ -40,11 +42,14 @@ function Proposals(props) {
   const [statusType, setStatusType] = useState(paramStatus);
   const fetchArt = () => {
     axios
-      .get(`${db_connect}/app/getByStatus/${statusType}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      })
+      .get(
+        `${db_connect}/app/getByStatus/?status=${statusType}&search=${inpSearch}&page=${pageCount}&limit=9`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           setArtData(res.data);
@@ -53,7 +58,7 @@ function Proposals(props) {
   };
   useEffect(() => {
     fetchArt();
-  }, [statusType]);
+  }, [statusType, inpSearch, pageCount]);
   let popup_del = useRef();
   let inp_img = useRef();
   let out_img = useRef();
@@ -177,25 +182,18 @@ function Proposals(props) {
   };
   return (
     <>
-      <div id="proposals" className="full px-4 md:w-10/12 mx-auto">
-        <div className="flex flex-col md:flex-row md:w-8/12 mx-auto">
-          <div className="flex-1 flex items-center justify-between m-2">
-            <div className="px-2 rounded-md md:text-lg">Your Artworks</div>
-            <div className="flex border border-fuchsia-500 rounded-md py-1 ml-2 ">
-              <input
-                type="text"
-                id="search_field"
-                placeholder="title..."
-                className="w-36 text-md text-fuchsia-600 text-fjord placeholder-fuchsia-400 pl-2 px-4 outline-none border-none md:w-52"
-              />
-              <img
-                src={icon_search}
-                alt="search symbol for search field"
-                className="w-4 h-auto mr-2"
-              />
-            </div>
-          </div>
-          <div className="flex items-center justify-center md:w-5/12 md:justify-start">
+      <div id="proposals" className="w-full px-4 md:w-10/12 mx-auto">
+        <div className="px-2 w-fit my-3 mx-auto rounded-md md:text-lg">
+          Your Artworks
+        </div>
+        <div className="flex flex-col md:justify-center md:flex-row w-full">
+          <div className="flex w-full items-center justify-center md:w-fit">
+            <button
+              onClick={() => handlePopup("art", "block")}
+              className="px-4 py-1 h-fit mx-2 whitespace-nowrap w-fit bg-sky-500 hover:bg-sky-600 rounded-md text-white text-fjord"
+            >
+              New <b className="text-white font-bold">+</b>
+            </button>
             <div className="w-36 h-fit border mx-2 border-2 bg-fuchsia-500 px-4 py-1 rounded-md">
               <select
                 name="search_by"
@@ -215,29 +213,56 @@ function Proposals(props) {
                 </option>
               </select>
             </div>
-            <button
-              onClick={() => handlePopup("art", "block")}
-              className="px-4 py-1 h-fit mx-2 w-fit bg-sky-500 hover:bg-sky-600 rounded-md text-white text-fjord"
-            >
-              New <b className="text-white font-bold">+</b>
-            </button>
+          </div>
+          <div className="w-full sm:w-fit my-2 flex border border-fuchsia-500 rounded-md py-1">
+            <input
+              type="text"
+              id="search_field"
+              placeholder="title..."
+              value={inpSearch}
+              onChange={(e) => {
+                setInpSearch(e.target.value);
+              }}
+              className="w-full text-md text-fuchsia-600 text-fjord placeholder-fuchsia-400 pl-2 px-4 outline-none border-none md:w-52"
+            />
+            <img
+              src={icon_search}
+              alt="search symbol for search field"
+              className="w-4 h-auto mr-2"
+            />
           </div>
         </div>
-        <div className="my-6 md:grid md:grid-cols-4 md:gap-4">
+        <div className="my-6 sm:grid sm:grid-cols-2 md:grid-cols-3 sm:gap-2 md:gap-4 items-center justify-center">
           {artData &&
-            Object.entries(artData).map(([key, value]) => {
+            artData.arts.map((item) => {
               return (
                 <Art
-                  key={value._id}
+                  key={item._id}
                   isProfile
-                  data={value}
+                  data={item}
                   handlePopup={handlePopup}
                 />
               );
             })}
         </div>
+        {artData && artData.arts.length === 0 && (
+          <div className="h-40 w-fit mx-auto text-center">
+            <h1 className="text-allura text-2xl text-fuchsia-400">
+              Sorry!
+              <br />
+              You have no Art Piece in {statusType}
+            </h1>
+          </div>
+        )}
         <div className="flex items-center justify-between">
-          <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
+          <button
+            onClick={() => {
+              if (pageCount > 1) {
+                setPageCount(pageCount - 1);
+              }
+            }}
+            className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
+          >
             {" "}
             &#8617; Prev
           </button>
@@ -246,7 +271,21 @@ function Proposals(props) {
             <p className="h-2 w-2 mx-1 bg-fuchsia-400 rounded-full"></p>
             <p className="h-2 w-2 mx-1 bg-fuchsia-300 rounded-full"></p>
           </div>
-          <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
+          <button
+            onClick={() => {
+              if (pageCount === artData.totalPages) {
+                custom_toast(
+                  "you have caught up with everything we have!",
+                  "warning",
+                  "👨🏽‍💻"
+                );
+              }
+              if (pageCount < artData.totalPages) {
+                setPageCount(pageCount + 1);
+              }
+            }}
+            className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
+          >
             {" "}
             Next &#8618;
           </button>

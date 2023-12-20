@@ -8,7 +8,6 @@ function Navbar(props) {
   const configureAuth = useContext(AuthStatus);
   const logout = () => {
     configureAuth(false);
-    console.log("logout");
     localStorage.clear();
   };
   let menu = useRef();
@@ -20,7 +19,7 @@ function Navbar(props) {
     menu.current.style.display = "none";
   };
   return (
-    <header className="flex m-4 w-11/12 md:w-8/12 mx-auto">
+    <header className="flex m-4 z-10 w-11/12 md:w-8/12 mx-auto">
       <div className="w-fit ">
         {props.user.isAdmin ? (
           <NavLink to={"/dashboard"}>
@@ -44,7 +43,7 @@ function Navbar(props) {
         </button>
         <div
           ref={menu}
-          className="absolute flex flex-col top-1 right-0 w-6/12 border border-fuchsia-600 rounded-lg text-fjord bg-white md:border-none hidden md:block"
+          className="absolute py-6 md:py-2 px-2 z-10 flex flex-col top-1 right-0 w-6/12 border border-fuchsia-600 rounded-lg text-fjord bg-white md:border-none hidden md:block"
         >
           <button
             onClick={close_menu}
@@ -56,14 +55,14 @@ function Navbar(props) {
               className="w-6 h-auto md:hidden"
             />
           </button>
-          <div className="flex flex-col w-full md:flex-row justify-end">
+          <div className="flex flex-col w-full md:flex-row items-start justify-end">
             <NavLink
               to="/"
               className={({ isActive }) => {
                 if (isActive) {
-                  return "border-b-2 border-sky-500 mx-4 text-fjord";
+                  return "border-b-2 md:border-r-1 rounded-md border-sky-500 mx-2 px-2 text-fjord w-11/12 md:w-fit";
                 } else {
-                  return "my-1 mx-4 text-fjord";
+                  return "my-1 mx-4 text-fjord w-11/12 md:w-fit";
                 }
               }}
             >
@@ -73,9 +72,9 @@ function Navbar(props) {
               to="/proposal"
               className={({ isActive }) => {
                 if (isActive) {
-                  return "border-b-2 border-sky-500 mx-4 text-fjord";
+                  return "border-b-2 md:border-r-1 rounded-md border-sky-500 mx-2 px-2 text-fjord w-11/12 md:w-fit";
                 } else {
-                  return "my-1 mx-4 text-fjord";
+                  return "my-1 mx-4 text-fjord w-11/12 md:w-fit";
                 }
               }}
             >
@@ -85,18 +84,19 @@ function Navbar(props) {
               to="/profile"
               className={({ isActive }) => {
                 if (isActive) {
-                  return "border-b-2 border-sky-500 mx-4 text-fjord";
+                  return "border-b-2 md:border-r-1 rounded-md border-sky-500 mx-2 px-2 text-fjord w-11/12 md:w-fit";
                 } else {
-                  return "my-1 mx-4 text-fjord";
+                  return "my-1 mx-4 text-fjord w-11/12 md:w-fit";
                 }
               }}
             >
               Profile
             </NavLink>
+            <div className="h-1 w-12 bg-fuchsia-400 my-1 rounded-md mx-auto md:hidden"></div>
             <button
               type="button"
               onClick={logout}
-              className="w-fit my-1 mx-2 px-4 text-left bg-sky-500 hover:bg-sky-600 text-white rounded-md"
+              className="w-11/12 text-center h-8 md:h-auto md:py-1 md:w-fit my-1 mx-2 px-4 text-left bg-sky-500 hover:bg-sky-600 text-white rounded-md"
             >
               logout
             </button>
