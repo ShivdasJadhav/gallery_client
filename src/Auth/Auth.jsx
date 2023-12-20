@@ -8,7 +8,7 @@ import Review from "./Review";
 import About from "./About";
 import Footer from "./Footer";
 import Signin from "./Signin";
-import Signup from "./Signup";
+import Register from "./Register";
 import Forgot from "./Forgot";
 import { Toaster } from "react-hot-toast";
 axios.defaults.withCredentials = true;
@@ -32,7 +32,7 @@ function Auth() {
             }
           ></Route>
           <Route path="/login" element={<Signin/>}></Route>
-          <Route path="/register" element={<Signup/>}></Route>
+          <Route path="/register" element={<Register/>}></Route>
           <Route path="/forgot" element={<Forgot/>}></Route>
         </Routes>
         {/* <div

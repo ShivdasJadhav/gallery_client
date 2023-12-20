@@ -18,7 +18,7 @@ const registerSchema = yup.object().shape({
   c_pass: yup.string().oneOf([yup.ref("pass"), null]),
 });
 
-function Signup() {
+function Register() {
   const navigate = useNavigate();
   const [user, setUser] = useState({
     First_Name: "",
@@ -250,4 +250,4 @@ function Signup() {
     </div>
   );
 }
-export default Signup;
+export default Register;
