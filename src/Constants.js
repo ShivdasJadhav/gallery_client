@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
-// const db_connect="https://gallary-server.vercel.app";
-export const db_connect = "http://localhost:5000";
+export const db_connect="https://gallary-server.vercel.app";
+// export const db_connect = "http://localhost:5000";
 export const custom_toast = (msg, type, icon, due = 4000) => {
   const toast_style = () => {
     if (type === "success") {
