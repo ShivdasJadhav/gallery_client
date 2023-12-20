@@ -77,8 +77,6 @@ function Forgot(props) {
     }
     await axios.get(`${db_connect}/auth/forgot/?email=${email}`).then((res) => {
       if (res.status === 200) {
-        console.log("details fetched\n");
-        console.log(res.data.contact);
         sendOtp(res.data.contact);
       } else {
         custom_toast("User not Found!", "warning", "⚠️");
@@ -86,7 +84,6 @@ function Forgot(props) {
     });
   };
   const verifyCaptcha = (contact) => {
-    console.log("verifyingCaptcha");
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
       "recaptcha-container",
@@ -100,9 +97,6 @@ function Forgot(props) {
     );
   };
   const sendOtp = (contact) => {
-    console.log("sending otp..");
-    console.log(contact);
-
     verifyCaptcha(contact);
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, contact, appVerifier)
@@ -113,7 +107,6 @@ function Forgot(props) {
           "success",
           "👨🏽‍💻"
         );
-        console.log("OTP sent..");
         container_email.current.style.marginLeft = "-18rem";
       })
       .catch((error) => {
@@ -129,12 +122,9 @@ function Forgot(props) {
       OTP.otp_d4 +
       OTP.otp_d5 +
       OTP.otp_d6;
-    console.log("verifying OTP...");
-    console.log("OTP \t" + otp);
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log("verified successfully");
         container_otp.current.style.marginLeft = "-18rem";
       })
       .catch((err) => {
@@ -144,7 +134,6 @@ function Forgot(props) {
   };
   const updatePass = () => {
     if (newPass === cPass) {
-      console.log("updating password");
       axios
         .post(`${db_connect}/auth/updatePassword`, {
           email,

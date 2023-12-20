@@ -66,7 +66,7 @@ function Signin() {
       <form
         method="POST"
         onSubmit={handleSubmit(login_user)}
-        className="flex flex-col items-center mt-16 border border-fuchsia-400 border-2 rounded-xl w-11/12 py-8 px-4 bg-white md:w-3/12"
+        className="flex flex-col items-center mt-16 border border-fuchsia-400 border-2 rounded-xl w-11/12 py-8 px-4 bg-white sm:w-6/12 md:w-5/12"
       >
         <label className="block w-11/12 text-fjord_one text-md" htmlFor="email">
           Email

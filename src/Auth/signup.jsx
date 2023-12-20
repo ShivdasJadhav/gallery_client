@@ -110,11 +110,11 @@ function Signup() {
       <form
         method="POST"
         onSubmit={handleSubmit(submitData)}
-        className="w-11/12 flex flex-col items-center mb-8 mt-12 md:mt-16 border border-fuchsia-400 border-2 rounded-xl py-8 md:py-12 md:w-6/12 bg-white"
+        className="w-11/12 flex flex-col items-center mb-8 mt-12 md:mt-16 border border-fuchsia-400 border-2 rounded-xl py-8 md:py-12 md:w-10/12 bg-white"
       >
         <div className="md:flex w-10/12 pl-4">
           {" "}
-          <div className="flex-1 md:px-8">
+          <div className="flex-1 sm:6 md:px-4">
             <label className="block w-full text-fjord_one text-md">
               First Name
             </label>
@@ -128,7 +128,7 @@ function Signup() {
             />
             <p className="alert">{errors.First_Name?.message}</p>
           </div>
-          <div className="flex-1 md:px-8">
+          <div className="flex-1 sm:6 md:px-4">
             <label className="block w-11/12 text-fjord_one text-md">
               Last Name
             </label>
@@ -143,7 +143,7 @@ function Signup() {
           </div>
         </div>
         <div className="md:flex w-10/12 pl-4">
-          <div className="md:flex-1 md:px-8">
+          <div className="md:flex-1 sm:6 md:px-4">
             <label className="block w-11/12 text-fjord_one text-md">
               Who you Are ?
             </label>
@@ -160,7 +160,7 @@ function Signup() {
             </select>
             <p className="alert">{errors.user_type?.message}</p>
           </div>
-          <div className="md:flex-1 md:px-8">
+          <div className="md:flex-1 sm:6 md:px-4">
             <label className="block w-11/12 text-fjord_one text-md">
               Email
             </label>
@@ -176,7 +176,7 @@ function Signup() {
           </div>
         </div>
         <div className="md:flex w-10/12 pl-4">
-          <div className="md:flex-1 md:px-8">
+          <div className="md:flex-1 sm:6 md:px-4">
             <label className="block w-11/12 text-fjord_one text-md">
               Password
             </label>
@@ -190,7 +190,7 @@ function Signup() {
             />
             <p className="alert">{errors.pass?.message}</p>
           </div>
-          <div className="md:flex-1 md:px-8">
+          <div className="md:flex-1 sm:6 md:px-4">
             <label className="block w-11/12 text-fjord_one text-md">
               Phone No.
             </label>
@@ -222,7 +222,7 @@ function Signup() {
           </div>
         </div>
         <div className="md:flex w-10/12 pl-4">
-          <div className="md:flex-1 md:px-8">
+          <div className="md:flex-1 sm:6 md:px-4">
             <label className="block w-11/12 text-fjord_one text-md">
               Confirm Password
             </label>
@@ -236,7 +236,7 @@ function Signup() {
             />
             <p className="alert">{errors.c_pass && "Passwords Not match..!"}</p>
           </div>
-          <div className="md:flex-1 md:px-8">
+          <div className="md:flex-1 sm:6 md:px-4">
             <div className="w-1/4 mx-auto h-1 bg-fuchsia-400 my-4 rounded-md"></div>
             <button
               type="submit"

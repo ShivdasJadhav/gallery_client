@@ -154,7 +154,7 @@ function Review() {
             </div>
             <div className="flex ml-1 justify-center flex-col">
               <h3 className="text-sky-900 text-fjord_one text-base text-left my-1 md:text-lg">
-                Yogesh ssit
+                Yogesh Kamble
               </h3>
               <p className="text-black text-sm text-allura md:text-md">
                 Artist
