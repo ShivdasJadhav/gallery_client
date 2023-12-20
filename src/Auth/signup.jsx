@@ -7,7 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { custom_toast, db_connect } from "../Constants";
 import { useNavigate } from "react-router-dom";
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 const registerSchema = yup.object().shape({
   First_Name: yup.string(),
   Last_Name: yup.string(),
@@ -15,7 +16,6 @@ const registerSchema = yup.object().shape({
   email: yup.string().email().required(),
   pass: yup.string().required(),
   c_pass: yup.string().oneOf([yup.ref("pass"), null]),
-  contact: yup.number().min(10).required(),
 });
 
 function Signup() {
@@ -29,6 +29,7 @@ function Signup() {
     c_pass: "",
     user_type: "artist",
   });
+  const [contactError, setContactError] = useState(false);
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -40,6 +41,10 @@ function Signup() {
     resolver: yupResolver(registerSchema),
   });
   async function submitData() {
+    if (user.contact === "" || user.contact === null) {
+      setContactError(true);
+      return;
+    }
     const { First_Name, Last_Name, email, contact, pass, user_type } = user;
     await axios
       .post(`${db_connect}/auth/register`, {
@@ -59,6 +64,7 @@ function Signup() {
             5000
           );
           navigate("/login");
+          welcome(First_Name, Last_Name, email);
         } else if (res.status === 208) {
           custom_toast(
             "User with this email is already registered. \n Kindly login..",
@@ -70,6 +76,18 @@ function Signup() {
         }
       });
   }
+  const welcome = async (firstName, lastName, email) => {
+    await axios
+      .post(`${db_connect}/mail/welcome`, {
+        sendTo: email,
+        name: firstName + " " + lastName,
+      })
+      .then((res) => {
+        if (!res.status === 200) {
+          custom_toast("Failed to authenticate", "alert", "❌");
+        }
+      });
+  };
   return (
     <div
       className="relative mx-auto flex flex-col items-center pt-8 bg-cover"
@@ -176,15 +194,31 @@ function Signup() {
             <label className="block w-11/12 text-fjord_one text-md">
               Phone No.
             </label>
-            <input
-              {...register("contact")}
-              className="w-11/12 px-2 text-fjord_one text-sm border border-fuchsia-400 my-2 py-2 rounded-lg focus:border-2 outline-none"
-              type="tel"
-              name="contact"
+            <PhoneInput
+              inputStyle={{
+                width: "90%",
+                padding: "0.4rem 0 0.4rem 3rem",
+                margin: "2rem 0",
+                fontSize: "13px",
+                border: "1px solid #e879f9",
+                borderRadius: "0.5rem",
+                outline: "none",
+              }}
+              dropdownStyle={{
+                border: "2px solid #e879f9",
+                borderRadius: "0.8rem",
+              }}
+              buttonStyle={{
+                border: "1px solid #e879f9",
+                borderRadius: "0.4rem 0 0 0.4rem",
+              }}
+              country={"in"}
               value={user.contact}
-              onChange={handleChange}
+              onChange={(phone) => setUser({ ...user, contact: "+" + phone })}
             />
-            <p className="alert">{errors.contact?.message}</p>
+            <p className="alert">
+              {contactError && "Contact is a Required Field!"}
+            </p>
           </div>
         </div>
         <div className="md:flex w-10/12 pl-4">

@@ -1,15 +1,18 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { db_connect } from "../Constants";
+import { custom_toast, db_connect } from "../Constants";
 import { Toaster } from "react-hot-toast";
-import { RecaptchaVerifier } from "firebase/auth"; //@import this signInWithPhoneNumber
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../assets/firebase/firebase.config";
 import logo from "../assets/img/logo.png";
 import forgot from "../assets/img/forgot.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Forgot(props) {
   // states
   const [email, setEmail] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [cPass, setCpass] = useState("");
+  const navigate = useNavigate();
   let otp_d1 = useRef();
   let otp_d2 = useRef();
   let otp_d3 = useRef();
@@ -24,8 +27,6 @@ function Forgot(props) {
     otp_d5: "",
     otp_d6: "",
   });
-  const [newPass, setNewPass] = useState("");
-  const [cPass, setCpass] = useState("");
 
   //   refs
   const container_email = useRef();
@@ -69,71 +70,102 @@ function Forgot(props) {
       inputFocus(d);
     }
   }
-
-  const verifyCaptcha = () => {
+  const getDetails = async () => {
+    if (email === "") {
+      custom_toast("Email is required!", "warning", "⚠️");
+      return;
+    }
+    await axios.get(`${db_connect}/auth/forgot/?email=${email}`).then((res) => {
+      if (res.status === 200) {
+        console.log("details fetched\n");
+        console.log(res.data.contact);
+        sendOtp(res.data.contact);
+      } else {
+        custom_toast("User not Found!", "warning", "⚠️");
+      }
+    });
+  };
+  const verifyCaptcha = (contact) => {
+    console.log("verifyingCaptcha");
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
       "recaptcha-container",
       {
         size: "invisible",
         callback: (response) => {
-          sendAuth();
+          sendOtp(contact);
         },
         "expired-callback": () => {},
       }
     );
   };
-  const sendAuth = () => {
-    // axios
-    //   .post(`${db_connect}/auth/sendOtp`, {
-    //     email,
-    //   })
-    //   .then((res) => {
-    //     if (res.status !== undefined && res.status === 200) {
-    //       //   verifyCaptcha();
-    //       //   const appVerifier = window.recaptchaVerifier;
-    //       //   signInWithPhoneNumber(auth, res.data.contact, appVerifier)
-    //       //     .then((confirmationResult) => {
-    //       //       window.confirmationResult = confirmationResult;
-    //       toast.success("Please check your device for OTP verification!");
-    container_email.current.style.marginLeft = "-18rem";
-    //     // })
-    //     // .catch((error) => {
-    //     //   console.error(error);
-    //     // });
-    //   } else {
-    //     window.alert("We cant catch you!");
-    //   }
-    // })
-    // .catch((e) => console.error(e));
+  const sendOtp = (contact) => {
+    console.log("sending otp..");
+    console.log(contact);
+
+    verifyCaptcha(contact);
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, contact, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        custom_toast(
+          "Please check your device for OTP verification Code!",
+          "success",
+          "👨🏽‍💻"
+        );
+        console.log("OTP sent..");
+        container_email.current.style.marginLeft = "-18rem";
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const verifyOtp = () => {
-    // window.confirmationResult
-    //   .confirm(otp)
-    //   .then(async (res) => {
-    //     console.log(res);
-    container_otp.current.style.marginLeft = "-18rem";
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     window.warn("wrong otp");
-    //   });
+    let otp =
+      OTP.otp_d1 +
+      OTP.otp_d2 +
+      OTP.otp_d3 +
+      OTP.otp_d4 +
+      OTP.otp_d5 +
+      OTP.otp_d6;
+    console.log("verifying OTP...");
+    console.log("OTP \t" + otp);
+    window.confirmationResult
+      .confirm(otp)
+      .then(async (res) => {
+        console.log("verified successfully");
+        container_otp.current.style.marginLeft = "-18rem";
+      })
+      .catch((err) => {
+        console.log(err);
+        custom_toast("Invalid Credentials!", "alert", "❌");
+      });
   };
   const updatePass = () => {
     if (newPass === cPass) {
+      console.log("updating password");
       axios
-        .post(`${db_connect}/auth/updatePass`, {
+        .post(`${db_connect}/auth/updatePassword`, {
           email,
-          newPass,
+          pass: newPass,
         })
         .then((res) => {
-          console.log("updated successfully!");
-          console.log(res);
+          if (res.status === 200) {
+            custom_toast(
+              "Password updated successfully!\nKindly login to your account",
+              "success",
+              "📚"
+            );
+            navigate("/login");
+          }
         })
-        .catch((e) => console.error(e));
+        .catch((e) => {
+          console.error(e);
+          custom_toast("Failed to update Password!", "alert", "❌");
+        });
     } else {
-      alert("Passwords not Match!");
+      custom_toast("Passwords should Match!", "alert", "❌");
     }
   };
 
@@ -142,9 +174,12 @@ function Forgot(props) {
       <div id="recaptcha-container"></div>
 
       <div className="relative py-8 bg-cover h-screen">
-      <Link to={"/"} className="absolute top-2 right-[-10px] md:right-[25vw] md:top-4 w-fit mx-4 border bg-sky-500 text-white px-4 py-1 text-xs md:text-sm rounded-md">
-       Home
-      </Link>
+        <Link
+          to={"/"}
+          className="absolute top-2 right-[-10px] md:right-[25vw] md:top-4 w-fit mx-4 border bg-sky-500 text-white px-4 py-1 text-xs md:text-sm rounded-md"
+        >
+          Home
+        </Link>
         <img
           className="w-20 h-auto mx-auto"
           src={logo}
@@ -166,7 +201,7 @@ function Forgot(props) {
         <Toaster toastOptions={{ duration: 3000 }} />
         <div className="md:flex items-center justify-center">
           <div className="w-86 hidden md:block">
-            <img src={forgot} alt="image forgot" className="w-full h-auto"/>
+            <img src={forgot} alt="image forgot" className="w-full h-auto" />
           </div>
           <div className="w-80 h-fit mx-auto flex overflow-hidden border border-fuchsia-400 py-8 rounded-lg bg-white md:mx-8">
             <div
@@ -174,11 +209,14 @@ function Forgot(props) {
               ref={container_email}
               id="container_email"
             >
-              <label className="text-fjord_one text-sm md:text-md my-2" htmlFor="email">
+              <label
+                className="text-fjord_one text-sm md:text-md my-2"
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
-                className="text-center border border-fuchsia-400 rounded-md py-1 text-sm outline-none focus:border-2"
+                className="text-left pl-4 border border-fuchsia-400 rounded-md py-1 text-sm outline-none focus:border-2"
                 type="email"
                 id="email"
                 name="email"
@@ -190,7 +228,9 @@ function Forgot(props) {
               <div className="w-1/4 h-1 bg-fuchsia-400 mx-auto rounded-md my-4"></div>
               <button
                 className="py-2 bg-sky-500 text-white rounded-md text-xs"
-                onClick={sendAuth}
+                onClick={() => {
+                  getDetails();
+                }}
               >
                 Proceed
               </button>
@@ -200,7 +240,10 @@ function Forgot(props) {
               ref={container_otp}
               id="container_otp"
             >
-              <label className="text-fjord_one text-sm md:text-md my-2" htmlFor="otp">
+              <label
+                className="text-fjord_one text-sm md:text-md my-2"
+                htmlFor="otp"
+              >
                 OTP
               </label>
               <div className="flex items-center gap-2">
@@ -261,8 +304,9 @@ function Forgot(props) {
               </div>
               <div className="w-1/4 h-1 bg-fuchsia-400 mx-auto rounded-md my-4"></div>
               <button
+                type="button"
                 className="py-2 bg-sky-500 text-white rounded-md text-xs"
-                onClick={verifyOtp}
+                onClick={() => verifyOtp()}
               >
                 Proceed
               </button>
@@ -272,7 +316,10 @@ function Forgot(props) {
               ref={container_reset}
               id="container_reset"
             >
-              <label className="text-fjord_one text-sm md:text-md my-2" htmlFor="newPass">
+              <label
+                className="text-fjord_one text-sm md:text-md my-2"
+                htmlFor="newPass"
+              >
                 New Password
               </label>
               <input
@@ -285,7 +332,10 @@ function Forgot(props) {
                   setNewPass(e.target.value);
                 }}
               />
-              <label className="text-fjord_one text-sm md:text-md my-2" htmlFor="cPass">
+              <label
+                className="text-fjord_one text-sm md:text-md my-2"
+                htmlFor="cPass"
+              >
                 Confirm Password
               </label>
               <input

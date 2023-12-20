@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import { db_connect } from "../Constants";
+import axios from "axios";
+import { custom_toast } from "../Constants";
 ChartJS.register(ArcElement, Tooltip, Legend);
 function Community() {
+  const [userCount, setUserCount] = useState({
+    artist: 0,
+    enthusiast: 0,
+    orgs: 0,
+  });
+  useEffect(() => {
+    axios.get(`${db_connect}/auth/getUserCount`).then((res) => {
+      if (res.status === 200) {
+        setUserCount({
+          artist: res.data.artist,
+          enthusiast: res.data.enthusiast,
+          orgs: res.data.orgs,
+        });
+      } else {
+        custom_toast("Failed to Load information", "alert", "🎑");
+      }
+    });
+  }, []);
   const data = {
     // labels: ["Artists", "Enthusiasts", "Organizations"],
     datasets: [
       {
-        data: [300, 50, 100],
+        data: [userCount.artist, userCount.enthusiast, userCount.orgs],
         backgroundColor: ["#FF10FF", "#349DFF", "#a21caf"],
       },
     ],
@@ -25,7 +46,7 @@ function Community() {
           <Pie config={config} data={data} />
           <div className="h-1 bg-fuchsia-600 w-2/6 mx-auto rounded-full drop-shadow-xl shadow-fuchsia-800 my-2 opacity-20 "></div>
         </div>
-        <div className="flex md:flex-col my-4 md:mx-20">
+        <div className="flex md:flex-col my-4 lg:ml-20">
           <div className="flex md:m-3">
             <p
               className="w-4 h-4 mx-2 border md:w-8 md:h-8"

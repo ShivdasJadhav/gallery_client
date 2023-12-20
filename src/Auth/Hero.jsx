@@ -22,15 +22,13 @@ function Hero() {
           </h1>
           <p
             id="description"
-            className="w-10/12 mx-auto text-fjord_one text-xs text-center font-normal text-slate-900 md:text-lg md:w-5/12"
+            className="w-10/12 mx-auto text-fjord_one text-xs text-center font-normal text-slate-900 md:text-lg md:w-10/12 lg:w-6/12"
           >
-            Art galleries are spaces where visual art is displayed and sold.
-            They provide a formal environment for artists to showcase their work
-            and engage with gallery officials on the sale, marketing,
-            networking, and customer relations associated with the sale of an
-            artwork
+            Art galleries are spaces where visual art pieces are exhibited by an individual.
+            We provide a formal environment for artists to showcase their work
+            and engage with gallery officials, art enthusiasts and other organization on platform for networking and build business relation associated with artwork.
           </p>
-          <Link to={"./login"} className="w-fit px-4 py-1 text-base text-fjord_one text-white bg-sky-500 hover:bg-sky-600 rounded-md">
+          <Link to={"./login"} className="w-fit px-4 py-1 text-base text-fjord_one text-white bg-sky-500 hover:bg-sky-600 rounded-md text-xs sm:text-sm md:text-md">
             Login
           </Link>
         </div>

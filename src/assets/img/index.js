@@ -15,6 +15,11 @@ import icon_user from "./icon_user.png";
 import icon_upload from "./icon_upload.png";
 import icon_view from "./icon_view.png";
 import view_more from "./view_more.png";
+import mayur from "./users/mayur.png";
+import yogesh from "./users/yogesh.png";
+import shankar from "./users/shankar.jpeg";
+import vaibhav from "./users/vaibhav.jpeg";
+import ssit from "./users/ssit.png";
 
 export {
   bg_logo,
@@ -34,4 +39,9 @@ export {
   icon_upload,
   icon_view,
   view_more,
+  mayur,
+  yogesh,
+  shankar,
+  vaibhav,
+  ssit,
 };
