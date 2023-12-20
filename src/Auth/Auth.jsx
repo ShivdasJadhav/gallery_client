@@ -8,7 +8,7 @@ import Review from "./Review";
 import About from "./About";
 import Footer from "./Footer";
 import Signin from "./Signin";
-import Signup from "./Signup";
+import Signup from "./Signup.jsx";
 import Forgot from "./Forgot";
 import { Toaster } from "react-hot-toast";
 axios.defaults.withCredentials = true;
