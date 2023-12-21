@@ -1,3 +1,15 @@
+// Landing page requirements
+import color_block1 from "./color_block1.png";
+import color_block2 from "./color_block2.png";
+import bamboo_tree from "./bamboo_tree.png";
+import color_tree from "./color_tree.png";
+// Users for review
+import mayur from "./users/mayur.png";
+import yogesh from "./users/yogesh.png";
+import shankar from "./users/shankar.jpeg";
+import vaibhav from "./users/vaibhav.jpeg";
+import ssit from "./users/ssit.png";
+// Application requirements
 import bg_logo from "./bg_logo.png";
 import close_menu from "./close_menu.png";
 import icon_del from "./icon_delete.png";
@@ -15,12 +27,6 @@ import icon_user from "./icon_user.png";
 import icon_upload from "./icon_upload.png";
 import icon_view from "./icon_view.png";
 import view_more from "./view_more.png";
-import mayur from "./users/mayur.png";
-import yogesh from "./users/yogesh.png";
-import shankar from "./users/shankar.jpeg";
-import vaibhav from "./users/vaibhav.jpeg";
-import ssit from "./users/ssit.png";
-
 export {
   bg_logo,
   close_menu,
@@ -39,6 +45,10 @@ export {
   icon_upload,
   icon_view,
   view_more,
+  color_block1,
+  color_block2,
+  bamboo_tree,
+  color_tree,
   mayur,
   yogesh,
   shankar,

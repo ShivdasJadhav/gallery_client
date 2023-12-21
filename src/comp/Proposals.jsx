@@ -221,6 +221,7 @@ function Proposals(props) {
               placeholder="title..."
               value={inpSearch}
               onChange={(e) => {
+                setPageCount(1);
                 setInpSearch(e.target.value);
               }}
               className="w-full text-md text-fuchsia-600 text-fjord placeholder-fuchsia-400 pl-2 px-4 outline-none border-none md:w-52"

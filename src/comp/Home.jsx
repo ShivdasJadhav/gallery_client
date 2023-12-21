@@ -71,6 +71,7 @@ function Home(props) {
             placeholder="search..."
             value={inSearch}
             onChange={(e) => {
+              setPageCount(1);
               setInSearch(e.target.value);
             }}
             className="w-36 text-fuchsia-600 text-fjord placeholder-fuchsia-400 pl-2 outline-none border-none md:w-40"

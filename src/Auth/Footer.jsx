@@ -48,7 +48,7 @@ function Footer() {
         id="footer"
         className="flex z-10 flex-col bg-black text-fjord_one py-8 px-4 mx-auto md:flex-row justify-center md:py-20"
       >
-        <div className="md:w-4/12 mx-8">
+        <div className="sm:w-6/12 mx-8">
           <h2 className="text-white text-xl md:text-2xl">
             Do not miss any update
             <br /> Subscribe to the Newsletter
@@ -129,7 +129,7 @@ function Footer() {
       </div>
       <div id="cp_rights" className="bg-neutral-700 h-10 flex items-center">
         <p className="text-xs text-white w-fit mx-auto italic text-fjord_one">
-          All copyrights reserved by @2024 exhibits.art
+          All copyrights reserved by @2024 https://artexhibits.netlify.app
         </p>
       </div>
     </>

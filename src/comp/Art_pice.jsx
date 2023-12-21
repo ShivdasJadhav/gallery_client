@@ -150,7 +150,7 @@ function Art_pice(props) {
   return (
     <div id="art_pice" className="w-11/12 md:w-8/12 mx-auto">
       {art && (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col">
           <div className="md:flex-1 border border-sky-600 border-1 rounded-lg my-4">
             <img
               src={art.img}
@@ -158,6 +158,64 @@ function Art_pice(props) {
               className="w-10/12 h-auto mx-auto"
             />
           </div>
+          <div className="flex justify-between my-4">
+            {artist && (
+              <div className="flex md:my-2">
+                <div className="mr-2 flex items-center justify-center overflow-hidden rounded-full border-fuchsia-500 border w-12 h-12">
+                  <img
+                    src={artist.img === "" ? logo : artist.img}
+                    alt="artists image"
+                    className="w-auto h-auto"
+                  />
+                </div>
+                <div className="w-fit mt-1">
+                  <p className="text-md text-fjord leading-3 text-sky-600">
+                    {artist.firstName} {artist.lastName}
+                  </p>
+                  <p className="text-md text-allura">{artist.user_type}</p>
+                </div>
+              </div>
+            )}
+            <div className="flex md:my-2">
+              {art.likes.includes(props.user._id) ? (
+                <button
+                  onClick={() => disLikeArt()}
+                  className=" bg-fuchsia-500 flex h-fit px-4 mr-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around hover:cursor-pointer"
+                >
+                  <img
+                    className="w-4 mx-1 h-fit"
+                    src={icon_like}
+                    alt="like thumb"
+                  />
+                  <p className="text-fjord text-white text-sm">
+                    {art.likes.length}
+                  </p>
+                </button>
+              ) : (
+                <button
+                  onClick={() => likeArt()}
+                  className="flex h-fit px-4 mr-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around hover:cursor-pointer"
+                >
+                  <img
+                    className="w-4 mx-1 h-fit"
+                    src={icon_like}
+                    alt="like thumb"
+                  />
+                  <p className="text-fjord text-sm">{art.likes.length}</p>
+                </button>
+              )}
+              <button className="flex h-fit bg-fuchsia-500 px-4 ml-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around">
+                <img
+                  className="w-4 mx-1 h-fit"
+                  src={icon_view}
+                  alt="eye view"
+                />
+                <p className="text-fjord text-white text-sm">
+                  {art.views.length}
+                </p>
+              </button>
+            </div>
+          </div>  
           <div className="md:flex-1 md:mx-8">
             <h2 className="w-fit mx-auto text-allura text-2xl text-fuchsia-600">
               {art.title}
@@ -185,62 +243,6 @@ function Art_pice(props) {
                 </button>
               </div>
             )}
-            <div className="flex justify-between md:flex-col md:justify-start my-4">
-              {artist && (
-                <div className="flex md:my-2">
-                  <div className="mr-2 flex items-center justify-center overflow-hidden rounded-full border-fuchsia-500 border w-12 h-12">
-                    <img
-                      src={artist.img === "" ? logo : artist.img}
-                      alt="artists image"
-                      className="w-auto h-auto"
-                    />
-                  </div>
-                  <div className="w-fit mt-1">
-                    <p className="text-md text-fjord leading-3 text-sky-600">
-                      {artist.firstName} {artist.lastName}
-                    </p>
-                    <p className="text-md text-allura">{artist.user_type}</p>
-                  </div>
-                </div>
-              )}
-              <div className="flex md:my-2">
-                {art.likes.includes(props.user._id) ? (
-                  <button
-                    onClick={() => disLikeArt()}
-                    className=" bg-fuchsia-500 flex h-fit px-2 mr-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around hover:cursor-pointer"
-                  >
-                    <img
-                      className="w-4 mx-1 h-fit"
-                      src={icon_like}
-                      alt="like thumb"
-                    />
-                    <p className="text-fjord text-white text-sm">
-                      {art.likes.length}
-                    </p>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => likeArt()}
-                    className="flex h-fit px-2 mr-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around hover:cursor-pointer"
-                  >
-                    <img
-                      className="w-4 mx-1 h-fit"
-                      src={icon_like}
-                      alt="like thumb"
-                    />
-                    <p className="text-fjord text-sm">{art.likes.length}</p>
-                  </button>
-                )}
-                <button className="flex h-fit bg-fuchsia-500 px-2 ml-2 items-center border border-1 border-fuchsia-600 rounded-lg py-1 w-18 justify-around">
-                  <img
-                    className="w-4 mx-1 h-fit"
-                    src={icon_view}
-                    alt="eye view"
-                  />
-                  <p className="text-fjord text-white text-sm">{art.views.length}</p>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       )}
@@ -280,7 +282,7 @@ function Art_pice(props) {
         <div className="flex mt-8">
           <div className="flex items-center justify-center w-12 overflow-hidden h-12 mx-2 rounded-full border-fuchsia-500 border">
             <img
-              src={props.user.img}
+              src={props.user.img === "" ? logo : props.user.img}
               alt="artists image"
               className="w-auto h-auto"
             />
