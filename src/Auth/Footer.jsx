@@ -48,7 +48,7 @@ function Footer() {
         id="footer"
         className="flex z-10 flex-col bg-black text-fjord_one py-8 px-4 mx-auto md:flex-row justify-center md:py-20"
       >
-        <div className="sm:w-6/12 mx-8">
+        <div className="sm:w-6/12 lg:w-4/12 mx-8">
           <h2 className="text-white text-xl md:text-2xl">
             Do not miss any update
             <br /> Subscribe to the Newsletter
