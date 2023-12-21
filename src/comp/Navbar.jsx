@@ -1,14 +1,15 @@
 import React, { useContext, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthStatus } from "../Controller";
 import logo from "../assets/img/logo.png";
 import openMenu from "../assets/img/open_menu.png";
 import closeMenu from "../assets/img/close_menu.png";
 function Navbar(props) {
   const configureAuth = useContext(AuthStatus);
+  const navigate = useNavigate();
   const logout = () => {
     configureAuth(false);
-    localStorage.clear();
+    navigate("/");
   };
   let menu = useRef();
 

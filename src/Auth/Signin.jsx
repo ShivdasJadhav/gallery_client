@@ -24,10 +24,7 @@ function Signin() {
       })
       .then((res) => {
         if (res.status === 200) {
-          let data = res.data;
-          window.localStorage.setItem("user", JSON.stringify(data));
-          configureAuth(true);
-          custom_toast(`Welcome Back ${res.data.firstName}`, "success", "📚");
+          configureAuth(true,res.data);
           navigate("/");
         } else if (res.status === 203) {
           custom_toast("Credentials not Match!", "warning", "👨🏽‍💻");
