@@ -16,7 +16,7 @@ function Controller() {
     if (isLogin) {
       setStatusAuth(true);
       setUser(data);
-      custom_toast(`Welcome Back ${res.data.firstName}`, "success", "📚",5000);
+      custom_toast(`Welcome Back ${data.firstName}`, "success", "📚",5000);
     } else {
       setStatusAuth(false);
       setUser(data);
