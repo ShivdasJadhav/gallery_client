@@ -20,7 +20,7 @@ function Navbar(props) {
     menu.current.style.display = "none";
   };
   return (
-    <header className="flex m-4 z-10 w-11/12 md:w-8/12 mx-auto">
+    <header className="flex m-4 z-10 md:z-0 w-11/12 md:w-8/12 mx-auto">
       <div className="w-fit ">
         {props.user.isAdmin ? (
           <NavLink to={"/dashboard"}>
@@ -44,7 +44,7 @@ function Navbar(props) {
         </button>
         <div
           ref={menu}
-          className="absolute py-6 md:py-2 px-2 z-10 flex flex-col top-1 right-0 w-6/12 border border-fuchsia-600 rounded-lg text-fjord bg-white md:border-none hidden md:block"
+          className="absolute py-6 md:py-2 px-2 z-10 md:z-0 flex flex-col top-1 right-0 w-6/12 border border-fuchsia-600 rounded-lg text-fjord bg-white md:border-none hidden md:block"
         >
           <button
             onClick={close_menu}
