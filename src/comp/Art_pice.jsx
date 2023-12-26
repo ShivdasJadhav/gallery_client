@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   icon_order,
   icon_like,
-  icon_user,
   icon_view,
+  solid_like,
   logo,
 } from "../assets/img";
 import { custom_toast, db_connect } from "../Constants";
@@ -198,7 +198,7 @@ function Art_pice(props) {
                 >
                   <img
                     className="w-4 mx-1 h-fit"
-                    src={icon_like}
+                    src={solid_like}
                     alt="like thumb"
                   />
                   <p className="text-fjord text-sm">{art.likes.length}</p>

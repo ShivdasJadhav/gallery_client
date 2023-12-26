@@ -15,7 +15,6 @@ import close_menu from "./close_menu.png";
 import icon_del from "./icon_delete.png";
 import icon_edit from "./icon_edit.png";
 import forgot from "./forgot.png";
-import icon_like from "./like.png";
 import logo from "./logo.png";
 import open_menu from "./open_menu.png";
 import icon_order from "./icon_order.png";
@@ -25,8 +24,12 @@ import rejected from "./rejected.png";
 import reviewed from "./reviewed.png";
 import icon_user from "./icon_user.png";
 import icon_upload from "./icon_upload.png";
-import icon_view from "./icon_view.png";
 import view_more from "./view_more.png";
+// svgs
+import icon_view from "./svg/eye.svg"
+import icon_like from "./svg/like.svg"
+import solid_like from "./svg/solid_like.svg"
+
 export {
   bg_logo,
   close_menu,
@@ -49,6 +52,7 @@ export {
   color_block2,
   bamboo_tree,
   color_tree,
+  solid_like,
   mayur,
   yogesh,
   shankar,

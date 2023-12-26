@@ -34,7 +34,7 @@ function Profile(props) {
     email: "",
     contact: "",
     bio: "",
-    img: "",
+    img: logo
   });
   const [counts, setCounts] = useState({
     published: 0,
@@ -57,7 +57,7 @@ function Profile(props) {
             email: obj.email,
             contact: obj.contact,
             bio: obj.bio,
-            img: obj.img === "" ? logo : obj.img,
+            img: obj.img !== "" && obj.img,
           });
         }
       });

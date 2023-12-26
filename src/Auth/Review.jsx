@@ -12,7 +12,6 @@ import {
   Navigation,
 } from "swiper/modules";
 import {
-  bg_logo,
   mayur,
   yogesh,
   shankar,

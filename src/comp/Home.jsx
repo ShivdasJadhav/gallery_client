@@ -4,25 +4,15 @@ import Art from "./Art";
 import { db_connect } from "../Constants";
 import { custom_toast } from "../Constants";
 import { icon_search } from "../assets/img";
+import Cover_load from "./CoverLoad";
 function Home(props) {
   const [artData, setArtData] = useState(null);
   const [inSearch, setInSearch] = useState("");
   const [searchBy, setSearchBy] = useState("title");
   const [pageCount, setPageCount] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    // const controller = new AbortController();
-    // axios
-    //   .get(`${db_connect}/items`, { signal: controller.signal })
-    //   .then((data) => {
-    //     if (data.status === 200) {
-    //       setItems(data.data.Items);
-    //     } else {
-    //       alert(data.message);
-    //     }
-    //   });
-    // return () => {
-    //   controller.abort();
-    // };
+    setIsLoading(true)
     let url = `${db_connect}/app/getByStatus/?status=published&search=${inSearch}&limit=9&page=${pageCount}&view=true`;
     if (searchBy === "artist") {
       url = `${db_connect}/app/getByStatus/?status=published&search=${inSearch}&artist=true&limit=9&page=${pageCount}&view=true`;
@@ -36,9 +26,10 @@ function Home(props) {
       .then((res) => {
         if (res.status === 200) {
           setArtData(res.data);
+          setIsLoading(false);
         }
       });
-  }, [inSearch, searchBy,pageCount]);
+  }, [inSearch, searchBy, pageCount]);
   let slide_as_screen = "auto";
   if (window.innerWidth > 600) {
     slide_as_screen = 3;
@@ -84,12 +75,19 @@ function Home(props) {
         </div>
       </div>
       <div className="my-6 sm:grid sm:grid-cols-2 md:grid-cols-3 sm:gap-2 md:gap-4 items-center justify-center">
-        {artData &&
-          artData.arts.map((item) => {
-            return (
-              <Art isHome token={props.user.token} key={item._id} data={item} />
-            );
-          })}
+        {isLoading
+          ? [1, 2, 3, 4, 5, 6].map((item) => <Cover_load />)
+          : artData &&
+            artData.arts.map((item) => {
+              return (
+                <Art
+                  isHome
+                  token={props.user.token}
+                  key={item._id}
+                  data={item}
+                />
+              );
+            })}
       </div>
       {artData && artData.arts.length === 0 && (
         <div className="h-40 w-fit mx-auto text-center">
@@ -100,38 +98,63 @@ function Home(props) {
           </h1>
         </div>
       )}
-      <div className="flex items-center justify-between">
-        <button
-          onClick={() => {
-            if (pageCount > 1) {
-              setPageCount(pageCount - 1);
-            }
-          }}
-          className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
-        >
-          {" "}
-          &#8617; Prev
-        </button>
-        <div className="flex">
-          <p className="h-2 w-2 mx-1 bg-fuchsia-500 rounded-full"></p>
-          <p className="h-2 w-2 mx-1 bg-fuchsia-400 rounded-full"></p>
-          <p className="h-2 w-2 mx-1 bg-fuchsia-300 rounded-full"></p>
+      {isLoading ? (
+        <div className="flex items-center animate-pulse justify-between">
+          <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
+            {" "}
+            &#8617; Prev
+          </button>
+          <div className="flex">
+            <p className="h-2 w-2 mx-1 bg-fuchsia-500 rounded-full"></p>
+            <p className="h-2 w-2 mx-1 bg-fuchsia-400 rounded-full"></p>
+            <p className="h-2 w-2 mx-1 bg-fuchsia-300 rounded-full"></p>
+          </div>
+          <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
+            {" "}
+            Next &#8618;
+          </button>
         </div>
-        <button
-          onClick={() => {
-            if(pageCount===artData.totalPages){
-              custom_toast("you have caught up with everything we have!","warning","👨🏽‍💻")
-            }
-            if (pageCount < artData.totalPages) {
-              setPageCount(pageCount + 1);
-            }
-          }}
-          className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
-        >
-          {" "}
-          Next &#8618;
-        </button>
-      </div>
+      ) : (
+        artData &&
+        artData.arts.length !== 0 && (
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                if (pageCount > 1) {
+                  setPageCount(pageCount - 1);
+                }
+              }}
+              className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
+            >
+              {" "}
+              &#8617; Prev
+            </button>
+            <div className="flex">
+              <p className="h-2 w-2 mx-1 bg-fuchsia-500 rounded-full"></p>
+              <p className="h-2 w-2 mx-1 bg-fuchsia-400 rounded-full"></p>
+              <p className="h-2 w-2 mx-1 bg-fuchsia-300 rounded-full"></p>
+            </div>
+            <button
+              onClick={() => {
+                if (pageCount === artData.totalPages) {
+                  custom_toast(
+                    "you have caught up with everything we have!",
+                    "warning",
+                    "👨🏽‍💻"
+                  );
+                }
+                if (pageCount < artData.totalPages) {
+                  setPageCount(pageCount + 1);
+                }
+              }}
+              className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
+            >
+              {" "}
+              Next &#8618;
+            </button>
+          </div>
+        )
+      )}
     </div>
   );
 }

@@ -8,14 +8,12 @@ import {
   icon_upload,
   bg_logo,
   close_menu,
-  published,
-  icon_del,
 } from "../assets/img";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { custom_toast } from "../Constants";
-
+import CoverLoad from "./CoverLoad";
 const artSchema = yup.object().shape({
   title: yup.string().max(30).required(),
   description: yup.string().max(700).required(),
@@ -34,6 +32,7 @@ function Proposals(props) {
   const [inpSearch, setInpSearch] = useState("");
   const [artData, setArtData] = useState(null);
   const [pageCount, setPageCount] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [workOn, setWorkOn] = useState(false); //workOn false="addArt" true="updateArt"
   const [delArt, setDelArt] = useState({
     titleDel: "",
@@ -52,11 +51,13 @@ function Proposals(props) {
       )
       .then((res) => {
         if (res.status === 200) {
+          setIsLoading(false)
           setArtData(res.data);
         }
       });
   };
   useEffect(() => {
+    setIsLoading(true)
     fetchArt();
   }, [statusType, inpSearch, pageCount]);
   let popup_del = useRef();
@@ -234,7 +235,9 @@ function Proposals(props) {
           </div>
         </div>
         <div className="my-6 sm:grid sm:grid-cols-2 md:grid-cols-3 sm:gap-2 md:gap-4 items-center justify-center">
-          {artData &&
+          {isLoading
+          ? [1, 2, 3, 4, 5, 6].map((item) => <CoverLoad />)
+          : artData &&
             artData.arts.map((item) => {
               return (
                 <Art
@@ -255,15 +258,9 @@ function Proposals(props) {
             </h1>
           </div>
         )}
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => {
-              if (pageCount > 1) {
-                setPageCount(pageCount - 1);
-              }
-            }}
-            className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
-          >
+         {isLoading ? (
+        <div className="flex items-center animate-pulse justify-between">
+          <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
             {" "}
             &#8617; Prev
           </button>
@@ -272,25 +269,52 @@ function Proposals(props) {
             <p className="h-2 w-2 mx-1 bg-fuchsia-400 rounded-full"></p>
             <p className="h-2 w-2 mx-1 bg-fuchsia-300 rounded-full"></p>
           </div>
-          <button
-            onClick={() => {
-              if (pageCount === artData.totalPages) {
-                custom_toast(
-                  "you have caught up with everything we have!",
-                  "warning",
-                  "👨🏽‍💻"
-                );
-              }
-              if (pageCount < artData.totalPages) {
-                setPageCount(pageCount + 1);
-              }
-            }}
-            className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
-          >
+          <button className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md">
             {" "}
             Next &#8618;
           </button>
         </div>
+      ) : (
+        artData &&
+        artData.arts.length !== 0 && (
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                if (pageCount > 1) {
+                  setPageCount(pageCount - 1);
+                }
+              }}
+              className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
+            >
+              {" "}
+              &#8617; Prev
+            </button>
+            <div className="flex">
+              <p className="h-2 w-2 mx-1 bg-fuchsia-500 rounded-full"></p>
+              <p className="h-2 w-2 mx-1 bg-fuchsia-400 rounded-full"></p>
+              <p className="h-2 w-2 mx-1 bg-fuchsia-300 rounded-full"></p>
+            </div>
+            <button
+              onClick={() => {
+                if (pageCount === artData.totalPages) {
+                  custom_toast(
+                    "you have caught up with everything we have!",
+                    "warning",
+                    "👨🏽‍💻"
+                  );
+                }
+                if (pageCount < artData.totalPages) {
+                  setPageCount(pageCount + 1);
+                }
+              }}
+              className="px-4 py-1 bg-sky-600 text-white text-fjord rounded-md"
+            >
+              {" "}
+              Next &#8618;
+            </button>
+          </div>
+        )
+      )}
       </div>
       <form
         method="POST"
