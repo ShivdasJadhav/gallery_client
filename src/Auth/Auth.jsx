@@ -35,14 +35,6 @@ function Auth() {
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/forgot" element={<Forgot/>}></Route>
         </Routes>
-        {/* <div
-        id="notice_app"
-        className="w-40 text-pink-500 h-40 mx-auto my-40 pt-5 text-xl font-bold"
-      >
-        Art Gallery will be Art Exhibits Sooon...
-        <br />
-        <progress value={5} max={100} className="w-40" />
-      </div> */}
       </div>
     </BrowserRouter>
   );

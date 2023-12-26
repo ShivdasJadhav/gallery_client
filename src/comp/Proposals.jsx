@@ -215,7 +215,7 @@ function Proposals(props) {
               </select>
             </div>
           </div>
-          <div className="w-full sm:w-fit my-2 flex border border-fuchsia-500 rounded-md py-1">
+          <div className="w-full flex sm:w-6/12 md:w-fit sm:mx-auto md:mx-2 my-2 flex border border-fuchsia-500 rounded-md py-1">
             <input
               type="text"
               id="search_field"
@@ -277,7 +277,7 @@ function Proposals(props) {
       ) : (
         artData &&
         artData.arts.length !== 0 && (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between pb-6">
             <button
               onClick={() => {
                 if (pageCount > 1) {

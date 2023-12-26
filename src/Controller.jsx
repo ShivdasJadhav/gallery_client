@@ -10,8 +10,9 @@ function Controller() {
     let user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       setStatusAuth(true);
+      setUser(user)
     }
-  });
+  },[]);
   const configureAuth = (isLogin,data=null) => {
     if (isLogin) {
       setStatusAuth(true);
