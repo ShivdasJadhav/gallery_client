@@ -79,7 +79,7 @@ function Signin() {
             setEmail(e.target.value);
           }}
         />
-        <p className="alert">{errors.email?.message}</p>
+        <p className="alert w-11/12">{errors.email?.message}</p>
         <div className="flex justify-between w-11/12 mt-6 items-end">
           <label className="block text-fjord_one text-md" htmlFor="password">
             Password
@@ -98,7 +98,7 @@ function Signin() {
             setPass(e.target.value);
           }}
         />
-        <p className="alert">{errors.password?.message}</p>
+        <p className="alert w-11/12">{errors.password?.message}</p>
         <div className="w-1/4 h-1 bg-fuchsia-400 my-4 rounded-md"></div>
         <button
           type="submit"
