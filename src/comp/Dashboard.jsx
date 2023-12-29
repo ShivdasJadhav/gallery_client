@@ -16,8 +16,7 @@ function Dashboard(props) {
   const [pageCount, setPageCount] = useState(1);
 
   let popup_del = useRef();
-
-  useEffect(() => {
+  const getUsersCount = () => {
     axios.get(`${db_connect}/auth/getUserCount`).then((res) => {
       if (res.status === 200) {
         setUserCount({
@@ -29,6 +28,8 @@ function Dashboard(props) {
         custom_toast("Failed to Load information", "alert", "🎑");
       }
     });
+  };
+  const getUsers = () => {
     axios
       .get(`${db_connect}/user/getUsers`, {
         headers: { Authorization: `Bearer ${props.user.token}` },
@@ -40,6 +41,10 @@ function Dashboard(props) {
           custom_toast("Failed to Load Users", "alert", "❌");
         }
       });
+  };
+  useEffect(() => {
+    getUsersCount();
+    getUsers();
     axios
       .get(
         `${db_connect}/app/getByStatus/?status=review&search=&page=${pageCount}&limit=9&view=true`,
@@ -50,7 +55,6 @@ function Dashboard(props) {
         }
       )
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           setReview(res.data);
         }
@@ -58,13 +62,16 @@ function Dashboard(props) {
   }, [pageCount]);
   const deleteUser = (id) => {
     axios
-      .delete(
+      .post(
         `${db_connect}/user/deleteUser`,
         { id },
         { headers: { Authorization: `Bearer ${props.user.token}` } }
       )
       .then((res) => {
         if (res.status === 200) {
+          popup_del.current.style.display = "none";
+          getUsersCount();
+          getUsers();
           custom_toast("User Account deleted Successfully", "success", "👨🏽‍💻");
         } else {
           custom_toast("Failed to Delete the user Account", "alert", "👨🏽‍💻");
@@ -87,8 +94,8 @@ function Dashboard(props) {
       <h2 className="my-4 text-fjord w-fit mx-auto">User Details</h2>
       <div className="w-full h-96 border border-sky-700 rounded-md mx-auto overflow-auto">
         <table className="table-auto w-full text-left whitespace-no-wrap">
-          <thead className="bg-sky-700">
-            <tr className="sticky border-sky-700 border rounded-md top-0">
+          <thead className="sticky bg-sky-700 top-0">
+            <tr className="sticky border-sky-700 border rounded-md ">
               <th className="pl-2 py-3 whitespace-nowrap text-white text-xs md:text-sm tracking-wider font-medium text-gray-900 text-sm  rounded-tl w-fit rounded-bl">
                 Sr. No.
               </th>
@@ -132,7 +139,7 @@ function Dashboard(props) {
                   </td>
                   <td className="px-1 text-xs text-center py-1 ">
                     <button
-                      onClick={() => confirmDel(`${user.id}`)}
+                      onClick={() => confirmDel(`${user._id}`)}
                       className="px-3 py-1 mx-1 bg-red-100 border border-red-300 rounded-md"
                     >
                       Delete

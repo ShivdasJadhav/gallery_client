@@ -24,8 +24,8 @@ function Signin() {
       })
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem("user", JSON.stringify(res.data));
-          configureAuth(true, res.data);
+          localStorage.setItem("utkn", res.data.token);
+          configureAuth(true, res.data.token);
           navigate("/");
         } else if (res.status === 203) {
           custom_toast("Credentials not Match!", "warning", "👨🏽‍💻");

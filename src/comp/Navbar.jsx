@@ -8,7 +8,7 @@ function Navbar(props) {
   const configureAuth = useContext(AuthStatus);
   const navigate = useNavigate();
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("utkn");
     configureAuth(false);
     navigate("/");
   };

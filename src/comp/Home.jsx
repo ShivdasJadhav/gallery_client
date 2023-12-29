@@ -29,7 +29,7 @@ function Home(props) {
           setIsLoading(false);
         }
       });
-  }, [inSearch, pageCount]);
+  }, [inSearch,searchBy, pageCount]);
   let slide_as_screen = "auto";
   if (window.innerWidth > 600) {
     slide_as_screen = 3;

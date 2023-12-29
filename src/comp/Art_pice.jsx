@@ -16,9 +16,9 @@ function Art_pice(props) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState(null);
   let { id } = useParams();
-  const fetchArtist = async (id) => {
+  const fetchArtist = async (uid) => {
     await axios
-      .get(`${db_connect}/user/getUserById/${id}`, {
+      .get(`${db_connect}/user/getUserById/${uid}`, {
         headers: { Authorization: `Bearer ${props.user.token}` },
       })
       .then((res) => {
@@ -215,7 +215,7 @@ function Art_pice(props) {
                 </p>
               </button>
             </div>
-          </div>  
+          </div>
           <div className="md:flex-1 md:mx-8">
             <h2 className="w-fit mx-auto text-allura text-2xl text-fuchsia-600">
               {art.title}

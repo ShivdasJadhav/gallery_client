@@ -74,7 +74,7 @@ function Proposals(props) {
     resolver: yupResolver(artSchema),
   });
   const saveFile = () => {
-    if (inp_img.current.files[0].size > 100000) {
+    if (inp_img.current.files[0].size > 200000) {
       custom_toast("your image size is too Big!", "warning", "⚠️");
       return;
     } else {
