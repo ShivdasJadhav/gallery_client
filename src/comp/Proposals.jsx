@@ -321,7 +321,7 @@ function Proposals(props) {
         onSubmit={handleSubmit(artWork)}
         ref={popup_artWork}
         id="new_art"
-        className="absolute top-0 bg-blue-cover hidden flex items-center justify-center h-screen w-full"
+        className="absolute z-50 top-0 bg-blue-cover hidden flex items-center justify-center h-screen w-full"
       >
         <div className="relative mx-auto w-11/12 flex flex-col mt-4 md:mt-14 items-center border border-fuchsia-400 border-2 rounded-xl py-4 bg-white md:w-6/12">
           <button

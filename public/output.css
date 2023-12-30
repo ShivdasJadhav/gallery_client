@@ -664,6 +664,10 @@ video {
   z-index: 30;
 }
 
+.z-50 {
+  z-index: 50;
+}
+
 .float-right {
   float: right;
 }
@@ -1109,10 +1113,6 @@ video {
   gap: 1rem;
 }
 
-.self-start {
-  align-self: flex-start;
-}
-
 .overflow-auto {
   overflow: auto;
 }
@@ -1328,10 +1328,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-\[url\(\'\$\{props\.data\.img\}\'\)\] {
-  background-image: url('${props.data.img}');
 }
 
 .bg-\[url\(\'https\:\/\/i\.pinimg\.com\/736x\/c3\/e1\/13\/c3e11320f98cb4a0ecfad8001651ba76\.jpg\'\)\] {
