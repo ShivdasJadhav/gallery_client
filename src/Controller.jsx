@@ -43,7 +43,6 @@ function Controller() {
   }, []);
   const configureAuth = (isLogin, utkn = null) => {
     if (isLogin) {
-      setStatusAuth(true);
       fetchUser(utkn);
     } else {
       setStatusAuth(false);
