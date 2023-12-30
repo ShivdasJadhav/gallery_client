@@ -11,7 +11,7 @@ function Controller() {
     const uid = JSON.parse(window.atob(utkn.split(".")[1])).id;
     await axios
       .post(
-        `${db_connect}/user/userData`,
+        `${db_connect}/user/userInfo`,
         { uid },
         {
           headers: {
