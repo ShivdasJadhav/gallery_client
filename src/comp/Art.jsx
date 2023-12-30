@@ -22,7 +22,8 @@ function Art(props) {
   };
   return (
     <div
-      className={`h-64 my-4 md:my-2 md:m-0 relative border border-sky-600 rounded-xl bg-[url('${props.data.img}')] bg-no-repeat bg-center bg-cover `}
+      style={{ backgroundImage: `url('${props.data.img}')` }}
+      className={`h-64 my-4 md:my-2 md:m-0 relative border border-sky-600 rounded-xl  bg-no-repeat bg-center bg-cover `}
     >
       {props.isProfile && (
         <div className="absolute flex right-1 top-[-12px] block">
@@ -59,7 +60,9 @@ function Art(props) {
         <p className="h-3/6 text-xs leading-1 text-fjord_one px-4 text-justify overflow-hidden ">
           {props.data.description}
         </p>
-        <p className="text-allura pr-4 text-xs pt-2 text-right">- {props.data.author}</p>
+        <p className="text-allura pr-4 text-xs pt-2 text-right">
+          - {props.data.author}
+        </p>
       </div>
     </div>
   );
