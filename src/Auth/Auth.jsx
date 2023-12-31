@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Hero from "./Hero";
@@ -11,12 +11,15 @@ import Signin from "./Signin";
 import Register from "./Register";
 import Forgot from "./Forgot";
 import { Toaster } from "react-hot-toast";
+import { Loader } from "../Constants";
 axios.defaults.withCredentials = true;
 function Auth() {
+  const [loader, setLoader] = useState(false);
   return (
     <BrowserRouter>
       <div className="h-screen w-full overflow-y-scroll">
-        <Toaster/>
+        {loader && <Loader />}
+        <Toaster />
         <Routes>
           <Route
             path="/*"
@@ -31,9 +34,18 @@ function Auth() {
               </div>
             }
           ></Route>
-          <Route path="/login" element={<Signin/>}></Route>
-          <Route path="/register" element={<Register/>}></Route>
-          <Route path="/forgot" element={<Forgot/>}></Route>
+          <Route
+            path="/login"
+            element={<Signin setLoader={setLoader} />}
+          ></Route>
+          <Route
+            path="/register"
+            element={<Register setLoader={setLoader} />}
+          ></Route>
+          <Route
+            path="/forgot"
+            element={<Forgot setLoader={setLoader} />}
+          ></Route>
         </Routes>
       </div>
     </BrowserRouter>

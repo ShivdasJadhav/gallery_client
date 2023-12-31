@@ -34,7 +34,7 @@ function Profile(props) {
     email: "",
     contact: "",
     bio: "",
-    img: logo
+    img: logo,
   });
   const [counts, setCounts] = useState({
     published: 0,
@@ -57,12 +57,13 @@ function Profile(props) {
             email: obj.email,
             contact: obj.contact,
             bio: obj.bio,
-            img: obj.img !== "" && obj.img,
+            img: obj.img === "" ? logo : obj.img,
           });
         }
       });
   };
   useEffect(() => {
+    console.log(user.img);
     axios
       .get(`${db_connect}/app/getCount`, {
         headers: {

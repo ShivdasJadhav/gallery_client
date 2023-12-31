@@ -75,10 +75,12 @@ function Forgot(props) {
       custom_toast("Email is required!", "warning", "⚠️");
       return;
     }
+    props.setLoader(true);
     await axios.get(`${db_connect}/auth/forgot/?email=${email}`).then((res) => {
       if (res.status === 200) {
         sendOtp(res.data.contact);
       } else {
+        props.setLoader(false);
         custom_toast("User not Found!", "warning", "⚠️");
       }
     });
@@ -102,6 +104,7 @@ function Forgot(props) {
     signInWithPhoneNumber(auth, contact, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
+        props.setLoader(false);
         custom_toast(
           "Please check your device for OTP verification Code!",
           "success",
@@ -110,11 +113,13 @@ function Forgot(props) {
         container_email.current.style.marginLeft = "-18rem";
       })
       .catch((error) => {
+        props.setLoader(false);
         console.error(error);
       });
   };
 
   const verifyOtp = () => {
+    props.setLoader(true);
     let otp =
       OTP.otp_d1 +
       OTP.otp_d2 +
@@ -125,15 +130,19 @@ function Forgot(props) {
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
+        props.setLoader(false);
         container_otp.current.style.marginLeft = "-18rem";
       })
       .catch((err) => {
         console.log(err);
+        props.setLoader(false);
         custom_toast("Invalid Credentials!", "alert", "❌");
       });
   };
   const updatePass = () => {
     if (newPass === cPass) {
+      props.setLoader(true);
+
       axios
         .post(`${db_connect}/auth/updatePassword`, {
           email,
@@ -141,6 +150,7 @@ function Forgot(props) {
         })
         .then((res) => {
           if (res.status === 200) {
+            props.setLoader(false);
             custom_toast(
               "Password updated successfully!\nKindly login to your account",
               "success",
@@ -151,9 +161,12 @@ function Forgot(props) {
         })
         .catch((e) => {
           console.error(e);
+          props.setLoader(false);
+
           custom_toast("Failed to update Password!", "alert", "❌");
         });
     } else {
+
       custom_toast("Passwords should Match!", "alert", "❌");
     }
   };

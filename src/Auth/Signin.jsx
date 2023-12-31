@@ -11,12 +11,13 @@ const login_schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required(),
 });
-function Signin() {
+function Signin(props) {
   let [email, setEmail] = useState("");
   let [password, setPass] = useState("");
   const configureAuth = useContext(AuthStatus);
   const navigate = useNavigate();
   const login_user = async () => {
+    props.setLoader(true);
     await axios
       .post(`${db_connect}/auth/login`, {
         email,
@@ -34,6 +35,7 @@ function Signin() {
         } else {
           custom_toast("Server Error!", "alert", "❌");
         }
+        props.setLoader(false);
       });
   };
   const {

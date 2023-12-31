@@ -7,12 +7,16 @@ import Proposals from "./comp/Proposals";
 import Dashboard from "./comp/Dashboard";
 import Art_pice from "./comp/Art_pice.jsx";
 import { Toaster } from "react-hot-toast";
+import { Loader } from "./Constants.js";
+import { useState } from "react";
 function App(props) {
+  const [loader,setLoader]=useState(false);
   const user = props.user;
   return (
     <>
       <BrowserRouter>
         <div className="h-screen w-full overflow-y-scroll">
+          {loader && <Loader/>}
           <Toaster />
           <Navbar user={user} />
           <Routes>

@@ -43,3 +43,18 @@ export const custom_toast = (msg, type, icon, due = 4000) => {
   };
   toast(msg, obj_toast);
 };
+export const Loader = () => {
+  return (
+    <>
+      <div className="absolute z-[99] bg-blue-cover h-screen w-full flex justify-center items-center">
+        <div className="flex items-center">
+          <span
+            class="inline-block mx-4 h-8 w-8 animate-spin border-fuchsia-500 rounded-full border-4 border-solid border-current border-r-transparent border-l-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          ></span>
+          <span class="text-fuchsia-500 text-2xl text-allura">Loading...</span>
+        </div>
+      </div>
+    </>
+  );
+};

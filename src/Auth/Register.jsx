@@ -18,7 +18,7 @@ const registerSchema = yup.object().shape({
   c_pass: yup.string().oneOf([yup.ref("pass"), null]),
 });
 
-function Register() {
+function Register(props) {
   const navigate = useNavigate();
   const [user, setUser] = useState({
     First_Name: "",
@@ -45,6 +45,7 @@ function Register() {
       setContactError(true);
       return;
     }
+    props.setLoader(true);
     const { First_Name, Last_Name, email, contact, pass, user_type } = user;
     await axios
       .post(`${db_connect}/auth/register`, {
@@ -56,6 +57,7 @@ function Register() {
         user_type,
       })
       .then((res) => {
+        props.setLoader(false);
         if (res.status === 201) {
           custom_toast(
             "Registered Successfully !\n \tKindly login.",
